@@ -1,5 +1,7 @@
-﻿Google Dart support for Visual Studio
+DartVS: Google Dart support for Visual Studio
 =========
+
+![Screenshot of DartVS](DanTup.DartVS.Vsix/Screenshot.png)
 
 ## Implemented
 - Use DartAnalyzer from the SDK when saving any .dart file and report errors/warnings/hints to the Visual Studio error list
@@ -11,7 +13,7 @@
 - Intellisense
 - Debugging
 
-### Installation
+## Installation
 - Install from the Visual Studio Gallery
 - Download and unzip the [Dart SDK](https://www.dartlang.org/tools/sdk/)
 - Set the DART_SDK environment variable to point at the SDK root
