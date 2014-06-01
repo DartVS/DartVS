@@ -2,11 +2,10 @@
 using System.IO;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace DanTup.DartVS
 {
-	[InstalledProductRegistration("DanTup's Dart support for Visual Studio", @"Some support for coding Dart in Visual Studio.", "0.1")]
+	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", "0.1")]
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	public sealed class DartPackage : Package
 	{
