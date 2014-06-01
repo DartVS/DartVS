@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+	<Metadata>
+		<Identity Id="d4032879-2378-4ea2-abc4-cb0fa4b9941e" Version="0.1" Language="en-US" Publisher="Danny Tuppeny" />
+		<DisplayName>Dart support for Visual Studio</DisplayName>
+		<Description xml:space="preserve">Some support for coding Dart in Visual Studio.</Description>
+		<MoreInfo>https://github.com/DanTup/DartVS/blob/master/README.md</MoreInfo>
+		<License>LICENCE.txt</License>
+		<GettingStartedGuide>https://github.com/DanTup/DartVS/blob/master/README.md</GettingStartedGuide>
+		<ReleaseNotes>https://github.com/DanTup/DartVS/releases</ReleaseNotes>
+		<Icon>Resources\Package.ico</Icon>
+		<PreviewImage>Screenshot.png</PreviewImage>
+		<Tags>dart, google, dartlang, javascript, web</Tags>
+	</Metadata>
+	<Installation InstalledByMsi="false">
+		<InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0]" />
+	</Installation>
+	<Dependencies>
+		<Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+	</Dependencies>
+	<Assets>
+		<Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+	</Assets>
+</PackageManifest>
