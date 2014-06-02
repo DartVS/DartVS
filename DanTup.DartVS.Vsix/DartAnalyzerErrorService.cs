@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Shell;
 
@@ -27,7 +29,23 @@ namespace DanTup.DartVS
 				});
 			}
 
-			var errors = new DartAnalyzer().Analyze(path);
+
+			IEnumerable<ErrorTask> errors;
+			try
+			{
+				errors = new DartAnalyzer().Analyze(path);
+			}
+			catch (Exception ex)
+			{
+				// Update the error list eith the new errors
+				lock (errorListProvider)
+				{
+					RemoveStaleErrors(errorListProvider, path);
+					errorListProvider.Tasks.Add(new ErrorTask(new Exception("Unable to execute DartAnalzyer: " + ex.ToString())));
+					errorListProvider.Show();
+					return;
+				}
+			}
 
 			// Update the error list eith the new errors
 			lock (errorListProvider)
