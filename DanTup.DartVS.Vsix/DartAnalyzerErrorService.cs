@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.Shell;
 
 namespace DanTup.DartVS
@@ -33,7 +34,10 @@ namespace DanTup.DartVS
 			{
 				RemoveStaleErrors(errorListProvider, path);
 				foreach (var error in errors)
+				{
+					error.Navigate += (s, e) => errorListProvider.Navigate(error, new Guid(EnvDTE.Constants.vsViewKindCode));
 					errorListProvider.Tasks.Add(error);
+				}
 				errorListProvider.Show();
 			}
 		}
