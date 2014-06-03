@@ -5,16 +5,16 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace DanTup.DartVS
 {
-    [Export(typeof(IClassifierProvider))]
-    [ContentType(DartContentTypeDefinition.DartContentType)]
-    class DartClassifierProvider : IClassifierProvider
-    {
-        [Import]
-        public IClassificationTypeRegistryService Registry { get; set; }
+	[Export(typeof(IClassifierProvider))]
+	[ContentType(DartContentTypeDefinition.DartContentType)]
+	class DartClassifierProvider : IClassifierProvider
+	{
+		[Import]
+		public IClassificationTypeRegistryService Registry { get; set; }
 
-        public IClassifier GetClassifier(ITextBuffer textBuffer)
-        {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new DartClassifier(Registry));
-        }
-    }
+		public IClassifier GetClassifier(ITextBuffer textBuffer)
+		{
+			return textBuffer.Properties.GetOrCreateSingletonProperty(() => new DartClassifier(Registry));
+		}
+	}
 }
