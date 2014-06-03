@@ -14,7 +14,7 @@ DartVS: Google Dart support for Visual Studio
 - Debugging
 
 ## Installation
-- Install from the Visual Studio Gallery
+- Install from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/69112f14-62d0-40fb-9ccc-03e3534e7121)
 - Download and unzip the [Dart SDK](https://www.dartlang.org/tools/sdk/)
 - Set the DART_SDK environment variable to point at the SDK root
 
