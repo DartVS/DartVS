@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
 	<Metadata>
-		<Identity Id="d4032879-2378-4ea2-abc4-cb0fa4b9941e" Version="0.2" Language="en-US" Publisher="Danny Tuppeny" />
+		<Identity Id="d4032879-2378-4ea2-abc4-cb0fa4b9941e" Version="0.3" Language="en-US" Publisher="Danny Tuppeny" />
 		<DisplayName>DartVS - Visual Studio support for Google's Dart</DisplayName>
 		<Description xml:space="preserve">Some support for coding Dart in Visual Studio.</Description>
 		<MoreInfo>https://github.com/DanTup/DartVS/blob/master/README.md</MoreInfo>
