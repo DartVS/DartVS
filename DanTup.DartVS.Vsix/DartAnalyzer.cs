@@ -23,7 +23,10 @@ namespace DanTup.DartVS
 			if (!string.IsNullOrWhiteSpace(dartAnalyzerPath))
 				return AnalyzeFile(dartAnalyzerPath, filename);
 			else if (!hasReportedDartSdkMissing)
+			{
+				hasReportedDartSdkMissing = true;
 				return new[] { new ErrorTask { Text = "The Dart SDK could not be found. Please set the DART_SDK environment variable to the SDK root." } };
+			}
 			else
 				return Enumerable.Empty<ErrorTask>();
 		}
