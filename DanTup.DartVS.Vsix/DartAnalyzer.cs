@@ -14,7 +14,7 @@ namespace DanTup.DartVS
 		readonly CommandExecutor commandExecutor = new CommandExecutor();
 		readonly DartAnalzyerOutputParser outputParser = new DartAnalzyerOutputParser();
 
-		bool hasReportedDartSdkMissing = false;
+		static bool hasReportedDartSdkMissing = false;
 
 		public IEnumerable<ErrorTask> Analyze(string filename)
 		{
