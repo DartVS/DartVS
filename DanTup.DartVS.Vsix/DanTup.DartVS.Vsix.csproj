@@ -111,6 +111,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Providers\BraceCompletionProvider.cs" />
     <Compile Include="Classify\DartClassifier.cs" />
     <Compile Include="Classify\DartClassifierProvider.cs" />
     <Compile Include="CommandExecutor.cs" />
