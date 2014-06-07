@@ -55,7 +55,7 @@ namespace DanTup.DartVS
 
 		public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
 		{
-			IList<ClassificationSpan> list = new List<ClassificationSpan>();
+			IList<ClassificationSpan> allClassificationSpans = new List<ClassificationSpan>();
 			string text = span.GetText(); // the span is always a single line
 
 			// We'll need to vary the regex used when we're starting/end a multiline comment; so stash them here
@@ -75,7 +75,7 @@ namespace DanTup.DartVS
 				// The entire line is within the multiline construct, so flag the whole line as this type and skip any further regex
 				case MultilineType.WithinComment:
 					var comment = new SnapshotSpan(span.Snapshot, span.Start.Position, span.Length);
-					list.Add(new ClassificationSpan(comment, commentType));
+					allClassificationSpans.Add(new ClassificationSpan(comment, commentType));
 					validRegexesForCurrentLine = noRegexes;
 					break;
 
@@ -84,7 +84,7 @@ namespace DanTup.DartVS
 					validRegexesForCurrentLine = standardRegexesWithCommentStart;
 					break;
 
-				// The line endsa multiline construct, so add in the regex for flagging just the end of the construct
+				// The line ends a multiline construct, so add in the regex for flagging just the end of the construct
 				case MultilineType.EndsComment:
 					validRegexesForCurrentLine = standardRegexesWithCommentEnd;
 					break;
@@ -101,15 +101,54 @@ namespace DanTup.DartVS
 				{
 					var str = new SnapshotSpan(span.Snapshot, span.Start.Position + match.Index, match.Length);
 
-					// Make sure we don't double classify
-					if (list.Any(s => s.Span.IntersectsWith(str)))
-						continue;
+					// If there's an intersecting span; we need to keep the *earliest* one
+					//if (list.Any(s => s.Span.IntersectsWith(str)))
+					//	continue;
 
-					list.Add(new ClassificationSpan(str, validRegexesForCurrentLine[regex]));
+					// Keep all spans, then we'll remove intersecting ones later; otherwise the first match will win, even if it
+					// it's not the correct one.
+					// eg.
+					//     var name = "Danny // embedded comment";
+					//
+					// If the comment regex runs first, we'd fail to classify the string.
+					// We can't simply order the regex differently, because we might have the opposite:
+					// eg.
+					//     var name; // This is a "name"
+
+					allClassificationSpans.Add(new ClassificationSpan(str, validRegexesForCurrentLine[regex]));
 				}
 			}
 
-			return list;
+			// Now we need to remove overlapping spans, but we *must* do them in order, since the real code is parsed left-to-right
+			// eg.
+			//     var name = "string // not a comment with 'not a string'"
+			// 
+			// In this case, both the comment and the single-quoted stringneed to be discarded.
+
+			allClassificationSpans = allClassificationSpans.OrderBy(s => s.Span.Start.Position).ToList();
+			var requiresRescan = true;
+			while (requiresRescan)
+			{
+				requiresRescan = false; // Assume we won't need to rescan
+				foreach (var classificationSpan in allClassificationSpans)
+				{
+					var intersectingSpans = allClassificationSpans
+						.SkipWhile(s => s != classificationSpan) // Skip anything before this span in the list, since we're processing in order
+						.Skip(1) // Skip self
+						.Where(s => s.Span.IntersectsWith(classificationSpan.Span)).ToArray();
+
+					if (intersectingSpans.Any())
+					{
+						foreach (var intersectingSpan in intersectingSpans)
+							allClassificationSpans.Remove(intersectingSpan);
+						requiresRescan = true;
+						break; // We need to break out and start over, since we've modified the list
+					}
+				}
+
+			}
+
+			return allClassificationSpans;
 		}
 
 		/// <summary>
