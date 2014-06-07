@@ -15,6 +15,8 @@ namespace DanTup.DartVS
 		// https://github.com/dart-lang/dartlang.org/blob/54d221410e04ddf7424400aec473f0a31d08b194/src/site/js/lang-dart.js
 		private static Regex _rxKeywords2 = new Regex(@"\b(interface|native|part of|part|show|hide)\b", RegexOptions.Compiled);
 		private static Regex _rxIdentifier = new Regex(@"\b(bool|double|Dynamic|int|num|Object|String|void)\b|@\w+\b", RegexOptions.Compiled);
+		private static Regex _rxOperator = new Regex(@"[~!%\^&\*\+=\|\?:<>/-]+", RegexOptions.Compiled);
+		private static Regex _rxNumber = new Regex(@"\b\d+\b", RegexOptions.Compiled);
 		// TODO: Escaped quotes in strings
 		private static Regex _rxString = new Regex(@"'.*?'|"".*?""", RegexOptions.Compiled);
 		private static Regex _rxComment = new Regex("//.*|/\\*.*?\\*/", RegexOptions.Compiled);
@@ -40,6 +42,9 @@ namespace DanTup.DartVS
 				{_rxIdentifier, registry.GetClassificationType(PredefinedClassificationTypeNames.SymbolDefinition)},
 				{_rxKeywords1, registry.GetClassificationType(PredefinedClassificationTypeNames.Keyword)},
 				{_rxKeywords2, registry.GetClassificationType(PredefinedClassificationTypeNames.Keyword)},
+				{_rxNumber, registry.GetClassificationType(PredefinedClassificationTypeNames.Number)},
+				{_rxOperator, registry.GetClassificationType(PredefinedClassificationTypeNames.Operator)},
+				
 			};
 			standardRegexesWithCommentStart = new Dictionary<Regex, IClassificationType>(standardRegexes)
 			{
@@ -121,7 +126,10 @@ namespace DanTup.DartVS
 			// 
 			// In this case, both the comment and the single-quoted stringneed to be discarded.
 
-			allClassificationSpans = allClassificationSpans.OrderBy(s => s.Span.Start.Position).ToList();
+			allClassificationSpans = allClassificationSpans
+				.OrderBy(s => s.Span.Start.Position)
+				.ThenByDescending(s => s.ClassificationType == commentType) // Prioritise comments so they don't clash with operators (note: Descending, because bools sort False, True!)
+				.ToList();
 			var requiresRescan = true;
 			while (requiresRescan)
 			{
