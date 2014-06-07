@@ -101,10 +101,6 @@ namespace DanTup.DartVS
 				{
 					var str = new SnapshotSpan(span.Snapshot, span.Start.Position + match.Index, match.Length);
 
-					// If there's an intersecting span; we need to keep the *earliest* one
-					//if (list.Any(s => s.Span.IntersectsWith(str)))
-					//	continue;
-
 					// Keep all spans, then we'll remove intersecting ones later; otherwise the first match will win, even if it
 					// it's not the correct one.
 					// eg.
