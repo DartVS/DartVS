@@ -19,10 +19,11 @@ namespace DanTup.DartVS
 			events = new VsDocumentEvents();
 			errorListProvider = new ErrorListProvider(this);
 
-			events.FileSaved += events_FileSaved;
+			events.FileSaved += events_File;
+			events.FileShown += events_File;
 		}
 
-		void events_FileSaved(object sender, string filename)
+		void events_File(object sender, string filename)
 		{
 			// Kick off a thread; because it might be slow!
 			var isDartFile = string.Equals(Path.GetExtension(filename), ".dart", StringComparison.OrdinalIgnoreCase);

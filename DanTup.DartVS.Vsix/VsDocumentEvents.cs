@@ -13,6 +13,7 @@ namespace DanTup.DartVS
 		IVsRunningDocumentTable documentService;
 		private uint cookie;
 		public event EventHandler<string> FileSaved;
+		public event EventHandler<string> FileShown;
 
 		public VsDocumentEvents()
 		{
@@ -34,6 +35,13 @@ namespace DanTup.DartVS
 				handler(this, filename);
 		}
 
+		void OnFileShown(string filename)
+		{
+			var handler = FileShown;
+			if (handler != null)
+				handler(this, filename);
+		}
+
 		#region IVsRunningDocTableEvents Events
 
 		public int OnAfterSave(uint docCookie)
@@ -51,6 +59,24 @@ namespace DanTup.DartVS
 			return VSConstants.S_OK;
 		}
 
+		public int OnBeforeDocumentWindowShow(uint docCookie, int fFirstShow, IVsWindowFrame pFrame)
+		{
+			if (fFirstShow == 0)
+				return VSConstants.S_OK; // Only every do it first time!
+
+			string filename;
+
+			uint pgrfRDTFlags, pdwReadLocks, pdwEditLocks;
+			IVsHierarchy ppHier;
+			uint pitemid;
+			IntPtr ppunkDocData;
+			documentService.GetDocumentInfo(docCookie, out pgrfRDTFlags, out pdwReadLocks, out pdwEditLocks, out filename, out ppHier, out pitemid, out ppunkDocData);
+
+			OnFileShown(filename);
+
+			return VSConstants.S_OK;
+		}
+
 		#region Events we don't care about
 
 		public int OnAfterAttributeChange(uint docCookie, uint grfAttribs)
@@ -64,11 +90,6 @@ namespace DanTup.DartVS
 		}
 
 		public int OnAfterFirstDocumentLock(uint docCookie, uint dwRDTLockType, uint dwReadLocksRemaining, uint dwEditLocksRemaining)
-		{
-			return VSConstants.S_OK;
-		}
-
-		public int OnBeforeDocumentWindowShow(uint docCookie, int fFirstShow, IVsWindowFrame pFrame)
 		{
 			return VSConstants.S_OK;
 		}
