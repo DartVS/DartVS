@@ -54,7 +54,7 @@ namespace DanTup.DartVS
 							: TaskErrorCategory.Error,
 					Text = match.Groups[2].Value,
 					Document = match.Groups[3].Value,
-					Line = int.Parse(match.Groups[4].Value),
+					Line = int.Parse(match.Groups[4].Value) - 1, // Line appears to be 0-based! :-(
 					Column = int.Parse(match.Groups[5].Value),
 				};
 			};

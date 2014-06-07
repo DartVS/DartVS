@@ -53,7 +53,12 @@ namespace DanTup.DartVS
 				RemoveStaleErrors(errorListProvider, path);
 				foreach (var error in errors)
 				{
-					error.Navigate += (s, e) => errorListProvider.Navigate(error, new Guid(EnvDTE.Constants.vsViewKindCode));
+					error.Navigate += (s, e) =>
+					{
+						error.Line++; // Line number seems 0-based in most places, but Navigate didn't get the memo :(
+						errorListProvider.Navigate(error, new Guid(EnvDTE.Constants.vsViewKindCode));
+						error.Line--;
+					};
 					errorListProvider.Tasks.Add(error);
 				}
 				errorListProvider.Show();
