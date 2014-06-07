@@ -13,7 +13,7 @@ namespace DanTup.DartVS
 	[Export(typeof(ITaggerProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]
 	[TagType(typeof(DartTokenTag))]
-	internal sealed class OokTokenTagProvider : ITaggerProvider
+	internal sealed class DartTokenTagProvider : ITaggerProvider
 	{
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
