@@ -6,12 +6,22 @@ DartVS: Google Dart support for Visual Studio
 ## Implemented
 - Use DartAnalyzer from the SDK when saving any .dart file and report errors/warnings/hints to the Visual Studio error list
 - Clicking errors navigates to the correct place in code
-- Syntax Highlighting
+- Mostly-reliable Syntax Highlighting
 
-## Not Implemented
-- Use Batch Mode of DartAnalyzer for better performance
-- Intellisense
+## Not Yet Implemented
+- Code Completion
+- Tooltips to show doc comments
+- Show errors "live" without having to save
+- Show errors with squiggles in the editor
 - Debugging
+- Project System
+  - Automatic `pub get`
+  - F5 -> `pub serve`
+  - `pub build`
+- Reliable Syntax Highlighting
+- Goto Definition
+- Find References
+- Refactor->Rename
 
 ## Installation
 - Install from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/69112f14-62d0-40fb-9ccc-03e3534e7121)
