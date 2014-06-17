@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 namespace DanTup.DartAnalysis
 {
+	// This class is the entry point for consumers. In order to keep it slim, each
+	// command file contains its own implementation of an extension method to handle
+	// sending request/receiving response and mapping it back to a nice .NET type.
+
 	/// <summary>
 	/// Wraps the Google Dart Analysis Service providing a strongly-typed .NET
 	/// interface.
 	/// </summary>
 	public class DartAnalysisService : IDisposable
 	{
-		readonly AnalysisServiceWrapper service;
+		/// <summary>
+		/// The underlying service for sending requests/responses.
+		/// </summary>
+		internal AnalysisServiceWrapper Service { get; private set; }
 
 		/// <summary>
 		/// Launches the Google Dart Analysis Service using the provided SDK and script.
@@ -22,9 +29,9 @@ namespace DanTup.DartAnalysis
 		/// <param name="eventHandler">A handler for events raised by the Analysis Service.</param>
 		public DartAnalysisService(string sdkFolder, string serverScript)
 		{
-			service = new AnalysisServiceWrapper(sdkFolder, serverScript);
+			this.Service = new AnalysisServiceWrapper(sdkFolder, serverScript);
 		}
-		
+
 		#region OMG DO WE STILL HAVE TO DO THIS?
 
 		public void Dispose()
@@ -37,7 +44,7 @@ namespace DanTup.DartAnalysis
 		{
 			if (disposing)
 			{
-				service.Dispose();
+				this.Service.Dispose();
 			}
 		}
 

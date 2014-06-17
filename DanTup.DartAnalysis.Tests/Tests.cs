@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DanTup.DartAnalysis.Tests
 {
-	abstract class Tests
+	public abstract class Tests
 	{
 		protected const string SdkFolder = @"M:\Apps\Dart\SDK";
 		protected const string ServerScript = @"M:\Coding\TestApps\DartServerTest\bin\server.dart";
