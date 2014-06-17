@@ -38,25 +38,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalysisServiceWrapper.cs">
+    <Compile Include="Infrastructure\AnalysisServiceWrapper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\ServerVersion.cs" />
-    <Compile Include="Event.cs">
+    <Compile Include="Infrastructure\Event.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions.cs">
+    <Compile Include="Infrastructure\Exceptions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="JsonSerialiser.cs" />
+    <Compile Include="Infrastructure\JsonSerialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs">
+    <Compile Include="Infrastructure\Request.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Response.cs">
+    <Compile Include="Infrastructure\Response.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StdIOService.cs">
+    <Compile Include="Infrastructure\StdIOService.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
