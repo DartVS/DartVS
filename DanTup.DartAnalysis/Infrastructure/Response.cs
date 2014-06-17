@@ -14,7 +14,7 @@
 	/// <typeparam name="T">The type of the result included in the response.</typeparam>
 	class Response<T> : Response
 	{
-		public T result;
+		public T result = default(T);
 	}
 
 	/// <summary>
@@ -23,7 +23,7 @@
 	class ErrorResponse
 	{
 		public string id = "0";
-		public ErrorResult error;
+		public ErrorResult error = null;
 	}
 
 	/// <summary>
@@ -31,7 +31,7 @@
 	/// </summary>
 	class ErrorResult
 	{
-		public int code;
-		public string message;
+		public int code = 0;
+		public string message = null;
 	}
 }

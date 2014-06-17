@@ -9,7 +9,7 @@ namespace DanTup.DartAnalysis
 
 	class VersionResponse
 	{
-		public string version;
+		public string version = null;
 	}
 
 	public static class VersionRequestImplementation

@@ -9,7 +9,7 @@ namespace DanTup.DartAnalysis
 	/// <typeparam name="TParams">The type of the paramters for this event.</typeparam>
 	class Event<TParams> : Event
 	{
-		public TParams @params;
+		public TParams @params = default(TParams);
 	}
 
 	/// <summary>
@@ -17,7 +17,7 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class Event
 	{
-		public string @event;
+		public string @event = null;
 
 		#region Equality checks
 
