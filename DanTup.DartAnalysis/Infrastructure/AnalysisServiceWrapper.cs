@@ -53,7 +53,7 @@ namespace DanTup.DartAnalysis
 
 			// Finally, send the message down the wire.
 			var message = serialiser.Serialise(request);
-			Console.WriteLine("STDIN:  " + message);
+			Trace.WriteLine("STDIN:  " + message);
 			service.WriteLine(message);
 
 			return typedTask;
@@ -68,7 +68,7 @@ namespace DanTup.DartAnalysis
 			if (string.IsNullOrWhiteSpace(message))
 				return;
 
-			Console.WriteLine("STDOUT: " + message);
+			Trace.WriteLine("STDOUT: " + message);
 
 			// Parse as dict, as we don't know the full type yet.
 			var response = (Dictionary<string, object>)serialiser.Deserialise<Dictionary<string, object>>(message);
@@ -93,7 +93,7 @@ namespace DanTup.DartAnalysis
 			if (string.IsNullOrWhiteSpace(message))
 				return;
 
-			Console.WriteLine("STDERR: " + message);
+			Trace.WriteLine("STDERR: " + message);
 
 			HandleError(message);
 		}
