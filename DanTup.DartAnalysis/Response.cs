@@ -12,7 +12,7 @@
 	/// Represents a response from the Analysis Service that has a typed result.
 	/// </summary>
 	/// <typeparam name="T">The type of the result included in the response.</typeparam>
-	class ResponseWithResult<T> : Response
+	class Response<T> : Response
 	{
 		public T result;
 	}
