@@ -40,6 +40,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisTests.cs" />
     <Compile Include="ServerTests.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
