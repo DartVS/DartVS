@@ -20,6 +20,7 @@ namespace DanTup.DartAnalysis
 		#region Public events
 
 		public event EventHandler<ServerStatusNotification> ServerStatusNotification;
+		public event EventHandler<AnalysisErrorsNotification> AnalysisErrorsNotification;		
 
 		#endregion
 
@@ -34,10 +35,12 @@ namespace DanTup.DartAnalysis
 			this.Service = new AnalysisServiceWrapper(sdkFolder, serverScript, HandleEvent);
 		}
 
-		private void HandleEvent(Event notification)
+		void HandleEvent(Event notification)
 		{
 			if (notification is Event<ServerStatusEvent>)
 				this.RaiseServerStatusEvent(((Event<ServerStatusEvent>)notification).@params, this.ServerStatusNotification);
+			else if (notification is Event<AnalysisErrorsEvent>)
+				this.RaiseServerStatusEvent(((Event<AnalysisErrorsEvent>)notification).@params, this.AnalysisErrorsNotification);
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?
