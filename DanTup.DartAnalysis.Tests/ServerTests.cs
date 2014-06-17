@@ -28,5 +28,14 @@ namespace DanTup.DartAnalysis.Tests
 				Assert.Throws<Exception>(() => service.GetServerVersion().Wait());
 			}
 		}
+
+		[Fact]
+		public async Task ServerSetSubscriptions()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				await service.SetServerSubscriptions("STATUS");
+			}
+		}
 	}
 }
