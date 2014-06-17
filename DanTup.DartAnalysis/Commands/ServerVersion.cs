@@ -2,21 +2,21 @@
 using System.Threading.Tasks;
 namespace DanTup.DartAnalysis
 {
-	class VersionRequest : Request<Response<VersionResponse>>
+	class ServerVersionRequest : Request<Response<ServerVersionResponse>>
 	{
 		public string method = "server.getVersion";
 	}
 
-	class VersionResponse
+	class ServerVersionResponse
 	{
 		public string version = null;
 	}
 
-	public static class VersionRequestImplementation
+	public static class ServerVersionRequestImplementation
 	{
 		public static async Task<Version> GetServerVersion(this DartAnalysisService service)
 		{
-			var response = await service.Service.Send(new VersionRequest());
+			var response = await service.Service.Send(new ServerVersionRequest());
 
 			return Version.Parse(response.result.version);
 		}
