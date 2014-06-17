@@ -5,7 +5,7 @@ namespace DanTup.DartAnalysis
 	/// <summary>
 	/// Represents a well-formed error returned from the Analysis Service.
 	/// </summary>
-	class ErrorResponseException : Exception
+	public class ErrorResponseException : Exception
 	{
 		/// <summary>
 		/// The error code returned by the Analysis Service.
@@ -28,7 +28,7 @@ namespace DanTup.DartAnalysis
 	/// <summary>
 	/// Represents a badly-formed or unexpected response from the Analysis Service.
 	/// </summary>
-	class UnexpectedResponseException : Exception
+	public class UnexpectedResponseException : Exception
 	{
 		/// <summary>
 		/// The raw response from the Analysis Service.

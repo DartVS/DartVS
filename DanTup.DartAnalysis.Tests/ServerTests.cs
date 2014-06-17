@@ -37,5 +37,21 @@ namespace DanTup.DartAnalysis.Tests
 				await service.SetServerSubscriptions("STATUS");
 			}
 		}
+
+		[Fact]
+		public void BadRequestFails()
+		{
+			// Send a bad request (Server SetSubscription with bad subscription value) and check we
+			// get the correct type of response.
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				var ex = Assert.Throws<AggregateException>(() => service.SetServerSubscriptions("BAD STATUS THAT'S WRONG").Wait());
+				Assert.Equal(1, ex.InnerExceptions.Count);
+				Assert.IsType<ErrorResponseException>(ex.GetBaseException());
+				var err = ex.GetBaseException() as ErrorResponseException;
+				Assert.Equal(-2, err.Code);
+				Assert.Equal("Expected parameter subscriptions to be a list of names from the list [STATUS]", err.ErrorMessage);
+			}
+		}
 	}
 }
