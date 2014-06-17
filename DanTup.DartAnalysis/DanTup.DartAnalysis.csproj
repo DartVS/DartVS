@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AnalysisUpdateContent.cs" />
     <Compile Include="Commands\AnalysisSetAnalysisRoots.cs" />
     <Compile Include="Commands\ServerSetSubscriptions.cs" />
     <Compile Include="Commands\ServerShutdown.cs" />

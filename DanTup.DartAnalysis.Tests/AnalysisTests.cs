@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -38,6 +39,53 @@ namespace DanTup.DartAnalysis.Tests
 				Assert.Equal(1, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
 				var error = errors.First(e => e.File.EndsWith("\\single_type_error.dart"));
 				Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
+			}
+		}
+
+		[Fact]
+		public async Task TestAnalysisUpdateContent()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				// Keep track of errors that are reported.
+				List<AnalysisError> errors = new List<AnalysisError>();
+				service.AnalysisErrorsNotification += (s, e) => { errors.AddRange(e.Errors); };
+
+				// Set the roots to our known project.
+				await service.SetAnalysisRoots(new[] { SampleDartProject }, new string[] { });
+
+				// Allow analysis to complete.
+				await Task.Delay(5000);
+
+				// Ensure we got the expected error in single_type_error.
+				Assert.Equal(1, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
+
+				// Clear the error list ready for next time.
+				errors.Clear();
+
+				// Build a "fix" for this, which is to change the 1 to a string '1'.
+				var changes = new Dictionary<string, string> {
+					{
+						Path.Combine(SampleDartProject, "single_type_error.dart"), 
+						@"
+							void main() {
+								my_function('1');
+							}
+
+							void my_function(String a) {
+							}
+						"
+					}
+				};
+
+				// Send this changed content.
+				await service.UpdateContent(changes);
+
+				// Allow analysis to complete.
+				await Task.Delay(5000);
+
+				// Ensure the error has gone away.
+				Assert.Equal(0, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
 			}
 		}
 	}
