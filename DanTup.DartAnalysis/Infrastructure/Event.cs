@@ -1,5 +1,4 @@
-﻿using System.Web.Script.Serialization;
-
+﻿
 namespace DanTup.DartAnalysis
 {
 	/// <summary>
@@ -29,14 +28,14 @@ namespace DanTup.DartAnalysis
 			if (obj == null)
 				return false;
 
-			var serialiser = new JavaScriptSerializer();
-			return serialiser.Serialize(this).Equals(serialiser.Serialize(obj));
+			var serialiser = new JsonSerialiser();
+			return serialiser.Serialise(this).Equals(serialiser.Serialise(obj));
 		}
 
 		public override int GetHashCode()
 		{
-			var serialiser = new JavaScriptSerializer();
-			return serialiser.Serialize(this).GetHashCode();
+			var serialiser = new JsonSerialiser();
+			return serialiser.Serialise(this).GetHashCode();
 		}
 
 		#endregion
