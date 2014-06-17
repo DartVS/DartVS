@@ -16,7 +16,7 @@ namespace DanTup.DartAnalysis
 
 	#endregion
 
-	public class ServerStatusNotification
+	public struct ServerStatusNotification
 	{
 		public bool IsAnalysing { get; internal set; }
 	}
