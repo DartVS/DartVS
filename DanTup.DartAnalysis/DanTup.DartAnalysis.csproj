@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ServerShutdown.cs" />
     <Compile Include="DartAnalysisService.cs" />
     <Compile Include="Infrastructure\AnalysisServiceWrapper.cs">
       <SubType>Code</SubType>
