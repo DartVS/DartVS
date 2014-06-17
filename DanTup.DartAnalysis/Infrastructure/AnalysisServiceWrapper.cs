@@ -140,7 +140,8 @@ namespace DanTup.DartAnalysis
 		/// A mapping of event types into the types that we have to represent them.
 		/// </summary>
 		static readonly Dictionary<string, Type> KnownEventTypes = new Dictionary<string, Type> {
-			{ "server.connected", typeof(Event) }
+			{ "server.connected", typeof(Event) },
+			{ "server.status", typeof(Event<ServerStatusEvent>) },
 		};
 
 		/// <summary>

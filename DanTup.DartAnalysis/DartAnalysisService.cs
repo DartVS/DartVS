@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DanTup.DartAnalysis
 {
@@ -21,6 +17,12 @@ namespace DanTup.DartAnalysis
 		/// </summary>
 		internal AnalysisServiceWrapper Service { get; private set; }
 
+		#region Public events
+
+		public event EventHandler<ServerStatusNotification> ServerStatusNotification;
+
+		#endregion
+
 		/// <summary>
 		/// Launches the Google Dart Analysis Service using the provided SDK and script.
 		/// </summary>
@@ -29,7 +31,13 @@ namespace DanTup.DartAnalysis
 		/// <param name="eventHandler">A handler for events raised by the Analysis Service.</param>
 		public DartAnalysisService(string sdkFolder, string serverScript)
 		{
-			this.Service = new AnalysisServiceWrapper(sdkFolder, serverScript);
+			this.Service = new AnalysisServiceWrapper(sdkFolder, serverScript, HandleEvent);
+		}
+
+		private void HandleEvent(Event notification)
+		{
+			if (notification is Event<ServerStatusEvent>)
+				this.RaiseServerStatusEvent(((Event<ServerStatusEvent>)notification).@params, this.ServerStatusNotification);
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?

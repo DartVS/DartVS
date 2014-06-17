@@ -5,14 +5,25 @@ namespace DanTup.DartAnalysis.Tests
 {
 	public class AnalysisTests : Tests
 	{
-		[Fact(Skip = "Incomplete test; requires event implementation")]
+		[Fact]
 		public async Task SetAnalysisRoots()
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
+				// Keep track of when we're called to say server status has changed
+				bool? isAnalyzing = null;
+				service.ServerStatusNotification += (s, e) => { isAnalyzing = e.IsAnalysing; };
+
+				// Send a request to do some analysis.
 				await service.SetAnalysisRoots(new[] { SampleDartProject }, new string[] { });
 
-				// TODO: Wait for some events!
+				// Allow time for analysing.
+				await Task.Delay(5000);
+
+				// Ensure the event fired to say analysing had finished.
+				Assert.Equal(false, isAnalyzing);
+
+				// TODO: Ensure expected errors came back...
 			}
 		}
 	}
