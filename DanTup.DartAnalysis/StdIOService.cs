@@ -6,7 +6,7 @@ namespace DanTup.DartAnalysis
 	/// <summary>
 	/// Wraps a process for two-way communication over STDIN/STDOUT.
 	/// </summary>
-	public class StdIOService : IDisposable
+	class StdIOService : IDisposable
 	{
 		readonly Process process;
 
