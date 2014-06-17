@@ -38,6 +38,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisServiceWrapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Event.cs">
       <SubType>Code</SubType>
     </Compile>
