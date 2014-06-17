@@ -23,7 +23,7 @@ namespace DanTup.DartAnalysis.Tests
 
 
 				// Send a request to do some analysis.
-				await service.SetAnalysisRoots(new[] { SampleDartProject }, new string[] { });
+				await service.SetAnalysisRoots(new[] { SampleDartProject });
 
 				// Allow time for analysing.
 				await Task.Delay(5000);
@@ -64,22 +64,17 @@ namespace DanTup.DartAnalysis.Tests
 				errors.Clear();
 
 				// Build a "fix" for this, which is to change the 1 to a string '1'.
-				var changes = new Dictionary<string, string> {
-					{
-						Path.Combine(SampleDartProject, "single_type_error.dart"), 
-						@"
-							void main() {
-								my_function('1');
-							}
+				await service.UpdateContent(
+					Path.Combine(SampleDartProject, "single_type_error.dart"),
+					@"
+						void main() {
+							my_function('1');
+						}
 
-							void my_function(String a) {
-							}
-						"
-					}
-				};
-
-				// Send this changed content.
-				await service.UpdateContent(changes);
+						void my_function(String a) {
+						}
+					"
+				);
 
 				// Allow analysis to complete.
 				await Task.Delay(5000);

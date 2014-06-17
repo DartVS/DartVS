@@ -53,6 +53,11 @@ namespace DanTup.DartAnalysis
 
 	public static class AnalysisUpdateContentImplementation
 	{
+		public static Task UpdateContent(this DartAnalysisService service, string filename, string contents)
+		{
+			return service.UpdateContent(new Dictionary<string, string> { { filename, contents } });
+		}
+
 		public static async Task UpdateContent(this DartAnalysisService service, Dictionary<string, string> files)
 		{
 			var response = await service.Service.Send(new AnalysisUpdateContentRequest(files.ToDictionary(kvp => kvp.Key, kvp => new AnalysisUpdateContentFile(kvp.Value))));
