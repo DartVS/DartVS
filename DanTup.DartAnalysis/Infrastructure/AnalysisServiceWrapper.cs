@@ -159,7 +159,7 @@ namespace DanTup.DartAnalysis
 			if (KnownEventTypes.ContainsKey(eventType))
 				eventHandler((Event)serialiser.Deserialise(message, KnownEventTypes[eventType]));
 			else
-				ReceiveError(message);
+				HandleError(message);
 		}
 
 		/// <summary>
