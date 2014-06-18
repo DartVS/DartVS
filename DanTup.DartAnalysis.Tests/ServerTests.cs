@@ -34,7 +34,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				await service.SetServerSubscriptions("STATUS");
+				await service.SetServerSubscriptions(ServerSubscription.Status);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace DanTup.DartAnalysis.Tests
 			// get the correct type of response.
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var ex = Assert.Throws<AggregateException>(() => service.SetServerSubscriptions("BAD STATUS THAT'S WRONG").Wait());
+				var ex = Assert.Throws<AggregateException>(() => service.SetServerSubscriptions((ServerSubscription)1234).Wait());
 				Assert.Equal(1, ex.InnerExceptions.Count);
 				Assert.IsType<ErrorResponseException>(ex.GetBaseException());
 				var err = ex.GetBaseException() as ErrorResponseException;
