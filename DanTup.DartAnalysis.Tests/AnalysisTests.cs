@@ -121,5 +121,44 @@ namespace DanTup.DartAnalysis.Tests
 				}
 			}
 		}
+
+		[Fact]
+		public async Task AnalysisSetSubscriptionsNavigation()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				List<AnalysisNavigationRegion> regions = new List<AnalysisNavigationRegion>(); // Keep track of errors that are reported
+				using (service.AnalysisNavigationNotification.Subscribe(e => regions.AddRange(e.Regions)))
+				{
+					// Set the roots to our known project.
+					await service.SetAnalysisRoots(new[] { SampleDartProject });
+
+					// Request all the other stuff
+					await service.SetAnalysisSubscriptions(new[] { "NAVIGATION" }, Path.Combine(SampleDartProject, "hello_world.dart"));
+
+					// Wait for a server status message (which should be that the analysis complete)
+					await service.ServerStatusNotification.FirstAsync();
+
+					// Ensure it's what we expect
+					Assert.Equal(2, regions.Count);
+
+					Assert.Equal(5, regions[0].Offset);
+					Assert.Equal(4, regions[0].Length);
+					Assert.Equal(1, regions[0].Targets.Length);
+					Assert.Equal(Path.Combine(SampleDartProject, "hello_world.dart"), regions[0].Targets[0].File);
+					Assert.Equal(5, regions[0].Targets[0].Offset);
+					Assert.Equal(4, regions[0].Targets[0].Length);
+					Assert.Equal("ffile:///M:/Coding/TestApps/DartServerTest/SampleDartProject/hello_world.dart;ffile:///M:/Coding/TestApps/DartServerTest/SampleDartProject/hello_world.dart;main@5", regions[0].Targets[0].ElementID);
+
+					Assert.Equal(17, regions[1].Offset);
+					Assert.Equal(5, regions[1].Length);
+					Assert.Equal(1, regions[1].Targets.Length);
+					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].File);
+					Assert.Equal(307, regions[1].Targets[0].Offset);
+					Assert.Equal(5, regions[1].Targets[0].Length);
+					Assert.Equal("dfile:///M:/Apps/Dart/sdk/lib/core/core.dart;dfile:///M:/Apps/Dart/sdk/lib/core/print.dart;print@307", regions[1].Targets[0].ElementID);
+				}
+			}
+		}
 	}
 }
