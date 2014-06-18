@@ -86,5 +86,23 @@ namespace DanTup.DartAnalysis.Tests
 				Assert.Equal(0, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
 			}
 		}
+
+		[Fact]
+		public async Task AnalysisSetSubscriptions()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				// Set the roots to our known project.
+				await service.SetAnalysisRoots(new[] { SampleDartProject });
+
+				// Request all the other stuff
+				await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS", "NAVIGATION", "OUTLINE" }, Path.Combine(SampleDartProject, "hello_world.dart"));
+
+				// Wait for a server status message (which should be that the analysis complete)
+				await service.ServerStatusNotification.FirstAsync();
+
+				// TODO: Ensure we got some expected stuffs
+			}
+		}
 	}
 }
