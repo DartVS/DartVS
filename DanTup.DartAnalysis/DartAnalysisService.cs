@@ -30,6 +30,9 @@ namespace DanTup.DartAnalysis
 		readonly Subject<AnalysisHighlightsNotification> analysisHighlights = new Subject<AnalysisHighlightsNotification>();
 		public IObservable<AnalysisHighlightsNotification> AnalysisHighlightsNotification { get { return analysisHighlights.AsObservable(); } }
 
+		readonly Subject<AnalysisNavigationNotification> analysisNavigation = new Subject<AnalysisNavigationNotification>();
+		public IObservable<AnalysisNavigationNotification> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
+
 		#endregion
 
 		/// <summary>
@@ -51,6 +54,8 @@ namespace DanTup.DartAnalysis
 				analysisErrors.OnNext(((Event<AnalysisErrorsEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisHighlightsEvent>)
 				analysisHighlights.OnNext(((Event<AnalysisHighlightsEvent>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisNavigationEvent>)
+				analysisNavigation.OnNext(((Event<AnalysisNavigationEvent>)notification).@params.AsNotification());
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?
