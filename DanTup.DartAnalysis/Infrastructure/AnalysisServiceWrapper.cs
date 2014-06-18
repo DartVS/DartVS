@@ -143,6 +143,7 @@ namespace DanTup.DartAnalysis
 			{ "server.connected", typeof(Event) },
 			{ "server.status", typeof(Event<ServerStatusEvent>) },
 			{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
+			{ "analysis.highlights", typeof(Event<AnalysisHighlightsEvent>) },
 		};
 
 		/// <summary>

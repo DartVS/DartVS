@@ -88,20 +88,37 @@ namespace DanTup.DartAnalysis.Tests
 		}
 
 		[Fact]
-		public async Task AnalysisSetSubscriptions()
+		public async Task AnalysisSetSubscriptionsHighlights()
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				// Set the roots to our known project.
-				await service.SetAnalysisRoots(new[] { SampleDartProject });
+				List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
+				using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
+				{
+					// Set the roots to our known project.
+					await service.SetAnalysisRoots(new[] { SampleDartProject });
 
-				// Request all the other stuff
-				await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS", "NAVIGATION", "OUTLINE" }, Path.Combine(SampleDartProject, "hello_world.dart"));
+					// Request all the other stuff
+					await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS" }, Path.Combine(SampleDartProject, "hello_world.dart"));
 
-				// Wait for a server status message (which should be that the analysis complete)
-				await service.ServerStatusNotification.FirstAsync();
+					// Wait for a server status message (which should be that the analysis complete)
+					await service.ServerStatusNotification.FirstAsync();
 
-				// TODO: Ensure we got some expected stuffs
+					// Ensure it's what we expect
+					Assert.Equal(4, regions.Count);
+					Assert.Equal(0, regions[0].Offset);
+					Assert.Equal(4, regions[0].Length);
+					Assert.Equal(HighlightType.Keyword, regions[0].Type);
+					Assert.Equal(5, regions[1].Offset);
+					Assert.Equal(4, regions[1].Length);
+					Assert.Equal(HighlightType.FunctionDeclaration, regions[1].Type);
+					Assert.Equal(17, regions[2].Offset);
+					Assert.Equal(5, regions[2].Length);
+					Assert.Equal(HighlightType.Function, regions[2].Type);
+					Assert.Equal(23, regions[3].Offset);
+					Assert.Equal(15, regions[3].Length);
+					Assert.Equal(HighlightType.LiteralString, regions[3].Type);
+				}
 			}
 		}
 	}
