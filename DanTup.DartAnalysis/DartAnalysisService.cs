@@ -59,6 +59,8 @@ namespace DanTup.DartAnalysis
 				analysisHighlights.OnNext(((Event<AnalysisHighlightsEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisNavigationEvent>)
 				analysisNavigation.OnNext(((Event<AnalysisNavigationEvent>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisOutlineEvent>)
+				analysisOutline.OnNext(((Event<AnalysisOutlineEvent>)notification).@params.AsNotification());
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?

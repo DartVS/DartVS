@@ -160,5 +160,61 @@ namespace DanTup.DartAnalysis.Tests
 				}
 			}
 		}
+
+		[Fact]
+		public async Task AnalysisSetSubscriptionsOutline()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				List<AnalysisOutline> outlines = new List<AnalysisOutline>(); // Keep track of errors that are reported
+				using (service.AnalysisOutlineNotification.Subscribe(e => outlines.Add(e.Outline)))
+				{
+					// Set the roots to our known project.
+					await service.SetAnalysisRoots(new[] { SampleDartProject });
+
+					// Request all the other stuff
+					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Outline }, HelloWorldFile);
+
+					// Wait for a server status message (which should be that the analysis complete)
+					await service.ServerStatusNotification.FirstAsync();
+
+					// Ensure it's what we expect
+					var expectedOutline = new AnalysisOutline
+					{
+						Kind = ElementKind.CompilationUnit,
+						Name = "<unit>",
+						NameOffset = 0,
+						NameLength = 43,
+						ElementOffset = 0,
+						ElementLength = 43,
+						IsAbstract = false,
+						IsStatic = false,
+						Children = new[] {
+							new AnalysisOutline
+							{
+								Kind = ElementKind.Function,
+								Name = "main",
+								NameOffset = 5,
+								NameLength = 4,
+								ElementOffset = 0,
+								ElementLength = 43,
+								IsAbstract = false,
+								IsStatic = false,
+								Parameters = "()",
+								ReturnType = "void"
+							}
+						}
+					};
+
+					Assert.Equal(1, outlines.Count);
+					Assert.Equal(expectedOutline.Children[0], outlines[0].Children[0]);
+					// HACK: Arrays are references, and not considered equal. xUnit doesn't appear to have a way to assert
+					// two structs are equal if they contain an array. Since we've already checked children, just fudge it
+					// for now... :-/
+					expectedOutline.Children = outlines[0].Children;
+					Assert.Equal(expectedOutline, outlines[0]);
+				}
+			}
+		}
 	}
 }

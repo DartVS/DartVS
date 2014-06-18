@@ -21,6 +21,8 @@ namespace DanTup.DartAnalysis
 		public int elementLength = 0;
 		public bool isAbstract = false;
 		public bool isStatic = false;
+		public string parameters = null;
+		public string returnType = null;
 		public AnalysisOutlineDetails[] children = null;
 	}
 
@@ -42,6 +44,8 @@ namespace DanTup.DartAnalysis
 		public int ElementLength { get; internal set; }
 		public bool IsAbstract { get; internal set; }
 		public bool IsStatic { get; internal set; }
+		public string Parameters { get; internal set; }
+		public string ReturnType { get; internal set; }
 		public AnalysisOutline[] Children { get; internal set; }
 	}
 
@@ -81,6 +85,8 @@ namespace DanTup.DartAnalysis
 					ElementLength = o.elementLength,
 					IsAbstract = o.isAbstract,
 					IsStatic = o.isStatic,
+					Parameters = o.parameters,
+					ReturnType = o.returnType,
 					Children = o.children == null ? null : o.children.Select(convert).ToArray()
 				};
 
