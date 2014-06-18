@@ -6,17 +6,17 @@ namespace DanTup.DartAnalysis
 
 	class AnalysisErrorsEvent
 	{
-		public string file;
-		public AnalysisErrorDetails[] errors;
+		public string file = null;
+		public AnalysisErrorDetails[] errors = null;
 	}
 
 	class AnalysisErrorDetails
 	{
-		public string file;
-		public string errorCode;
-		public int offset;
-		public int length;
-		public string message;
+		public string file = null;
+		public string errorCode = null;
+		public int offset = 0;
+		public int length = 0;
+		public string message = null;
 
 		#region Equality checks
 

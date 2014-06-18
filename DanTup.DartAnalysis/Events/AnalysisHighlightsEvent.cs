@@ -7,15 +7,15 @@ namespace DanTup.DartAnalysis
 
 	class AnalysisHighlightsEvent
 	{
-		public string file;
-		public AnalysisHighlightRegionDetails[] regions;
+		public string file = null;
+		public AnalysisHighlightRegionDetails[] regions = null;
 	}
 
 	class AnalysisHighlightRegionDetails
 	{
-		public int offset;
-		public int length;
-		public string type;
+		public int offset = 0;
+		public int length = 0;
+		public string type = null;
 	}
 
 	#endregion
