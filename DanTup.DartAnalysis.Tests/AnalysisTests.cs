@@ -31,11 +31,11 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(false, isAnalyzing);
 
 					// Ensure the error-free file got no errors.
-					Assert.Equal(0, errors.Where(e => e.File.EndsWith("\\hello_world.dart")).Count());
+					Assert.Equal(0, errors.Where(e => e.File == HelloWorldFile).Count());
 
 					// Ensure the single-error file got the expected error.
-					Assert.Equal(1, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
-					var error = errors.First(e => e.File.EndsWith("\\single_type_error.dart"));
+					Assert.Equal(1, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
+					var error = errors.First(e => e.File == SingleTypeErrorFile);
 					Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
 				}
 			}
@@ -57,7 +57,7 @@ namespace DanTup.DartAnalysis.Tests
 				}
 
 				// Ensure we got the expected error in single_type_error.
-				Assert.Equal(1, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
+				Assert.Equal(1, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
 
 				// Clear the error list ready for next time.
 				errors.Clear();
@@ -67,7 +67,7 @@ namespace DanTup.DartAnalysis.Tests
 
 					// Build a "fix" for this, which is to change the 1 to a string '1'.
 					await service.UpdateContent(
-						Path.Combine(SampleDartProject, "single_type_error.dart"),
+						SingleTypeErrorFile,
 						@"
 						void main() {
 							my_function('1');
@@ -83,7 +83,7 @@ namespace DanTup.DartAnalysis.Tests
 				}
 
 				// Ensure the error has gone away.
-				Assert.Equal(0, errors.Where(e => e.File.EndsWith("\\single_type_error.dart")).Distinct().Count());
+				Assert.Equal(0, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace DanTup.DartAnalysis.Tests
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
 
 					// Request all the other stuff
-					await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS" }, Path.Combine(SampleDartProject, "hello_world.dart"));
+					await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS" }, HelloWorldFile);
 
 					// Wait for a server status message (which should be that the analysis complete)
 					await service.ServerStatusNotification.FirstAsync();
@@ -134,7 +134,7 @@ namespace DanTup.DartAnalysis.Tests
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
 
 					// Request all the other stuff
-					await service.SetAnalysisSubscriptions(new[] { "NAVIGATION" }, Path.Combine(SampleDartProject, "hello_world.dart"));
+					await service.SetAnalysisSubscriptions(new[] { "NAVIGATION" }, HelloWorldFile);
 
 					// Wait for a server status message (which should be that the analysis complete)
 					await service.ServerStatusNotification.FirstAsync();
@@ -145,10 +145,10 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(5, regions[0].Offset);
 					Assert.Equal(4, regions[0].Length);
 					Assert.Equal(1, regions[0].Targets.Length);
-					Assert.Equal(Path.Combine(SampleDartProject, "hello_world.dart"), regions[0].Targets[0].File);
+					Assert.Equal(HelloWorldFile, regions[0].Targets[0].File);
 					Assert.Equal(5, regions[0].Targets[0].Offset);
 					Assert.Equal(4, regions[0].Targets[0].Length);
-					Assert.Equal("ffile:///M:/Coding/TestApps/DartServerTest/SampleDartProject/hello_world.dart;ffile:///M:/Coding/TestApps/DartServerTest/SampleDartProject/hello_world.dart;main@5", regions[0].Targets[0].ElementID);
+					Assert.Equal("ffile:///" + HelloWorldFile.Replace(@"\", "/") + ";ffile:///" + HelloWorldFile.Replace(@"\", "/") + ";main@5", regions[0].Targets[0].ElementID);
 
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
@@ -156,7 +156,7 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].File);
 					Assert.Equal(307, regions[1].Targets[0].Offset);
 					Assert.Equal(5, regions[1].Targets[0].Length);
-					Assert.Equal("dfile:///M:/Apps/Dart/sdk/lib/core/core.dart;dfile:///M:/Apps/Dart/sdk/lib/core/print.dart;print@307", regions[1].Targets[0].ElementID);
+					Assert.Equal("dfile:///" + SdkFolder.Replace(@"\", "/") + "/lib/core/core.dart;dfile:///" + SdkFolder.Replace(@"\", "/") + "/lib/core/print.dart;print@307", regions[1].Targets[0].ElementID);
 				}
 			}
 		}
