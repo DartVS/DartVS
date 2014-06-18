@@ -33,6 +33,9 @@ namespace DanTup.DartAnalysis
 		readonly Subject<AnalysisNavigationNotification> analysisNavigation = new Subject<AnalysisNavigationNotification>();
 		public IObservable<AnalysisNavigationNotification> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
 
+		readonly Subject<AnalysisOutlineNotification> analysisOutline = new Subject<AnalysisOutlineNotification>();
+		public IObservable<AnalysisOutlineNotification> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
+
 		#endregion
 
 		/// <summary>
