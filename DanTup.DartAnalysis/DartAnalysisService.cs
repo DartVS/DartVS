@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace DanTup.DartAnalysis
 {
@@ -17,10 +19,13 @@ namespace DanTup.DartAnalysis
 		/// </summary>
 		internal AnalysisServiceWrapper Service { get; private set; }
 
-		#region Public events
+		#region Events
 
-		public event EventHandler<ServerStatusNotification> ServerStatusNotification;
-		public event EventHandler<AnalysisErrorsNotification> AnalysisErrorsNotification;		
+		readonly Subject<ServerStatusNotification> serverStatus = new Subject<ServerStatusNotification>();
+		public IObservable<ServerStatusNotification> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
+
+		readonly Subject<AnalysisErrorsNotification> analysisErrors = new Subject<AnalysisErrorsNotification>();
+		public IObservable<AnalysisErrorsNotification> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
 
 		#endregion
 
@@ -38,9 +43,9 @@ namespace DanTup.DartAnalysis
 		void HandleEvent(Event notification)
 		{
 			if (notification is Event<ServerStatusEvent>)
-				this.RaiseServerStatusEvent(((Event<ServerStatusEvent>)notification).@params, this.ServerStatusNotification);
+				serverStatus.OnNext(((Event<ServerStatusEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisErrorsEvent>)
-				this.RaiseServerStatusEvent(((Event<AnalysisErrorsEvent>)notification).@params, this.AnalysisErrorsNotification);
+				analysisErrors.OnNext(((Event<AnalysisErrorsEvent>)notification).@params.AsNotification());
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?

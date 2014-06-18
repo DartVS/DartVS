@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace DanTup.DartAnalysis
 {
@@ -60,9 +59,9 @@ namespace DanTup.DartAnalysis
 
 	internal static class AnalysisErrorsEventImplementation
 	{
-		public static void RaiseServerStatusEvent(this DartAnalysisService service, AnalysisErrorsEvent notification, EventHandler<AnalysisErrorsNotification> handler)
+		public static AnalysisErrorsNotification AsNotification(this AnalysisErrorsEvent notification)
 		{
-			var errorNotification = new AnalysisErrorsNotification
+			return new AnalysisErrorsNotification
 			{
 				File = notification.file,
 				Errors = notification.errors.Select(e => new AnalysisError
@@ -74,9 +73,6 @@ namespace DanTup.DartAnalysis
 					Message = e.message,
 				}).ToArray(),
 			};
-
-			if (handler != null)
-				handler.Invoke(service, errorNotification);
 		}
 	}
 }

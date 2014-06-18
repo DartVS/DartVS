@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace DanTup.DartAnalysis
 {
 	#region JSON deserialisation objects
@@ -23,10 +22,9 @@ namespace DanTup.DartAnalysis
 
 	internal static class ServerStatusEventImplementation
 	{
-		public static void RaiseServerStatusEvent(this DartAnalysisService service, ServerStatusEvent notification, EventHandler<ServerStatusNotification> handler)
+		public static ServerStatusNotification AsNotification(this ServerStatusEvent notification)
 		{
-			if (handler != null)
-				handler.Invoke(service, new ServerStatusNotification { IsAnalysing = notification.analysis.analyzing });
+			return new ServerStatusNotification { IsAnalysing = notification.analysis.analyzing };
 		}
 	}
 }
