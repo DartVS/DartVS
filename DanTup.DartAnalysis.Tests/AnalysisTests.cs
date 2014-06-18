@@ -99,7 +99,7 @@ namespace DanTup.DartAnalysis.Tests
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
 
 					// Request all the other stuff
-					await service.SetAnalysisSubscriptions(new[] { "HIGHLIGHTS" }, HelloWorldFile);
+					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Highlights }, HelloWorldFile);
 
 					// Wait for a server status message (which should be that the analysis complete)
 					await service.ServerStatusNotification.FirstAsync();
@@ -134,7 +134,7 @@ namespace DanTup.DartAnalysis.Tests
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
 
 					// Request all the other stuff
-					await service.SetAnalysisSubscriptions(new[] { "NAVIGATION" }, HelloWorldFile);
+					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Navigation }, HelloWorldFile);
 
 					// Wait for a server status message (which should be that the analysis complete)
 					await service.ServerStatusNotification.FirstAsync();

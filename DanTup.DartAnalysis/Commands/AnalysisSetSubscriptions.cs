@@ -26,18 +26,25 @@ namespace DanTup.DartAnalysis
 
 	public static class AnalysisSetSubscriptionImplementation
 	{
-		public static Task SetAnalysisSubscriptions(this DartAnalysisService service, string[] subscriptions, string root)
+		public static Task SetAnalysisSubscriptions(this DartAnalysisService service, AnalysisSubscription[] subscriptions, string root)
 		{
 			return service.SetAnalysisSubscriptions(subscriptions.ToDictionary(s => s, s => new[] { root }));
 		}
 
-		public static async Task SetAnalysisSubscriptions(this DartAnalysisService service, Dictionary<string, string[]> subscriptions)
+		public static async Task SetAnalysisSubscriptions(this DartAnalysisService service, Dictionary<AnalysisSubscription, string[]> subscriptions)
 		{
-			var response = await service.Service.Send(new AnalysisSetSubscriptionsRequest(subscriptions));
+			var response = await service.Service.Send(new AnalysisSetSubscriptionsRequest(subscriptions.ToDictionary(s => s.Key.ToString().ToUpperInvariant(), s => s.Value)));
 
 			// There's nothing useful on this response to return.
 
 			return;
 		}
+	}
+
+	public enum AnalysisSubscription
+	{
+		Highlights,
+		Navigation,
+		Outline
 	}
 }
