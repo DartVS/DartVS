@@ -15,20 +15,15 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				bool? isAnalyzing = null; // Keep track of when we're called to say server status has changed
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+
 				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
-				using (service.ServerStatusNotification.Subscribe(e => { isAnalyzing = e.IsAnalysing; }))
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
+				using (analysisCompleteEvent.Connect())
 				{
 					// Send a request to do some analysis.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-
-					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
-
-
-					// Ensure the event fired to say analysing had finished.
-					Assert.Equal(false, isAnalyzing);
+					await analysisCompleteEvent;
 
 					// Ensure the error-free file got no errors.
 					Assert.Equal(0, errors.Where(e => e.File == HelloWorldFile).Count());
@@ -46,14 +41,16 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
+				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+
 				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
+				using (firstAnalysisCompleteEvent.Connect())
 				{
-					// Set the roots to our known project.
+					// Set the roots to our known project and wait for analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-
-					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
+					await firstAnalysisCompleteEvent;
 				}
 
 				// Ensure we got the expected error in single_type_error.
@@ -63,8 +60,8 @@ namespace DanTup.DartAnalysis.Tests
 				errors.Clear();
 
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
+				using (secondAnalysisCompleteEvent.Connect())
 				{
-
 					// Build a "fix" for this, which is to change the 1 to a string '1'.
 					await service.UpdateContent(
 						SingleTypeErrorFile,
@@ -79,7 +76,7 @@ namespace DanTup.DartAnalysis.Tests
 					);
 
 					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
+					await secondAnalysisCompleteEvent;
 				}
 
 				// Ensure the error has gone away.
@@ -92,17 +89,21 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
+
 				List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
+				using (analysisCompleteEvent.Connect())
+				using (analysisHighlightEvent.Connect())
 				{
-					// Set the roots to our known project.
+					// Set the roots to our known project and wait for the analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
+					await analysisCompleteEvent;
 
-					// Request all the other stuff
+					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
 					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Highlights }, HelloWorldFile);
-
-					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
+					await analysisHighlightEvent;
 
 					// Ensure it's what we expect
 					Assert.Equal(4, regions.Count);
@@ -127,17 +128,21 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
+
 				List<AnalysisNavigationRegion> regions = new List<AnalysisNavigationRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisNavigationNotification.Subscribe(e => regions.AddRange(e.Regions)))
+				using (analysisCompleteEvent.Connect())
+				using (analysisNavigationEvent.Connect())
 				{
-					// Set the roots to our known project.
+					// Set the roots to our known project and wait for the analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
+					await analysisCompleteEvent;
 
-					// Request all the other stuff
+					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
 					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Navigation }, HelloWorldFile);
-
-					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
+					await analysisNavigationEvent;
 
 					// Ensure it's what we expect
 					Assert.Equal(2, regions.Count);
@@ -166,17 +171,21 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisOutlineEvent = service.AnalysisOutlineNotification.FirstAsync().PublishLast();
+
 				List<AnalysisOutline> outlines = new List<AnalysisOutline>(); // Keep track of errors that are reported
 				using (service.AnalysisOutlineNotification.Subscribe(e => outlines.Add(e.Outline)))
+				using (analysisCompleteEvent.Connect())
+				using (analysisOutlineEvent.Connect())
 				{
 					// Set the roots to our known project.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
+					await analysisCompleteEvent;
 
 					// Request all the other stuff
 					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Outline }, HelloWorldFile);
-
-					// Wait for a server status message (which should be that the analysis complete)
-					await service.ServerStatusNotification.FirstAsync();
+					await analysisOutlineEvent;
 
 					// Ensure it's what we expect
 					var expectedOutline = new AnalysisOutline
