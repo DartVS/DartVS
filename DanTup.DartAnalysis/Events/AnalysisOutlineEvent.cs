@@ -13,16 +13,9 @@ namespace DanTup.DartAnalysis
 
 	class AnalysisOutlineDetails
 	{
-		public string kind = null;
-		public string name = null;
-		public int nameOffset = 0;
-		public int nameLength = 0;
-		public int elementOffset = 0;
-		public int elementLength = 0;
-		public bool isAbstract = false;
-		public bool isStatic = false;
-		public string parameters = null;
-		public string returnType = null;
+		public AnalysisElementDetails element = null;
+		public int offset = 0;
+		public int length = 0;
 		public AnalysisOutlineDetails[] children = null;
 	}
 
@@ -36,36 +29,10 @@ namespace DanTup.DartAnalysis
 
 	public struct AnalysisOutline
 	{
-		public ElementKind Kind { get; internal set; }
-		public string Name { get; internal set; }
-		public int NameOffset { get; internal set; }
-		public int NameLength { get; internal set; }
-		public int ElementOffset { get; internal set; }
-		public int ElementLength { get; internal set; }
-		public bool IsAbstract { get; internal set; }
-		public bool IsStatic { get; internal set; }
-		public string Parameters { get; internal set; }
-		public string ReturnType { get; internal set; }
+		public AnalysisElement Element { get; internal set; }
+		public int Offset { get; internal set; }
+		public int Length { get; internal set; }
 		public AnalysisOutline[] Children { get; internal set; }
-	}
-
-	public enum ElementKind
-	{
-		Class,
-		ClassTypeAlias,
-		CompilationUnit,
-		Constructor,
-		Getter,
-		Field,
-		Function,
-		FunctionTypeAlias,
-		Library,
-		Method,
-		Setter,
-		TopLevelVariable,
-		Unknown,
-		UnitTestCase,
-		UnitTestGroup
 	}
 
 	internal static class AnalysisOutlineEventImplementation
@@ -77,16 +44,18 @@ namespace DanTup.DartAnalysis
 			Func<AnalysisOutlineDetails, AnalysisOutline> convert = null;
 			convert = o => new AnalysisOutline
 				{
-					Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == o.kind.ToLowerInvariant().Replace("_", "")),
-					Name = o.name,
-					NameOffset = o.nameOffset,
-					NameLength = o.nameLength,
-					ElementOffset = o.elementOffset,
-					ElementLength = o.elementLength,
-					IsAbstract = o.isAbstract,
-					IsStatic = o.isStatic,
-					Parameters = o.parameters,
-					ReturnType = o.returnType,
+					Element = new AnalysisElement
+					{
+						Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == o.element.kind.ToLowerInvariant().Replace("_", "")),
+						Name = o.element.name,
+						Offset = o.element.offset,
+						Length = o.element.length,
+						Flags = (AnalysisElementFlags)o.element.flags,
+						Parameters = o.element.parameters,
+						ReturnType = o.element.returnType,
+					},
+					Offset = o.offset,
+					Length = o.length,
 					Children = o.children == null ? null : o.children.Select(convert).ToArray()
 				};
 

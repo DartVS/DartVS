@@ -61,6 +61,7 @@
     <Compile Include="Events\AnalysisHighlightsEvent.cs" />
     <Compile Include="Events\AnalysisErrorsEvent.cs" />
     <Compile Include="Events\ServerStatusEvent.cs" />
+    <Compile Include="Events\Shared.cs" />
     <Compile Include="Infrastructure\AnalysisServiceWrapper.cs">
       <SubType>Code</SubType>
     </Compile>

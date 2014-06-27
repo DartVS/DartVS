@@ -153,7 +153,14 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(HelloWorldFile, regions[0].Targets[0].File);
 					Assert.Equal(5, regions[0].Targets[0].Offset);
 					Assert.Equal(4, regions[0].Targets[0].Length);
-					Assert.Equal("ffile:///" + HelloWorldFile.Replace(@"\", "/") + ";ffile:///" + HelloWorldFile.Replace(@"\", "/") + ";main@5", regions[0].Targets[0].ElementID);
+					Assert.Equal(ElementKind.Function, regions[0].Targets[0].Element.Kind);
+					Assert.Equal("main", regions[0].Targets[0].Element.Name);
+					Assert.Equal(5, regions[0].Targets[0].Element.Offset);
+					Assert.Equal(4, regions[0].Targets[0].Element.Length);
+					Assert.Equal(AnalysisElementFlags.Static, regions[0].Targets[0].Element.Flags);
+					Assert.Equal("()", regions[0].Targets[0].Element.Parameters);
+					Assert.Equal("void", regions[0].Targets[0].Element.ReturnType);
+					Assert.Null(regions[0].Targets[0].Element.Children);
 
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
@@ -161,7 +168,14 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].File);
 					Assert.Equal(307, regions[1].Targets[0].Offset);
 					Assert.Equal(5, regions[1].Targets[0].Length);
-					Assert.Equal("dfile:///" + SdkFolder.Replace(@"\", "/") + "/lib/core/core.dart;dfile:///" + SdkFolder.Replace(@"\", "/") + "/lib/core/print.dart;print@307", regions[1].Targets[0].ElementID);
+					Assert.Equal(ElementKind.Function, regions[1].Targets[0].Element.Kind);
+					Assert.Equal("print", regions[1].Targets[0].Element.Name);
+					Assert.Equal(307, regions[1].Targets[0].Element.Offset);
+					Assert.Equal(5, regions[1].Targets[0].Element.Length);
+					Assert.Equal(AnalysisElementFlags.Static, regions[1].Targets[0].Element.Flags);
+					Assert.Equal("(Object object)", regions[1].Targets[0].Element.Parameters);
+					Assert.Equal("void", regions[1].Targets[0].Element.ReturnType);
+					Assert.Null(regions[1].Targets[0].Element.Children);
 				}
 			}
 		}
@@ -190,27 +204,31 @@ namespace DanTup.DartAnalysis.Tests
 					// Ensure it's what we expect
 					var expectedOutline = new AnalysisOutline
 					{
-						Kind = ElementKind.CompilationUnit,
-						Name = "<unit>",
-						NameOffset = 0,
-						NameLength = 43,
-						ElementOffset = 0,
-						ElementLength = 43,
-						IsAbstract = false,
-						IsStatic = false,
+						Element = new AnalysisElement
+						{
+							Kind = ElementKind.CompilationUnit,
+							Name = "<unit>",
+							Offset = 0,
+							Length = 43,
+							Flags = AnalysisElementFlags.None,
+						},
+						Offset = 0,
+						Length = 43,
 						Children = new[] {
 							new AnalysisOutline
 							{
-								Kind = ElementKind.Function,
-								Name = "main",
-								NameOffset = 5,
-								NameLength = 4,
-								ElementOffset = 0,
-								ElementLength = 43,
-								IsAbstract = false,
-								IsStatic = false,
-								Parameters = "()",
-								ReturnType = "void"
+								Element = new AnalysisElement
+								{
+									Kind = ElementKind.Function,
+									Name = "main",
+									Offset = 5,
+									Length = 4,
+									Flags = AnalysisElementFlags.Static,
+									Parameters = "()",
+									ReturnType = "void"
+								},
+								Offset = 0,
+								Length = 43,
 							}
 						}
 					};

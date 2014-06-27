@@ -23,7 +23,7 @@ namespace DanTup.DartAnalysis
 		public string file = null;
 		public int offset = 0;
 		public int length = 0;
-		public string elementId = null;
+		public AnalysisElementDetails element = null;
 	}
 
 	#endregion
@@ -46,11 +46,13 @@ namespace DanTup.DartAnalysis
 		public string File;
 		public int Offset;
 		public int Length;
-		public string ElementID;
+		public AnalysisElement Element;
 	}
 
 	internal static class AnalysisNavigationEventImplementation
 	{
+		static ElementKind[] ElementKinds = Enum.GetValues(typeof(ElementKind)).Cast<ElementKind>().ToArray();
+
 		public static AnalysisNavigationNotification AsNotification(this AnalysisNavigationEvent notification)
 		{
 			return new AnalysisNavigationNotification
@@ -65,7 +67,16 @@ namespace DanTup.DartAnalysis
 						File = t.file,
 						Offset = t.offset,
 						Length = t.length,
-						ElementID = t.elementId
+						Element = new AnalysisElement
+						{
+							Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == t.element.kind.ToLowerInvariant().Replace("_", "")),
+							Name = t.element.name,
+							Offset = t.element.offset,
+							Length = t.element.length,
+							Flags = (AnalysisElementFlags)t.element.flags,
+							Parameters = t.element.parameters,
+							ReturnType = t.element.returnType,
+						}
 					}).ToArray()
 				}).ToArray(),
 			};
