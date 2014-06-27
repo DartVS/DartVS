@@ -52,15 +52,27 @@ namespace DanTup.DartAnalysis
 		void HandleEvent(Event notification)
 		{
 			if (notification is Event<ServerStatusEvent>)
-				serverStatus.OnNext(((Event<ServerStatusEvent>)notification).@params.AsNotification());
+				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisErrorsEvent>)
-				analysisErrors.OnNext(((Event<AnalysisErrorsEvent>)notification).@params.AsNotification());
+				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisHighlightsEvent>)
-				analysisHighlights.OnNext(((Event<AnalysisHighlightsEvent>)notification).@params.AsNotification());
+				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisNavigationEvent>)
-				analysisNavigation.OnNext(((Event<AnalysisNavigationEvent>)notification).@params.AsNotification());
+				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEvent>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisOutlineEvent>)
-				analysisOutline.OnNext(((Event<AnalysisOutlineEvent>)notification).@params.AsNotification());
+				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEvent>)notification).@params.AsNotification());
+		}
+
+		void TryRaiseEvent<T>(Subject<T> subject, Func<T> createNotification)
+		{
+			try
+			{
+				subject.OnNext(createNotification());
+			}
+			catch (Exception ex)
+			{
+				subject.OnError(ex);
+			}
 		}
 
 		#region OMG DO WE STILL HAVE TO DO THIS?
