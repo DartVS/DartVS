@@ -219,3 +219,4 @@ EditorExtensions/Resources/nodejs/
 
 # MergeTools
 *.orig
+DanTup.DartAnalysis.Tests/TestOutput.txt
