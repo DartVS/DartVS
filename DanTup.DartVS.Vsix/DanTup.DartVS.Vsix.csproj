@@ -134,16 +134,11 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
     <Compile Include="Providers\BraceCompletionProvider.cs" />
-    <Compile Include="CommandExecutor.cs" />
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
-    <Compile Include="DartAnalyzer.cs" />
-    <Compile Include="DartAnalyzerErrorService.cs" />
-    <Compile Include="DartAnalzyerOutputParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DartPackage.cs" />
     <Compile Include="Taggers\DartClassifier.cs" />
     <Compile Include="Taggers\DartTagger.cs" />
-    <Compile Include="VsDocumentEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

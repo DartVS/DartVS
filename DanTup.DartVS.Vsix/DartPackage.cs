@@ -15,9 +15,7 @@ namespace DanTup.DartVS
 		[Import]
 		public DartAnalysisService analysisService = null;
 
-		VsDocumentEvents events;
 		DartErrorListProvider errorProvider;
-		ErrorListProvider errorListProvider;
 
 		protected override void Initialize()
 		{
@@ -31,10 +29,10 @@ namespace DanTup.DartVS
 
 			IconRegistration.RegisterIcons();
 		}
-		
+
 		protected override void Dispose(bool disposing)
 		{
-			events.Dispose();
+			analysisService.Dispose();
 		}
 	}
 }
