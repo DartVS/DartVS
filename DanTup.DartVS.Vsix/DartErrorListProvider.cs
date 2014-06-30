@@ -20,7 +20,7 @@ namespace DanTup.DartVS
 
 		internal void UpdateErrors(AnalysisErrorsNotification errorNotification)
 		{
-			// TODO: Fix flickering of errors window (possibly caused by dupe events?)
+			errorProvider.SuspendRefresh();
 			RemoveErrorsForFile(errorNotification.File);
 
 			var errorTasks = errorNotification.Errors.Select(CreateErrorTask);
@@ -35,6 +35,7 @@ namespace DanTup.DartVS
 				};
 				errorProvider.Tasks.Add(error);
 			}
+			errorProvider.ResumeRefresh();
 			errorProvider.Show();
 			errorProvider.ForceShowErrors();
 		}
