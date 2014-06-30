@@ -23,8 +23,9 @@ namespace DanTup.DartVS
 
 			textEditorEvents.LineChanged += (s, e, h) => documentChanged.OnNext(s.Parent.Parent);
 
-			// Don't fire mo
 			documentChanged
+				// TODO: Check whether this is safe? What if the user does find/replace across multiple files?
+				// TODO: Could we group these instead of just taking the "last" (Throttle's behaviour) and send them in one go?
 				.Throttle(TimeSpan.FromMilliseconds(500))
 				.Subscribe(DocumentChanged);
 		}

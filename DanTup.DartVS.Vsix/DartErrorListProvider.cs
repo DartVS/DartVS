@@ -20,6 +20,7 @@ namespace DanTup.DartVS
 
 		internal void UpdateErrors(AnalysisErrorsNotification errorNotification)
 		{
+			// TODO: Fix flickering of errors window (possibly caused by dupe events?)
 			RemoveErrorsForFile(errorNotification.File);
 
 			var errorTasks = errorNotification.Errors.Select(CreateErrorTask);
@@ -60,8 +61,7 @@ namespace DanTup.DartVS
 				Document = analysisError.File,
 				// TODO: Figure this out (we have offset + length!)
 				Line = lineInformaion.Line - 1, // Line appears to be 0-based! :-(
-				Column = lineInformaion.Column,
-
+				Column = lineInformaion.Column
 			};
 		}
 
