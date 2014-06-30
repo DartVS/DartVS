@@ -28,6 +28,7 @@ namespace DanTup.DartAnalysis
 				RedirectStandardInput = true,
 				RedirectStandardOutput = true,
 				RedirectStandardError = true,
+				CreateNoWindow = true,
 			};
 
 			process = Process.Start(info);
