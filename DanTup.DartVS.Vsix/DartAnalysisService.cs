@@ -24,6 +24,9 @@ namespace DanTup.DartVS
 		{
 			this.projectTracker = projectTracker;
 
+			// TODO: Only fire this up when there's at least one Dart project open!
+			// TODO: Shut it down when the last dart project closes!
+
 			// When Dart projects change; update analysis roots
 			this.projectTracker.ProjectsChanged.Subscribe(projs => this.SetAnalysisRoots(projs.Select(p => p.Path).ToArray()));
 		}

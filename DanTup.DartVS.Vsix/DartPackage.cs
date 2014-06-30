@@ -14,18 +14,26 @@ namespace DanTup.DartVS
 		public DartAnalysisService analysisService = null;
 
 		DartErrorListProvider errorProvider;
+		DartFileChangeTracker changeTracking;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
+			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+
+			// Force initialisation of [Imports] on this class.
 			var componentModel = GetService(typeof(SComponentModel)) as IComponentModel;
 			componentModel.DefaultCompositionService.SatisfyImportsOnce(this);
 
-			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+			// Wire up the Error Provider to the notifications from the service.
 			errorProvider = new DartErrorListProvider(dte, this);
 			analysisService.AnalysisErrorsNotification.Subscribe(errorProvider.UpdateErrors);
 
+			// Wire up document change tracking to the service.
+			changeTracking = new DartFileChangeTracker(dte, analysisService);
+
+			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
 		}
 

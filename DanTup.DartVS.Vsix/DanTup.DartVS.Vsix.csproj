@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="DartAnalysisService.cs" />
     <Compile Include="DartErrorListProvider.cs" />
+    <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartProjectInfo.cs" />
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
