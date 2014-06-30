@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.IO;
-using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
@@ -24,7 +22,8 @@ namespace DanTup.DartVS
 			var componentModel = GetService(typeof(SComponentModel)) as IComponentModel;
 			componentModel.DefaultCompositionService.SatisfyImportsOnce(this);
 
-			errorProvider = new DartErrorListProvider(this);
+			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+			errorProvider = new DartErrorListProvider(dte, this);
 			analysisService.AnalysisErrorsNotification.Subscribe(errorProvider.UpdateErrors);
 
 			IconRegistration.RegisterIcons();

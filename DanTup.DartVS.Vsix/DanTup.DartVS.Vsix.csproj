@@ -45,8 +45,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DanTup.DartAnalysis">
-      <HintPath>..\packages\DanTup.DartAnalysis.0.1.3-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
+    <Reference Include="DanTup.DartAnalysis, Version=0.1.5294.32923, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DanTup.DartAnalysis.0.1.4-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
