@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 
@@ -20,6 +22,9 @@ namespace DanTup.DartVS
 
 		ConcurrentDictionary<string, Project> dartProjects = new ConcurrentDictionary<string, Project>();
 		ConcurrentDictionary<string, FileSystemWatcher> openProjectWatchers = new ConcurrentDictionary<string, FileSystemWatcher>();
+
+		Subject<Project[]> projectsChanged = new Subject<Project[]>();
+		public IObservable<Project[]> ProjectsChanged { get { return projectsChanged.AsObservable(); } }
 
 		[ImportingConstructor]
 		public DartProjectTracker([Import]SVsServiceProvider serviceProvider)
@@ -43,7 +48,10 @@ namespace DanTup.DartVS
 			openProjectWatchers.TryAdd(projectFolder, CreateWatcher(project));
 
 			if (IsDartProject(project))
-				dartProjects.TryAdd(projectFolder, project);
+			{
+				if (dartProjects.TryAdd(projectFolder, project))
+					projectsChanged.OnNext(dartProjects.Values.ToArray());
+			}
 		}
 
 		void UntrackProject(Project project)
@@ -58,7 +66,8 @@ namespace DanTup.DartVS
 
 			// Untrack the project
 			Project _;
-			dartProjects.TryRemove(projectFolder, out _);
+			if (dartProjects.TryRemove(projectFolder, out _))
+				projectsChanged.OnNext(dartProjects.Values.ToArray());
 		}
 
 		void UntrackAllProjects()
@@ -70,6 +79,8 @@ namespace DanTup.DartVS
 
 			// Untrack all projects
 			dartProjects.Clear();
+
+			projectsChanged.OnNext(dartProjects.Values.ToArray());
 		}
 
 		string GetProjectLocation(Project project)
