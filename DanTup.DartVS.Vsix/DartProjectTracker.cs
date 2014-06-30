@@ -18,7 +18,7 @@ namespace DanTup.DartVS
 		[Import]
 		internal SVsServiceProvider ServiceProvider = null;
 
-		ConcurrentDictionary<string, Project> trackedDartProjects = new ConcurrentDictionary<string, Project>();
+		ConcurrentDictionary<string, Project> dartProjects = new ConcurrentDictionary<string, Project>();
 
 		[ImportingConstructor]
 		public DartProjectTracker([Import]SVsServiceProvider serviceProvider)
@@ -40,18 +40,18 @@ namespace DanTup.DartVS
 			if (!IsDartProject(project))
 				return;
 
-			trackedDartProjects.TryAdd(GetProjectLocation(project), project);
+			dartProjects.TryAdd(GetProjectLocation(project), project);
 		}
 
 		void UntrackProject(Project project)
 		{
 			Project _;
-			trackedDartProjects.TryRemove(GetProjectLocation(project), out _);
+			dartProjects.TryRemove(GetProjectLocation(project), out _);
 		}
 
 		void UntrackAllProjects()
 		{
-			trackedDartProjects.Clear();
+			dartProjects.Clear();
 		}
 
 		string GetProjectLocation(Project project)
