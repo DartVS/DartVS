@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="IconRegistration.cs" />
     <Compile Include="Providers\BraceCompletionProvider.cs" />
     <Compile Include="CommandExecutor.cs" />
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
@@ -137,7 +138,6 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Screenshot.png">

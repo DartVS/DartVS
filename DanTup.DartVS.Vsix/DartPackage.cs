@@ -29,6 +29,8 @@ namespace DanTup.DartVS
 
 			events.FileSaved += events_File;
 			events.FileShown += events_File;
+
+			IconRegistration.RegisterIcons();
 		}
 
 		void events_File(object sender, string filename)
