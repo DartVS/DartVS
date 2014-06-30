@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
@@ -15,6 +16,7 @@ namespace DanTup.DartVS
 		public DartAnalysisService analysisService = null;
 
 		VsDocumentEvents events;
+		DartErrorListProvider errorProvider;
 		ErrorListProvider errorListProvider;
 
 		protected override void Initialize()
@@ -24,23 +26,12 @@ namespace DanTup.DartVS
 			var componentModel = GetService(typeof(SComponentModel)) as IComponentModel;
 			componentModel.DefaultCompositionService.SatisfyImportsOnce(this);
 
-			events = new VsDocumentEvents();
-			errorListProvider = new ErrorListProvider(this);
-
-			events.FileSaved += events_File;
-			events.FileShown += events_File;
+			errorProvider = new DartErrorListProvider(this);
+			analysisService.AnalysisErrorsNotification.Subscribe(errorProvider.UpdateErrors);
 
 			IconRegistration.RegisterIcons();
 		}
-
-		void events_File(object sender, string filename)
-		{
-			// Kick off a thread; because it might be slow!
-			var isDartFile = string.Equals(Path.GetExtension(filename), ".dart", StringComparison.OrdinalIgnoreCase);
-			if (isDartFile)
-				System.Threading.Tasks.Task.Run(() => DartAnalyzerErrorService.Parse(errorListProvider, filename));
-		}
-
+		
 		protected override void Dispose(bool disposing)
 		{
 			events.Dispose();
