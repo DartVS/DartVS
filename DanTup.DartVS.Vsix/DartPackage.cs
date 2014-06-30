@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 
 namespace DanTup.DartVS
@@ -9,12 +11,18 @@ namespace DanTup.DartVS
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	public sealed class DartPackage : Package
 	{
+		[Import]
+		public DartProjectTracker dartPackageTracker = null;
+
 		VsDocumentEvents events;
 		ErrorListProvider errorListProvider;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
+
+			var componentModel = GetService(typeof(SComponentModel)) as IComponentModel;
+			componentModel.DefaultCompositionService.SatisfyImportsOnce(this);
 
 			events = new VsDocumentEvents();
 			errorListProvider = new ErrorListProvider(this);
