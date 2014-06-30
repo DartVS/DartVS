@@ -23,8 +23,8 @@ namespace DanTup.DartVS
 		ConcurrentDictionary<string, Project> dartProjects = new ConcurrentDictionary<string, Project>();
 		ConcurrentDictionary<string, FileSystemWatcher> openProjectWatchers = new ConcurrentDictionary<string, FileSystemWatcher>();
 
-		Subject<Project[]> projectsChanged = new Subject<Project[]>();
-		public IObservable<Project[]> ProjectsChanged { get { return projectsChanged.AsObservable(); } }
+		ReplaySubject<DartProjectInfo[]> projectsChanged = new ReplaySubject<DartProjectInfo[]>(1); // Keep a buffer of one, so new subscribers get the projects immediately.
+		public IObservable<DartProjectInfo[]> ProjectsChanged { get { return projectsChanged.AsObservable(); } }
 
 		[ImportingConstructor]
 		public DartProjectTracker([Import]SVsServiceProvider serviceProvider)
@@ -50,7 +50,7 @@ namespace DanTup.DartVS
 			if (IsDartProject(project))
 			{
 				if (dartProjects.TryAdd(projectFolder, project))
-					projectsChanged.OnNext(dartProjects.Values.ToArray());
+					RaiseProjectsChanged();
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace DanTup.DartVS
 			// Untrack the project
 			Project _;
 			if (dartProjects.TryRemove(projectFolder, out _))
-				projectsChanged.OnNext(dartProjects.Values.ToArray());
+				RaiseProjectsChanged();
 		}
 
 		void UntrackAllProjects()
@@ -80,7 +80,7 @@ namespace DanTup.DartVS
 			// Untrack all projects
 			dartProjects.Clear();
 
-			projectsChanged.OnNext(dartProjects.Values.ToArray());
+			RaiseProjectsChanged();
 		}
 
 		string GetProjectLocation(Project project)
@@ -102,6 +102,11 @@ namespace DanTup.DartVS
 			watcher.EnableRaisingEvents = true;
 
 			return watcher;
+		}
+
+		void RaiseProjectsChanged()
+		{
+			projectsChanged.OnNext(dartProjects.Values.Select(p => new DartProjectInfo(GetProjectLocation(p), p)).ToArray());
 		}
 
 		void UpdateProject(Project project, string fullPath)

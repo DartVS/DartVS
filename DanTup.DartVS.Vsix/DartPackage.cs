@@ -12,7 +12,7 @@ namespace DanTup.DartVS
 	public sealed class DartPackage : Package
 	{
 		[Import]
-		public DartProjectTracker dartPackageTracker = null;
+		public DartAnalysisService analysisService = null;
 
 		VsDocumentEvents events;
 		ErrorListProvider errorListProvider;
