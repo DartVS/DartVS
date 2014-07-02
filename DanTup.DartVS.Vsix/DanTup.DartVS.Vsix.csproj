@@ -45,9 +45,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DanTup.DartAnalysis, Version=0.1.5296.34416, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DanTup.DartAnalysis, Version=0.1.5296.37518, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DanTup.DartAnalysis.0.1.6-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
+      <HintPath>..\packages\DanTup.DartAnalysis.0.1.8-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -132,6 +132,7 @@
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartProjectInfo.cs" />
+    <Compile Include="OpenFileTracker.cs" />
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="DartPackage.cs" />
     <Compile Include="Taggers\DartClassifier.cs" />
     <Compile Include="Taggers\DartTagger.cs" />
+    <Compile Include="Taggers\ErrorSquiggleTagger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
