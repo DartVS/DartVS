@@ -50,11 +50,10 @@ namespace DanTup.DartVS
 		{
 			return new ErrorTask
 			{
-				// TODO: This is bogus; they don't start with this anymore...
 				ErrorCategory =
-					analysisError.Message.StartsWith("hint") ? TaskErrorCategory.Message
-					: analysisError.Message.StartsWith("warning") ? TaskErrorCategory.Warning
-					: TaskErrorCategory.Error,
+					analysisError.Severity == AnalysisErrorSeverity.Error ? TaskErrorCategory.Error
+					: analysisError.Severity == AnalysisErrorSeverity.Warning ? TaskErrorCategory.Warning
+					: TaskErrorCategory.Message,
 				Text = analysisError.Message,
 				Document = analysisError.Location.File,
 				Line = analysisError.Location.StartLine - 1, // Line appears to be 0-based in VS! :-(
