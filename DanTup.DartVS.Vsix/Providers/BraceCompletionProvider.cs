@@ -7,6 +7,8 @@ namespace DanTup.DartVS
 	[Export(typeof(IBraceCompletionDefaultProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]
 	[BracePair('{', '}')]
+	[BracePair('(', ')')]
+	[BracePair('[', ']')]
 	class BraceCompletionProvider : IBraceCompletionDefaultProvider
 	{
 	}
