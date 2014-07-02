@@ -21,19 +21,23 @@ namespace DanTup.DartAnalysis
 
 		#region Events
 
-		readonly Subject<ServerStatusNotification> serverStatus = new Subject<ServerStatusNotification>();
+		// Note: All subjects hold buffers for 10 seconds to avoid race conditions due to the order of things happening in VS.
+		// (eg. Open Document, which adds a file to Subscriptions, fires before the taggers are created).
+		// This is certainly a big hack; but I think it's better than trying to coordinate setting subscriptions from taggers for now.
+
+		readonly ISubject<ServerStatusNotification> serverStatus = new ReplaySubject<ServerStatusNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<ServerStatusNotification> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
 
-		readonly Subject<AnalysisErrorsNotification> analysisErrors = new Subject<AnalysisErrorsNotification>();
+		readonly ISubject<AnalysisErrorsNotification> analysisErrors = new ReplaySubject<AnalysisErrorsNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisErrorsNotification> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
 
-		readonly Subject<AnalysisHighlightsNotification> analysisHighlights = new Subject<AnalysisHighlightsNotification>();
+		readonly ISubject<AnalysisHighlightsNotification> analysisHighlights = new ReplaySubject<AnalysisHighlightsNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisHighlightsNotification> AnalysisHighlightsNotification { get { return analysisHighlights.AsObservable(); } }
 
-		readonly Subject<AnalysisNavigationNotification> analysisNavigation = new Subject<AnalysisNavigationNotification>();
+		readonly ISubject<AnalysisNavigationNotification> analysisNavigation = new ReplaySubject<AnalysisNavigationNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisNavigationNotification> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
 
-		readonly Subject<AnalysisOutlineNotification> analysisOutline = new Subject<AnalysisOutlineNotification>();
+		readonly ISubject<AnalysisOutlineNotification> analysisOutline = new ReplaySubject<AnalysisOutlineNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisOutlineNotification> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
 
 		#endregion
@@ -63,7 +67,7 @@ namespace DanTup.DartAnalysis
 				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEventJson>)notification).@params.AsNotification());
 		}
 
-		void TryRaiseEvent<T>(Subject<T> subject, Func<T> createNotification)
+		void TryRaiseEvent<T>(ISubject<T> subject, Func<T> createNotification)
 		{
 			try
 			{
