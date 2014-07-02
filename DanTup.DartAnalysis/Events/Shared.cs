@@ -4,7 +4,7 @@ namespace DanTup.DartAnalysis
 {
 	#region JSON deserialisation objects
 
-	class AnalysisElementDetails
+	class AnalysisElementJson
 	{
 		public string kind = null;
 		public string name = null;
@@ -13,6 +13,15 @@ namespace DanTup.DartAnalysis
 		public int flags = 0;
 		public string parameters = null;
 		public string returnType = null;
+	}
+
+	class AnalysisLocationJson
+	{
+		public string file = null;
+		public int offset = 0;
+		public int length = 0;
+		public int startLine = 0;
+		public int startColumn = 0;
 	}
 
 	#endregion
@@ -27,6 +36,15 @@ namespace DanTup.DartAnalysis
 		public string Parameters { get; internal set; }
 		public string ReturnType { get; internal set; }
 		public AnalysisOutline[] Children { get; internal set; }
+	}
+
+	public struct AnalysisLocation
+	{
+		public string File { get; internal set; }
+		public int Offset { get; internal set; }
+		public int Length { get; internal set; }
+		public int StartLine { get; internal set; }
+		public int StartColumn { get; internal set; }
 	}
 
 	public enum ElementKind

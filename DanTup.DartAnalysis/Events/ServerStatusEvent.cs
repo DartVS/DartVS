@@ -3,12 +3,12 @@ namespace DanTup.DartAnalysis
 {
 	#region JSON deserialisation objects
 
-	class ServerStatusEvent
+	class ServerStatusEventJson
 	{
-		public ServerAnalysisStatus analysis = null;
+		public ServerAnalysisStatusJson analysis = null;
 	}
 
-	class ServerAnalysisStatus
+	class ServerAnalysisStatusJson
 	{
 		public bool analyzing = false;
 	}
@@ -22,7 +22,7 @@ namespace DanTup.DartAnalysis
 
 	internal static class ServerStatusEventImplementation
 	{
-		public static ServerStatusNotification AsNotification(this ServerStatusEvent notification)
+		public static ServerStatusNotification AsNotification(this ServerStatusEventJson notification)
 		{
 			return new ServerStatusNotification { IsAnalysing = notification.analysis.analyzing };
 		}

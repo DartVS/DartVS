@@ -5,13 +5,13 @@ namespace DanTup.DartAnalysis
 {
 	#region JSON deserialisation objects
 
-	class AnalysisHighlightsEvent
+	class AnalysisHighlightsEventJson
 	{
 		public string file = null;
-		public AnalysisHighlightRegionDetails[] regions = null;
+		public AnalysisHighlightRegionJson[] regions = null;
 	}
 
-	class AnalysisHighlightRegionDetails
+	class AnalysisHighlightRegionJson
 	{
 		public int offset = 0;
 		public int length = 0;
@@ -76,7 +76,7 @@ namespace DanTup.DartAnalysis
 	{
 		static HighlightType[] HighlightTypes = Enum.GetValues(typeof(HighlightType)).Cast<HighlightType>().ToArray();
 
-		public static AnalysisHighlightsNotification AsNotification(this AnalysisHighlightsEvent notification)
+		public static AnalysisHighlightsNotification AsNotification(this AnalysisHighlightsEventJson notification)
 		{
 			return new AnalysisHighlightsNotification
 			{

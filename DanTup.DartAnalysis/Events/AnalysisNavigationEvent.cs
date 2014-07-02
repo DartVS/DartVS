@@ -5,25 +5,25 @@ namespace DanTup.DartAnalysis
 {
 	#region JSON deserialisation objects
 
-	class AnalysisNavigationEvent
+	class AnalysisNavigationEventJson
 	{
 		public string file = null;
-		public AnalysisNavigationRegionDetails[] regions = null;
+		public AnalysisNavigationRegionJson[] regions = null;
 	}
 
-	class AnalysisNavigationRegionDetails
+	class AnalysisNavigationRegionJson
 	{
 		public int offset = 0;
 		public int length = 0;
-		public AnalysisNavigationTargetDetails[] targets = null;
+		public AnalysisNavigationTargetJson[] targets = null;
 	}
 
-	class AnalysisNavigationTargetDetails
+	class AnalysisNavigationTargetJson
 	{
 		public string file = null;
 		public int offset = 0;
 		public int length = 0;
-		public AnalysisElementDetails element = null;
+		public AnalysisElementJson element = null;
 	}
 
 	#endregion
@@ -53,7 +53,7 @@ namespace DanTup.DartAnalysis
 	{
 		static ElementKind[] ElementKinds = Enum.GetValues(typeof(ElementKind)).Cast<ElementKind>().ToArray();
 
-		public static AnalysisNavigationNotification AsNotification(this AnalysisNavigationEvent notification)
+		public static AnalysisNavigationNotification AsNotification(this AnalysisNavigationEventJson notification)
 		{
 			return new AnalysisNavigationNotification
 			{

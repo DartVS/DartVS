@@ -51,16 +51,16 @@ namespace DanTup.DartAnalysis
 
 		void HandleEvent(Event notification)
 		{
-			if (notification is Event<ServerStatusEvent>)
-				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEvent>)notification).@params.AsNotification());
-			else if (notification is Event<AnalysisErrorsEvent>)
-				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEvent>)notification).@params.AsNotification());
-			else if (notification is Event<AnalysisHighlightsEvent>)
-				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEvent>)notification).@params.AsNotification());
-			else if (notification is Event<AnalysisNavigationEvent>)
-				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEvent>)notification).@params.AsNotification());
-			else if (notification is Event<AnalysisOutlineEvent>)
-				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEvent>)notification).@params.AsNotification());
+			if (notification is Event<ServerStatusEventJson>)
+				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisErrorsEventJson>)
+				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisHighlightsEventJson>)
+				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisNavigationEventJson>)
+				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisOutlineEventJson>)
+				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEventJson>)notification).@params.AsNotification());
 		}
 
 		void TryRaiseEvent<T>(Subject<T> subject, Func<T> createNotification)
