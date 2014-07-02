@@ -152,32 +152,32 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(5, regions[0].Offset);
 					Assert.Equal(4, regions[0].Length);
 					Assert.Equal(1, regions[0].Targets.Length);
-					Assert.Equal(HelloWorldFile, regions[0].Targets[0].File);
-					Assert.Equal(5, regions[0].Targets[0].Offset);
-					Assert.Equal(4, regions[0].Targets[0].Length);
-					Assert.Equal(ElementKind.Function, regions[0].Targets[0].Element.Kind);
-					Assert.Equal("main", regions[0].Targets[0].Element.Name);
-					Assert.Equal(5, regions[0].Targets[0].Element.Offset);
-					Assert.Equal(4, regions[0].Targets[0].Element.Length);
-					Assert.Equal(AnalysisElementFlags.Static, regions[0].Targets[0].Element.Flags);
-					Assert.Equal("()", regions[0].Targets[0].Element.Parameters);
-					Assert.Equal("void", regions[0].Targets[0].Element.ReturnType);
-					Assert.Null(regions[0].Targets[0].Element.Children);
+					Assert.Equal(HelloWorldFile, regions[0].Targets[0].Location.File);
+					Assert.Equal(5, regions[0].Targets[0].Location.Offset);
+					Assert.Equal(4, regions[0].Targets[0].Location.Length);
+					Assert.Equal(1, regions[0].Targets[0].Location.StartLine);
+					Assert.Equal(6, regions[0].Targets[0].Location.StartColumn);
+					Assert.Equal(ElementKind.Function, regions[0].Targets[0].Kind);
+					Assert.Equal("main", regions[0].Targets[0].Name);
+					Assert.Equal(AnalysisElementFlags.Static, regions[0].Targets[0].Flags);
+					Assert.Equal("()", regions[0].Targets[0].Parameters);
+					Assert.Equal("void", regions[0].Targets[0].ReturnType);
+					Assert.Null(regions[0].Targets[0].Children);
 
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
 					Assert.Equal(1, regions[1].Targets.Length);
-					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].File);
-					Assert.Equal(307, regions[1].Targets[0].Offset);
-					Assert.Equal(5, regions[1].Targets[0].Length);
-					Assert.Equal(ElementKind.Function, regions[1].Targets[0].Element.Kind);
-					Assert.Equal("print", regions[1].Targets[0].Element.Name);
-					Assert.Equal(307, regions[1].Targets[0].Element.Offset);
-					Assert.Equal(5, regions[1].Targets[0].Element.Length);
-					Assert.Equal(AnalysisElementFlags.Static, regions[1].Targets[0].Element.Flags);
-					Assert.Equal("(Object object)", regions[1].Targets[0].Element.Parameters);
-					Assert.Equal("void", regions[1].Targets[0].Element.ReturnType);
-					Assert.Null(regions[1].Targets[0].Element.Children);
+					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].Location.File);
+					Assert.Equal(307, regions[1].Targets[0].Location.Offset);
+					Assert.Equal(5, regions[1].Targets[0].Location.Length);
+					Assert.Equal(8, regions[1].Targets[0].Location.StartLine);
+					Assert.Equal(6, regions[1].Targets[0].Location.StartColumn);
+					Assert.Equal(ElementKind.Function, regions[1].Targets[0].Kind);
+					Assert.Equal("print", regions[1].Targets[0].Name);
+					Assert.Equal(AnalysisElementFlags.Static, regions[1].Targets[0].Flags);
+					Assert.Equal("(Object object)", regions[1].Targets[0].Parameters);
+					Assert.Equal("void", regions[1].Targets[0].ReturnType);
+					Assert.Null(regions[1].Targets[0].Children);
 				}
 			}
 		}
@@ -210,12 +210,18 @@ namespace DanTup.DartAnalysis.Tests
 						{
 							Kind = ElementKind.CompilationUnit,
 							Name = "<unit>",
-							Offset = 0,
-							Length = 43,
+							Location = new AnalysisLocation
+							{
+								File = HelloWorldFile,
+								Offset = 0,
+								Length = 45,
+								StartLine = 1,
+								StartColumn = 1,
+							},
 							Flags = AnalysisElementFlags.None,
 						},
 						Offset = 0,
-						Length = 43,
+						Length = 45,
 						Children = new[] {
 							new AnalysisOutline
 							{
@@ -223,8 +229,14 @@ namespace DanTup.DartAnalysis.Tests
 								{
 									Kind = ElementKind.Function,
 									Name = "main",
-									Offset = 5,
-									Length = 4,
+									Location = new AnalysisLocation
+									{
+										File = HelloWorldFile,
+										Offset = 5,
+										Length = 4,
+										StartLine = 1,
+										StartColumn = 6,
+									},
 									Flags = AnalysisElementFlags.Static,
 									Parameters = "()",
 									ReturnType = "void"

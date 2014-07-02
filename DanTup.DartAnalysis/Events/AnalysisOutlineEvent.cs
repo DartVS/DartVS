@@ -48,8 +48,14 @@ namespace DanTup.DartAnalysis
 					{
 						Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == o.element.kind.ToLowerInvariant().Replace("_", "")),
 						Name = o.element.name,
-						Offset = o.element.offset,
-						Length = o.element.length,
+						Location = new AnalysisLocation
+						{
+							File = o.element.location.file,
+							Offset = o.element.location.offset,
+							Length = o.element.location.length,
+							StartLine = o.element.location.startLine,
+							StartColumn = o.element.location.startColumn,
+						},
 						Flags = (AnalysisElementFlags)o.element.flags,
 						Parameters = o.element.parameters,
 						ReturnType = o.element.returnType,

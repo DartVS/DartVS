@@ -8,8 +8,7 @@ namespace DanTup.DartAnalysis
 	{
 		public string kind = null;
 		public string name = null;
-		public int offset = 0;
-		public int length = 0;
+		public AnalysisLocationJson location = null;
 		public int flags = 0;
 		public string parameters = null;
 		public string returnType = null;
@@ -30,8 +29,7 @@ namespace DanTup.DartAnalysis
 	{
 		public ElementKind Kind { get; internal set; }
 		public string Name { get; internal set; }
-		public int Offset { get; internal set; }
-		public int Length { get; internal set; }
+		public AnalysisLocation Location { get; internal set; }
 		public AnalysisElementFlags Flags { get; internal set; }
 		public string Parameters { get; internal set; }
 		public string ReturnType { get; internal set; }

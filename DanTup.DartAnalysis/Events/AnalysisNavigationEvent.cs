@@ -15,15 +15,7 @@ namespace DanTup.DartAnalysis
 	{
 		public int offset = 0;
 		public int length = 0;
-		public AnalysisNavigationTargetJson[] targets = null;
-	}
-
-	class AnalysisNavigationTargetJson
-	{
-		public string file = null;
-		public int offset = 0;
-		public int length = 0;
-		public AnalysisElementJson element = null;
+		public AnalysisElementJson[] targets = null;
 	}
 
 	#endregion
@@ -38,15 +30,7 @@ namespace DanTup.DartAnalysis
 	{
 		public int Offset { get; internal set; }
 		public int Length { get; internal set; }
-		public AnalysisNavigationTarget[] Targets { get; internal set; }
-	}
-
-	public struct AnalysisNavigationTarget
-	{
-		public string File;
-		public int Offset;
-		public int Length;
-		public AnalysisElement Element;
+		public AnalysisElement[] Targets { get; internal set; }
 	}
 
 	internal static class AnalysisNavigationEventImplementation
@@ -62,21 +46,21 @@ namespace DanTup.DartAnalysis
 				{
 					Offset = e.offset,
 					Length = e.length,
-					Targets = e.targets.Select(t => new AnalysisNavigationTarget
+					Targets = e.targets.Select(t => new AnalysisElement
 					{
-						File = t.file,
-						Offset = t.offset,
-						Length = t.length,
-						Element = new AnalysisElement
+						Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == t.kind.ToLowerInvariant().Replace("_", "")),
+						Name = t.name,
+						Location = new AnalysisLocation
 						{
-							Kind = ElementKinds.FirstOrDefault(ek => ek.ToString().ToLowerInvariant() == t.element.kind.ToLowerInvariant().Replace("_", "")),
-							Name = t.element.name,
-							Offset = t.element.offset,
-							Length = t.element.length,
-							Flags = (AnalysisElementFlags)t.element.flags,
-							Parameters = t.element.parameters,
-							ReturnType = t.element.returnType,
-						}
+							File = t.location.file,
+							Offset = t.location.offset,
+							Length = t.location.length,
+							StartLine = t.location.startLine,
+							StartColumn = t.location.startColumn,
+						},
+						Flags = (AnalysisElementFlags)t.flags,
+						Parameters = t.parameters,
+						ReturnType = t.returnType,
 					}).ToArray()
 				}).ToArray(),
 			};
