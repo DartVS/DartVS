@@ -61,13 +61,24 @@ namespace DanTup.DartAnalysis
 	// TODO: Add all of these
 	public enum AnalysisErrorSeverity
 	{
-		Warning
+		None,
+		Info,
+		Warning,
+		Error
 	}
 
 	// TODO: Add all of these (inc. comments what they mean!)
 	public enum AnalysisErrorType
 	{
-		StaticWarning
+		TODO,
+		Hint,
+		CompileTimeError,
+		PunSuggestion,
+		StaticWarning,
+		StaticTypeWarning,
+		SyntacticError,
+		Angular,
+		Polymer
 	}
 
 	internal static class AnalysisErrorsEventImplementation
