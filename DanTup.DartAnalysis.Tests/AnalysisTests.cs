@@ -26,12 +26,14 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Ensure the error-free file got no errors.
-					Assert.Equal(0, errors.Where(e => e.File == HelloWorldFile).Count());
+					Assert.Equal(0, errors.Where(e => e.Location.File == HelloWorldFile).Count());
 
 					// Ensure the single-error file got the expected error.
-					Assert.Equal(1, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
-					var error = errors.First(e => e.File == SingleTypeErrorFile);
+					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
+					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
 					Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
+					Assert.Equal(AnalysisErrorSeverity.Warning, error.Severity);
+					Assert.Equal(AnalysisErrorType.StaticWarning, error.Type);
 				}
 			}
 		}
@@ -54,7 +56,7 @@ namespace DanTup.DartAnalysis.Tests
 				}
 
 				// Ensure we got the expected error in single_type_error.
-				Assert.Equal(1, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
+				Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
 
 				// Clear the error list ready for next time.
 				errors.Clear();
@@ -80,7 +82,7 @@ namespace DanTup.DartAnalysis.Tests
 				}
 
 				// Ensure the error has gone away.
-				Assert.Equal(0, errors.Where(e => e.File == SingleTypeErrorFile).Distinct().Count());
+				Assert.Equal(0, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
 			}
 		}
 

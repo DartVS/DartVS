@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace DanTup.DartAnalysis
 {
@@ -12,10 +13,10 @@ namespace DanTup.DartAnalysis
 
 	class AnalysisErrorDetails
 	{
-		public string file = null;
 		public string errorCode = null;
-		public int offset = 0;
-		public int length = 0;
+		public string severity = null;
+		public string type = null;
+		public AnalysisErrorLocationDetails location = null;
 		public string message = null;
 
 		#region Equality checks
@@ -40,6 +41,15 @@ namespace DanTup.DartAnalysis
 		#endregion
 	}
 
+	class AnalysisErrorLocationDetails
+	{
+		public string file = null;
+		public int offset = 0;
+		public int length = 0;
+		public int startLine = 0;
+		public int startColumn = 0;
+	}
+
 	#endregion
 
 	public struct AnalysisErrorsNotification
@@ -50,15 +60,37 @@ namespace DanTup.DartAnalysis
 
 	public struct AnalysisError
 	{
-		public string File { get; internal set; }
 		public string ErrorCode { get; internal set; }
+		public AnalysisErrorSeverity Severity { get; internal set; }
+		public AnalysisErrorType Type { get; internal set; }
+		public AnalysisErrorLocation Location { get; internal set; }
+		public string Message { get; internal set; }
+	}
+
+	public struct AnalysisErrorLocation
+	{
+		public string File { get; internal set; }
 		public int Offset { get; internal set; }
 		public int Length { get; internal set; }
-		public string Message { get; internal set; }
+		public int StartLine { get; internal set; }
+		public int StartColumn { get; internal set; }
+	}
+
+	public enum AnalysisErrorSeverity
+	{
+		Warning
+	}
+
+	public enum AnalysisErrorType
+	{
+		StaticWarning
 	}
 
 	internal static class AnalysisErrorsEventImplementation
 	{
+		static AnalysisErrorSeverity[] ErrorSeverities = Enum.GetValues(typeof(AnalysisErrorSeverity)).Cast<AnalysisErrorSeverity>().ToArray();
+		static AnalysisErrorType[] ErrorTypes = Enum.GetValues(typeof(AnalysisErrorType)).Cast<AnalysisErrorType>().ToArray();
+
 		public static AnalysisErrorsNotification AsNotification(this AnalysisErrorsEvent notification)
 		{
 			return new AnalysisErrorsNotification
@@ -66,10 +98,17 @@ namespace DanTup.DartAnalysis
 				File = notification.file,
 				Errors = notification.errors.Select(e => new AnalysisError
 				{
-					File = e.file,
 					ErrorCode = e.errorCode,
-					Offset = e.offset,
-					Length = e.length,
+					Severity = ErrorSeverities.FirstOrDefault(s => s.ToString().ToLowerInvariant() == e.severity.ToLowerInvariant().Replace("_", "")),
+					Type = ErrorTypes.FirstOrDefault(et => et.ToString().ToLowerInvariant() == e.type.ToLowerInvariant().Replace("_", "")),
+					Location = new AnalysisErrorLocation
+					{
+						File = e.location.file,
+						Offset = e.location.offset,
+						Length = e.location.length,
+						StartLine = e.location.startLine,
+						StartColumn = e.location.startColumn,
+					},
 					Message = e.message,
 				}).ToArray(),
 			};
