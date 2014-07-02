@@ -20,6 +20,8 @@ namespace DanTup.DartVS
 		[Import]
 		internal SVsServiceProvider ServiceProvider = null;
 
+		SolutionEvents solutionEvents;
+
 		ConcurrentDictionary<string, Project> dartProjects = new ConcurrentDictionary<string, Project>();
 		ConcurrentDictionary<string, FileSystemWatcher> openProjectWatchers = new ConcurrentDictionary<string, FileSystemWatcher>();
 
@@ -32,9 +34,10 @@ namespace DanTup.DartVS
 			var dte = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
 
 			// Subscribe to project changes.
-			dte.Events.SolutionEvents.ProjectAdded += TrackProject;
-			dte.Events.SolutionEvents.ProjectRemoved += UntrackProject;
-			dte.Events.SolutionEvents.BeforeClosing += UntrackAllProjects;
+			solutionEvents = dte.Events.SolutionEvents;
+			solutionEvents.ProjectAdded += TrackProject;
+			solutionEvents.ProjectRemoved += UntrackProject;
+			solutionEvents.BeforeClosing += UntrackAllProjects;
 
 			// Subscribe for existing projects already open when we were triggered.
 			foreach (Project project in dte.Solution.Projects)
@@ -139,7 +142,7 @@ namespace DanTup.DartVS
 				);
 		}
 
-		bool IsDartFile(string filename)
+		internal static bool IsDartFile(string filename)
 		{
 			return string.Equals(Path.GetExtension(filename), ".dart", StringComparison.OrdinalIgnoreCase);
 		}
