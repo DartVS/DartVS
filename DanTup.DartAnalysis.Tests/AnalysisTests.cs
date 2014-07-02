@@ -39,6 +39,38 @@ namespace DanTup.DartAnalysis.Tests
 		}
 
 		[Fact]
+		public async Task SubscribeToErrorsAfterInitialAnalysis()
+		{
+			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			{
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+
+				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
+				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
+				using (analysisCompleteEvent.Connect())
+				{
+					// Send a request to do some analysis.
+					await service.SetAnalysisRoots(new[] { SampleDartProject });
+					await analysisCompleteEvent;
+
+					errors.Clear();
+
+					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Errors }, SingleTypeErrorFile);
+
+					// Ensure the error-free file got no errors.
+					Assert.Equal(0, errors.Where(e => e.Location.File == HelloWorldFile).Count());
+
+					// Ensure the single-error file got the expected error.
+					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
+					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
+					Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
+					Assert.Equal(AnalysisErrorSeverity.Warning, error.Severity);
+					Assert.Equal(AnalysisErrorType.StaticWarning, error.Type);
+				}
+			}
+		}
+
+		[Fact]
 		public async Task TestAnalysisUpdateContent()
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))

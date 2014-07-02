@@ -43,6 +43,7 @@ namespace DanTup.DartAnalysis
 
 	public enum AnalysisSubscription
 	{
+		Errors,
 		Highlights,
 		Navigation,
 		Outline
