@@ -8,5 +8,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright Danny Tuppeny © 2014")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.1.*")]
-[assembly: AssemblyInformationalVersion("0.1.6-alpha")]
+[assembly: AssemblyInformationalVersion("0.1.7-alpha")]
 [assembly: InternalsVisibleTo("DanTup.DartAnalysis.Tests")]
