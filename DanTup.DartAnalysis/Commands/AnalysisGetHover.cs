@@ -35,6 +35,9 @@ namespace DanTup.DartAnalysis
 		public string containingLibraryName;
 		public string dartdoc;
 		public string elementDescription;
+		public string parameter;
+		public string propagatedType;
+		public string staticType;
 	}
 
 	public static class AnalysisGetHoverImplementation
