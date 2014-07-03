@@ -53,7 +53,14 @@ namespace DanTup.DartVS.Taggers
 		public IEnumerable<ITagSpan<ErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans)
 		{
 			foreach (var error in currentErrors)
+			{
+				// VS will crash if we pass an invalid span. Since our error might arrive after more changes are made; we'll have to filter
+				// them out here.
+				if (error.Location.Offset + error.Location.Length > buffer.CurrentSnapshot.Length)
+					continue;
+
 				yield return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag("syntax error", error.Message));
+			}
 		}
 
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
