@@ -291,34 +291,5 @@ namespace DanTup.DartAnalysis.Tests
 				}
 			}
 		}
-
-		[Fact]
-		public async Task AnalysisGetHover()
-		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
-			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
-				//var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
-
-				//List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
-				//using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
-				using (analysisCompleteEvent.Connect())
-				//using (analysisHighlightEvent.Connect())
-				{
-					// Set the roots to our known project and wait for the analysis to complete.
-					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
-
-					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
-					var hovers = await service.GetHover(HelloWorldFile, 19);
-
-					Assert.Equal(1, hovers.Length);
-					Assert.Equal("M:\\Apps\\Dart\\sdk\\lib\\core/core.dart", hovers[0].containingLibraryPath);
-					Assert.Equal("dart.core", hovers[0].containingLibraryName);
-					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].dartdoc);
-					Assert.Equal("", hovers[0].elementDescription);
-				}
-			}
-		}
 	}
 }

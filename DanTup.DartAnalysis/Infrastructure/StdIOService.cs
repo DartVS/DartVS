@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text;
 
 namespace DanTup.DartAnalysis
 {
@@ -30,7 +29,6 @@ namespace DanTup.DartAnalysis
 				RedirectStandardOutput = true,
 				RedirectStandardError = true,
 				CreateNoWindow = true,
-				StandardOutputEncoding = Encoding.UTF8,
 			};
 
 			process = Process.Start(info);
