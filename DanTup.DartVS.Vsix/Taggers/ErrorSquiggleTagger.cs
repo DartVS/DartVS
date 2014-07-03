@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -37,7 +35,15 @@ namespace DanTup.DartVS.Taggers
 
 		protected override ITagSpan<ErrorTag> CreateTag(AnalysisError error)
 		{
-			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag("syntax error", error.Message));
+			// syntax error: red
+			// compiler error: blue
+			// other error: purple
+			// warning: red
+			var squiggleType = error.Severity == AnalysisErrorSeverity.Error ? "syntax error"
+				: error.Severity == AnalysisErrorSeverity.Warning ? "compiler error"
+				: "other error";
+
+			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
 
 		protected override void Subscribe(Action<AnalysisErrorsNotification> updateSourceData)
