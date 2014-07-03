@@ -63,7 +63,7 @@ namespace DanTup.DartVS.Taggers
 				// Get the start/end of items, then calculate the length (EventArgs wants offset/length, not start/end offsets).
 				var earliestOffset = allTagLocations.Min(l => l.Item1);
 				var latestOffset = allTagLocations.Max(l => l.Item1 + l.Item2);
-				var length = latestOffset = earliestOffset;
+				var length = latestOffset - earliestOffset;
 
 				// Clamp both values within the current buffer, in case we deleted a chunk, and there were old issues past the end
 				// of the "current" document.
