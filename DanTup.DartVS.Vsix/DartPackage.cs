@@ -16,6 +16,9 @@ namespace DanTup.DartVS
 		DartErrorListProvider errorProvider;
 		DartFileChangeTracker changeTracking;
 
+		// TODO: Handle file renames properly (errors stick around)
+		// TODO: Handle closing projects/solutions (errors stick around)
+
 		protected override void Initialize()
 		{
 			base.Initialize();

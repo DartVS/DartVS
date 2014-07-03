@@ -14,7 +14,7 @@ namespace DanTup.DartVS
 	{
 		readonly DartProjectTracker projectTracker;
 		readonly OpenFileTracker openFileTracker;
-		readonly AnalysisSubscription[] subscriptions = new[] { AnalysisSubscription.Errors };
+		readonly AnalysisSubscription[] subscriptions = new[] { AnalysisSubscription.Errors, AnalysisSubscription.Highlights, AnalysisSubscription.Outline, AnalysisSubscription.Navigation };
 
 		static readonly string SdkPath =
 			Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.User)
