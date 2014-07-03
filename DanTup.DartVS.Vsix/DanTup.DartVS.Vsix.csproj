@@ -45,9 +45,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DanTup.DartAnalysis, Version=0.1.5296.37518, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DanTup.DartAnalysis, Version=0.1.5297.29062, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DanTup.DartAnalysis.0.1.8-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
+      <HintPath>..\packages\DanTup.DartAnalysis.0.1.10-alpha\lib\net45\DanTup.DartAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -146,6 +146,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DartPackage.cs" />
     <Compile Include="Providers\PeekableItemProvider.cs" />
+    <Compile Include="Providers\QuickInfoControllerProvider.cs" />
+    <Compile Include="Providers\QuickInfoSourceProvider.cs" />
     <Compile Include="Providers\SmartIndentProvider.cs" />
     <Compile Include="Taggers\AnalysisNotificationTagger.cs" />
     <Compile Include="Taggers\ClassificationTagger.cs" />
