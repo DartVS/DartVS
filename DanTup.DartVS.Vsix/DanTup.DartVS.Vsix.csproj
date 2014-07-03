@@ -142,6 +142,7 @@
     <Compile Include="DartPackage.cs" />
     <Compile Include="Taggers\DartClassifier.cs" />
     <Compile Include="Taggers\DartTagger.cs" />
+    <Compile Include="Taggers\GenericTagger.cs" />
     <Compile Include="Taggers\ErrorSquiggleTagger.cs" />
   </ItemGroup>
   <ItemGroup>
