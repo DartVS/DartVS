@@ -48,44 +48,29 @@ namespace DanTup.DartVS.Taggers
 
 		private void UpdateSourceData(TNotificationType notification)
 		{
-			var dataToTag = GetDataToTag(notification);
+			var newData = GetDataToTag(notification);
 
-			Interlocked.Exchange(ref currentData, dataToTag);
+			var oldData = Interlocked.Exchange(ref currentData, newData);
 
-			if (dataToTag.Any())
+			var handler = this.TagsChanged;
+			if (handler != null && (oldData.Any() || newData.Any()))
 			{
-				// Figure out the smallest span that we have errors for.
-				var locationInfo = dataToTag.Select(e => GetOffsetAndLength(e));
-				var newEarliestOffset = locationInfo.Min(e => e.Item1);
-				var newLatestEnd = locationInfo.Max(e => e.Item1 + e.Item2);
+				// Get locations of all tags; existing and new, so that we can calculate the span that has changed.
+				// TODO: Figure out if it's more efficient to do lots of small spans (each tag), or one big span...
+				var allTags = oldData.Concat(newData);
+				var allTagLocations = allTags.Select(GetOffsetAndLength);
 
-				var startPositionToUse = Math.Min(earliestOffset, newEarliestOffset);
-				var endPositionToUse = Math.Max(latestEnd, newLatestEnd);
-				var lengthToUse = Math.Min(endPositionToUse - startPositionToUse, buffer.CurrentSnapshot.Length - startPositionToUse);
+				// Get the start/end of items, then calculate the length (EventArgs wants offset/length, not start/end offsets).
+				var earliestOffset = allTagLocations.Min(l => l.Item1);
+				var latestOffset = allTagLocations.Max(l => l.Item1 + l.Item2);
+				var length = latestOffset = earliestOffset;
 
-				var handler = this.TagsChanged;
-				if (handler != null)
-					// Use the biggest span that includes boh previous and new errors, so we correctly remove any that are gone.
-					handler(this, new SnapshotSpanEventArgs(new SnapshotSpan(buffer.CurrentSnapshot, startPositionToUse, lengthToUse)));
+				// Clamp both values within the current buffer, in case we deleted a chunk, and there were old issues past the end
+				// of the "current" document.
+				earliestOffset = Math.Min(earliestOffset, buffer.CurrentSnapshot.Length);
+				length = Math.Min(length, buffer.CurrentSnapshot.Length - earliestOffset);
 
-				// Remember for next time round.
-				earliestOffset = newEarliestOffset;
-				latestEnd = newLatestEnd;
-			}
-			else
-			{
-				// No new errors, so just invalidate the old ones.
-				var startPositionToUse = earliestOffset;
-				var endPositionToUse = Math.Min(latestEnd, buffer.CurrentSnapshot.Length);
-				var lengthToUse = Math.Min(endPositionToUse - startPositionToUse, buffer.CurrentSnapshot.Length - startPositionToUse);
-
-				var handler = this.TagsChanged;
-				if (handler != null)
-					// Use the biggest span that includes boh previous and new errors, so we correctly remove any that are gone.
-					handler(this, new SnapshotSpanEventArgs(new SnapshotSpan(buffer.CurrentSnapshot, earliestOffset, lengthToUse)));
-
-				earliestOffset = 0;
-				latestEnd = 0;
+				handler(this, new SnapshotSpanEventArgs(new SnapshotSpan(buffer.CurrentSnapshot, earliestOffset, length)));
 			}
 		}
 
