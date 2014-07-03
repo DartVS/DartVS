@@ -140,7 +140,7 @@
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DartPackage.cs" />
-    <Compile Include="Providers\SmartIndentPovider.cs" />
+    <Compile Include="Providers\SmartIndentProvider.cs" />
     <Compile Include="Taggers\AnalysisNotificationTagger.cs" />
     <Compile Include="Taggers\ClassificationTagger.cs" />
     <Compile Include="Taggers\ErrorSquiggleTagger.cs" />
