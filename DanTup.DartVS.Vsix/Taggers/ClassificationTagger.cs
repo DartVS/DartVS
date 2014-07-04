@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using DanTup.DartAnalysis;
@@ -93,6 +94,11 @@ namespace DanTup.DartVS.Taggers
 
 		protected override AnalysisHighlightRegion[] GetDataToTag(AnalysisHighlightsNotification notification)
 		{
+			// HACK: This happens if when the base constructor Subscribes, we already ahve an event in the stream...
+			// TODO: Make this better. Ideally, we need to set classificationMapping before the base class Subscribes...
+			if (classificationMapping == null)
+				return new AnalysisHighlightRegion[0];
+
 			return notification.Regions.Where(h => classificationMapping.ContainsKey(h.Type)).ToArray();
 		}
 
