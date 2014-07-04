@@ -313,10 +313,16 @@ namespace DanTup.DartAnalysis.Tests
 					var hovers = await service.GetHover(HelloWorldFile, 19);
 
 					Assert.Equal(1, hovers.Length);
+					Assert.Equal(17, hovers[0].offset);
+					Assert.Equal(5, hovers[0].length);
 					Assert.Equal("M:\\Apps\\Dart\\sdk\\lib\\core/core.dart", hovers[0].containingLibraryPath);
 					Assert.Equal("dart.core", hovers[0].containingLibraryName);
 					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].dartdoc);
+					Assert.Equal("function", hovers[0].elementKind);
 					Assert.Equal("print(Object object) → void", hovers[0].elementDescription);
+					Assert.Null(hovers[0].propagatedType);
+					Assert.Null(hovers[0].staticType);
+					Assert.Null(hovers[0].parameter);
 				}
 			}
 		}

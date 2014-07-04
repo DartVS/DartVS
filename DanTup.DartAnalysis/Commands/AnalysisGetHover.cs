@@ -31,13 +31,16 @@ namespace DanTup.DartAnalysis
 
 	public class AnalysisHoverItem
 	{
+		public int offset;
+		public int length;
 		public string containingLibraryPath;
 		public string containingLibraryName;
 		public string dartdoc;
+		public string elementKind;
 		public string elementDescription;
-		public string parameter;
 		public string propagatedType;
 		public string staticType;
+		public string parameter;
 	}
 
 	public static class AnalysisGetHoverImplementation
