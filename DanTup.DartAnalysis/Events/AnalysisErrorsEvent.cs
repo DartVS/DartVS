@@ -73,7 +73,7 @@ namespace DanTup.DartAnalysis
 		TODO,
 		Hint,
 		CompileTimeError,
-		PunSuggestion,
+		PubSuggestion,
 		StaticWarning,
 		StaticTypeWarning,
 		SyntacticError,
