@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 
-namespace DanTup.DartVS.Providers
+namespace DanTup.DartVS
 {
 	// TODO: This doesn't seem to work; but leaving it here for later when hopefully we can figure it out...
 

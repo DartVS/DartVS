@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 
-namespace DanTup.DartVS.Providers
+namespace DanTup.DartVS
 {
 	[Export(typeof(IQuickInfoSourceProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]

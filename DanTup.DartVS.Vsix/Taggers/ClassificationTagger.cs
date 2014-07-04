@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace DanTup.DartVS.Taggers
+namespace DanTup.DartVS
 {
 	[Export(typeof(ITaggerProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]

@@ -5,7 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace DanTup.DartVS.Taggers
+namespace DanTup.DartVS
 {
 	abstract class AnalysisNotificationTagger<TTag, TSourceData, TNotificationType> : ITagger<TTag> where TTag : ITag
 	{

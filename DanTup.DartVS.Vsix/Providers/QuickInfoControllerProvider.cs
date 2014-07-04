@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
-namespace DanTup.DartVS.Providers
+namespace DanTup.DartVS
 {
 	[Export(typeof(IIntellisenseControllerProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]
