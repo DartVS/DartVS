@@ -26,7 +26,7 @@ namespace DanTup.DartVS
 			documentChanged
 				// TODO: Check whether this is safe? What if the user does find/replace across multiple files?
 				// TODO: Could we group these instead of just taking the "last" (Throttle's behaviour) and send them in one go?
-				.Throttle(TimeSpan.FromMilliseconds(500))
+				.Throttle(TimeSpan.FromMilliseconds(100))
 				.Subscribe(DocumentChanged);
 		}
 
