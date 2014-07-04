@@ -3,7 +3,9 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text;
 
 namespace DanTup.DartVS
 {
@@ -15,6 +17,12 @@ namespace DanTup.DartVS
 	{
 		[Import]
 		public DartAnalysisService analysisService = null;
+
+		[Import]
+		ITextDocumentFactoryService textDocumentFactory = null;
+
+		[Import]
+		IVsEditorAdaptersFactoryService editorAdapterFactory = null;
 
 		DartErrorListProvider errorProvider;
 		DartFileChangeTracker changeTracking;
@@ -42,7 +50,7 @@ namespace DanTup.DartVS
 			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
 
-			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(), true);
+			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(textDocumentFactory, editorAdapterFactory), true);
 		}
 
 		protected override void Dispose(bool disposing)
