@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
@@ -40,6 +41,8 @@ namespace DanTup.DartVS
 
 			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
+
+			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(), true);
 		}
 
 		protected override void Dispose(bool disposing)

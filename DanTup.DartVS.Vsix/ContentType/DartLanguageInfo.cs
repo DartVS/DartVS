@@ -7,8 +7,8 @@ namespace DanTup.DartVS
 	{
 		public int GetCodeWindowManager(IVsCodeWindow pCodeWin, out IVsCodeWindowManager ppCodeWinMgr)
 		{
-			ppCodeWinMgr = null;
-			return VSConstants.E_NOTIMPL;
+			ppCodeWinMgr = new DartCodeWindowManager();
+			return VSConstants.S_OK;
 		}
 
 		public int GetColorizer(IVsTextLines pBuffer, out IVsColorizer ppColorizer)
