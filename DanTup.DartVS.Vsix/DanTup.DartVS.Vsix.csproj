@@ -133,6 +133,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentType\DartLanguageInfo.cs" />
     <Compile Include="DartAnalysisService.cs" />
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />

@@ -8,6 +8,8 @@ namespace DanTup.DartVS
 {
 	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", "0.5")]
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
+	[ProvideLanguageService(typeof(DartLanguageInfo), "Dart", 100)]
+	[ProvideLanguageExtension(typeof(DartLanguageInfo), ".dart")]
 	public sealed class DartPackage : Package
 	{
 		[Import]
