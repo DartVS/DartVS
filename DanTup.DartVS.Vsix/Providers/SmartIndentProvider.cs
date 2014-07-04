@@ -1,28 +1,30 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
 namespace DanTup.DartVS.Providers
 {
-	// TODO: Currently this breaks when VS converts 4 spaces to 1 tab. To fix, we really need to
-	// know if VS is going to covert x spaces to tabs (and then count a tab as that many characters)
-	// However; we really also need to be able to register Dart as a language and set it to default to
-	// 2 spaces (no tabs); so we can fix this all up toegther if I ever figure out how to do it.
-
-	// TODO: Remove this export when it's ready to use.
-	//[Export(typeof(ISmartIndentProvider))]
+	[Export(typeof(ISmartIndentProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]
 	class SmartIndentProvider : ISmartIndentProvider
 	{
 		public ISmartIndent CreateSmartIndent(ITextView textView)
 		{
-			return textView.Properties.GetOrCreateSingletonProperty(() => new SmartIndent());
+			var tabSize = textView.Options.Parent.IsOptionDefined("Tabs/TabSize", true) ? textView.Options.Parent.GetOptionValue<int>("Tabs/TabSize") : 2;
+			return textView.Properties.GetOrCreateSingletonProperty(() => new SmartIndent(tabSize));
 		}
 	}
 
 	class SmartIndent : ISmartIndent
 	{
+		int tabSize;
+		public SmartIndent(int tabSize)
+		{
+			this.tabSize = tabSize;
+		}
+
 		public int? GetDesiredIndentation(ITextSnapshotLine line)
 		{
 			// If we're on the first line, we can't really do anything clever.
@@ -41,13 +43,11 @@ namespace DanTup.DartVS.Providers
 				return 0;
 
 			var previousLineText = previousNonBlankLine.GetText();
-			var thisLineText = line.GetText();
-			var previousLineIndent = previousLineText.TakeWhile(char.IsWhiteSpace).Count();
+			var previousLineIndent = previousLineText.Replace("\t", new string(' ', tabSize)).TakeWhile(char.IsWhiteSpace).Count();
 
+			// If we started a block on the previous line; then add indent.
 			if (previousLineText.TrimEnd().EndsWith("{"))
-				return previousLineIndent + 2;
-			else if (thisLineText.TrimStart().StartsWith("}") && previousLineIndent >= 2)
-				return previousLineIndent - 2;
+				return previousLineIndent + tabSize;
 			else
 				return previousLineIndent;
 		}
