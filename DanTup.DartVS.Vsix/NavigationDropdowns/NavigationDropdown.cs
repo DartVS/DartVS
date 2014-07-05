@@ -155,13 +155,13 @@ namespace DanTup.DartVS
 			{
 				case 0:
 					if (iIndex < topLevelItems.Length)
-						ppszText = topLevelItems[iIndex].Element.Name;
+						ppszText = BuildName(topLevelItems[iIndex]);
 					else
 						ppszText = ""; // Likely an old notification :(
 					break;
 				case 1:
 					if (iIndex < secondLevelItems.Length)
-						ppszText = secondLevelItems[iIndex].Element.Name;
+						ppszText = BuildName(secondLevelItems[iIndex]);
 					else
 						ppszText = ""; // Likely an old notification :(
 					break;
@@ -171,6 +171,11 @@ namespace DanTup.DartVS
 			}
 
 			return VSConstants.S_OK;
+		}
+
+		string BuildName(AnalysisOutline outline)
+		{
+			return outline.Element.Parameters == null ? outline.Element.Name : outline.Element.Name + outline.Element.Parameters;
 		}
 
 		public int OnComboGetFocus(int iCombo)
