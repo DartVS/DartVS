@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
@@ -9,6 +10,7 @@ namespace DanTup.DartVS
 	class DartCodeWindowManager : IVsCodeWindowManager
 	{
 		IVsDropdownBarManager barManager;
+		IWpfTextView wpfTextView;
 		ITextDocument textDocument;
 		DartAnalysisService analysisService;
 		NavigationDropdown dropdown;
@@ -21,13 +23,13 @@ namespace DanTup.DartVS
 			// Figure out the filename (seriously; this is the best way?!).
 			IVsTextView textView;
 			codeWindow.GetPrimaryView(out textView);
-			var wpfTextView = editorAdapterFactory.GetWpfTextView(textView);
+			wpfTextView = editorAdapterFactory.GetWpfTextView(textView);
 			textDocumentFactory.TryGetTextDocument(wpfTextView.TextBuffer, out this.textDocument);
 		}
 
 		public int AddAdornments()
 		{
-			dropdown = new NavigationDropdown(analysisService, textDocument.FilePath);
+			dropdown = new NavigationDropdown(analysisService, textDocument.FilePath, wpfTextView);
 			barManager.AddDropdownBar(2, dropdown);
 			return VSConstants.S_OK;
 		}

@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
@@ -13,16 +14,20 @@ namespace DanTup.DartVS
 		IVsDropdownBar dropdown;
 		DartAnalysisService analysisService;
 		string file;
+		IWpfTextView wpfTextView;
 
 		Dispatcher dispatcher;
 
 		IDisposable subscription;
 		AnalysisOutline[] topLevelItems = new AnalysisOutline[0];
 
-		public NavigationDropdown(DartAnalysisService analysisService, string file)
+		public NavigationDropdown(DartAnalysisService analysisService, string file, IWpfTextView wpfTextView)
 		{
 			this.analysisService = analysisService;
 			this.file = file;
+			this.wpfTextView = wpfTextView;
+
+			this.wpfTextView.Caret.PositionChanged += CaretPositionChanged;
 
 			// Capture dispatcher so we can call RefreshCombo on the correct thread.
 			dispatcher = Dispatcher.CurrentDispatcher;
@@ -33,6 +38,7 @@ namespace DanTup.DartVS
 
 		internal void Unregister()
 		{
+			this.wpfTextView.Caret.PositionChanged -= CaretPositionChanged;
 			subscription.Dispose();
 		}
 
@@ -40,12 +46,32 @@ namespace DanTup.DartVS
 		{
 			topLevelItems = notification.Outline.Children.ToArray();
 
+			RefreshComboOnUiThread(0, 0);
+		}
+
+		void RefreshComboOnUiThread(int combo, int selectedItem)
+		{
 			Action refreshCombo = () =>
 			{
-				dropdown.RefreshCombo(0, -1);
+				dropdown.RefreshCombo(combo, selectedItem);
 			};
 
 			dispatcher.BeginInvoke(refreshCombo, DispatcherPriority.Background);
+		}
+
+		void CaretPositionChanged(object sender, CaretPositionChangedEventArgs e)
+		{
+			SelectTopLevelItemForPosition(e.NewPosition.BufferPosition.Position);
+		}
+
+		void SelectTopLevelItemForPosition(int caretPosition)
+		{
+			var itemToSelect = topLevelItems
+				.Select((item, index) => new { Item = item, Index = index }) // Add indexes, since that's ultimately what we need!
+				.FirstOrDefault(o => o.Item.Offset <= caretPosition && o.Item.Offset + o.Item.Length >= caretPosition); // Find the first item within the range
+
+			if (itemToSelect != null)
+				RefreshComboOnUiThread(0, itemToSelect.Index);
 		}
 
 		public int GetComboAttributes(int iCombo, out uint pcEntries, out uint puEntryType, out IntPtr phImageList)
