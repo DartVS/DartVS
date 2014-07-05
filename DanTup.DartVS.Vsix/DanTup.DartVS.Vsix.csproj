@@ -146,8 +146,8 @@
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartProjectInfo.cs" />
-    <Compile Include="NavigationDropdowns\NavigationDropdown.cs" />
-    <Compile Include="NavigationDropdowns\DartCodeWindowManager.cs" />
+    <Compile Include="Navigation\NavigationDropdown.cs" />
+    <Compile Include="Navigation\DartCodeWindowManager.cs" />
     <Compile Include="OpenFileTracker.cs" />
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
