@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -46,7 +48,7 @@ namespace DanTup.DartVS
 		{
 			topLevelItems = notification.Outline.Children.ToArray();
 
-			RefreshComboOnUiThread(0, 0);
+			SelectTopLevelItemForPosition(wpfTextView.Caret.Position.BufferPosition.Position);
 		}
 
 		void RefreshComboOnUiThread(int combo, int selectedItem)
@@ -74,6 +76,17 @@ namespace DanTup.DartVS
 				RefreshComboOnUiThread(0, itemToSelect.Index);
 		}
 
+		void CenterAndFocus(int index, int length)
+		{
+			wpfTextView.Caret.MoveTo(new SnapshotPoint(wpfTextView.TextBuffer.CurrentSnapshot, index));
+
+			wpfTextView.ViewScroller.EnsureSpanVisible(new SnapshotSpan(wpfTextView.TextBuffer.CurrentSnapshot, index, length), EnsureSpanVisibleOptions.AlwaysCenter);
+
+			((Control)wpfTextView).Focus();
+		}
+
+		#region IVsDropdownBarClient Members
+
 		public int GetComboAttributes(int iCombo, out uint pcEntries, out uint puEntryType, out IntPtr phImageList)
 		{
 			switch (iCombo)
@@ -97,9 +110,9 @@ namespace DanTup.DartVS
 
 		public int GetComboTipText(int iCombo, out string pbstrText)
 		{
-			// TODO: Tooltip
-			pbstrText = "TODO: Tooltip here";
-			return VSConstants.S_OK;
+			// TODO: Can we get DartDoc here?
+			pbstrText = "";
+			return VSConstants.E_NOTIMPL;
 		}
 
 		public int GetEntryAttributes(int iCombo, int iIndex, out uint pAttr)
@@ -144,6 +157,22 @@ namespace DanTup.DartVS
 
 		public int OnItemChosen(int iCombo, int iIndex)
 		{
+			switch (iCombo)
+			{
+				case 0:
+					if (iIndex < topLevelItems.Length)
+					{
+						var selectedItem = topLevelItems[iIndex].Element;
+						CenterAndFocus(selectedItem.Location.Offset, selectedItem.Location.Length);
+					}
+					break;
+				case 1:
+					// TODO: Stuff here
+					break;
+				default:
+					break;
+			}
+
 			return VSConstants.S_OK;
 		}
 
@@ -157,5 +186,7 @@ namespace DanTup.DartVS
 			dropdown = pDropdownBar;
 			return VSConstants.S_OK;
 		}
+
+		#endregion
 	}
 }
