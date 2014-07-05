@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Windows.Controls;
+using System.Reflection;
+using System.Windows.Forms;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
@@ -11,8 +13,30 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
 {
+	public class Danny { }
+
 	class NavigationDropdown : IVsDropdownBarClient
 	{
+		static ImageList images;
+		static readonly int ClassImageIndex, MethodImageIndex, FieldImageIndex;
+		static NavigationDropdown()
+		{
+			var asm = Assembly.GetExecutingAssembly();
+
+			images = new ImageList();
+			images.ImageSize = new Size(16, 16);
+			ClassImageIndex = 0;
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Class.png")));
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Class_Private.png")));
+			MethodImageIndex = 2;
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Method.png")));
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Method_Private.png")));
+			FieldImageIndex = 4;
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Field.png")));
+			images.Images.Add(Image.FromStream(asm.GetManifestResourceStream("DanTup.DartVS.Resources.Field_Private.png")));
+		}
+
+
 		IVsDropdownBar dropdown;
 		DartAnalysisService analysisService;
 		string file;
@@ -104,7 +128,36 @@ namespace DanTup.DartVS
 
 			wpfTextView.ViewScroller.EnsureSpanVisible(new SnapshotSpan(wpfTextView.TextBuffer.CurrentSnapshot, index, length), EnsureSpanVisibleOptions.AlwaysCenter);
 
-			((Control)wpfTextView).Focus();
+			((System.Windows.Controls.Control)wpfTextView).Focus();
+		}
+
+		string BuildName(AnalysisOutline outline)
+		{
+			return outline.Element.Parameters == null ? outline.Element.Name : outline.Element.Name + outline.Element.Parameters;
+		}
+
+		int GetImageIndex(AnalysisElement element)
+		{
+			var index = -1;
+			switch (element.Kind)
+			{
+				case ElementKind.Class:
+					index = ClassImageIndex;
+					break;
+				case ElementKind.Method:
+				case ElementKind.Function:
+				case ElementKind.Constructor:
+					index = MethodImageIndex;
+					break;
+				case ElementKind.Field:
+					index = FieldImageIndex;
+					break;
+			}
+
+			if (index > -1 && element.Name.StartsWith("_"))
+				index++;
+
+			return index;
 		}
 
 		#region IVsDropdownBarClient Members
@@ -124,8 +177,8 @@ namespace DanTup.DartVS
 					break;
 			}
 
-			puEntryType = (uint)DROPDOWNENTRYTYPE.ENTRY_TEXT;
-			phImageList = IntPtr.Zero;
+			puEntryType = (uint)(DROPDOWNENTRYTYPE.ENTRY_TEXT | DROPDOWNENTRYTYPE.ENTRY_IMAGE);
+			phImageList = images.Handle;
 
 			return VSConstants.S_OK;
 		}
@@ -145,7 +198,25 @@ namespace DanTup.DartVS
 
 		public int GetEntryImage(int iCombo, int iIndex, out int piImageIndex)
 		{
-			piImageIndex = 0;
+			switch (iCombo)
+			{
+				case 0:
+					if (iIndex < topLevelItems.Length)
+						piImageIndex = GetImageIndex(topLevelItems[iIndex].Element);
+					else
+						piImageIndex = -1;
+					break;
+				case 1:
+					if (iIndex < secondLevelItems.Length)
+						piImageIndex = GetImageIndex(secondLevelItems[iIndex].Element);
+					else
+						piImageIndex = -1;
+					break;
+				default:
+					piImageIndex = -1;
+					break;
+			}
+
 			return VSConstants.S_OK;
 		}
 
@@ -171,11 +242,6 @@ namespace DanTup.DartVS
 			}
 
 			return VSConstants.S_OK;
-		}
-
-		string BuildName(AnalysisOutline outline)
-		{
-			return outline.Element.Parameters == null ? outline.Element.Name : outline.Element.Name + outline.Element.Parameters;
 		}
 
 		public int OnComboGetFocus(int iCombo)
