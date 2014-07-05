@@ -16,7 +16,7 @@ namespace DanTup.DartVS
 	public sealed class DartPackage : Package
 	{
 		[Import]
-		public DartAnalysisService analysisService = null;
+		DartAnalysisService analysisService = null;
 
 		[Import]
 		ITextDocumentFactoryService textDocumentFactory = null;
@@ -50,7 +50,7 @@ namespace DanTup.DartVS
 			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
 
-			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(textDocumentFactory, editorAdapterFactory), true);
+			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(textDocumentFactory, editorAdapterFactory, analysisService), true);
 		}
 
 		protected override void Dispose(bool disposing)

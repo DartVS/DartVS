@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio;
+﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
@@ -12,21 +10,25 @@ namespace DanTup.DartVS
 	{
 		IVsDropdownBarManager barManager;
 		ITextDocument textDocument;
+		DartAnalysisService analysisService;
+		NavigationDropdown dropdown;
 
-		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService service, IVsCodeWindow codeWindow)
+		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, IVsCodeWindow codeWindow, DartAnalysisService analysisService)
 		{
 			this.barManager = ((IVsDropdownBarManager)codeWindow);
+			this.analysisService = analysisService;
 
 			// Figure out the filename (seriously; this is the best way?!).
 			IVsTextView textView;
 			codeWindow.GetPrimaryView(out textView);
-			var wpfTextView = service.GetWpfTextView(textView);
+			var wpfTextView = editorAdapterFactory.GetWpfTextView(textView);
 			textDocumentFactory.TryGetTextDocument(wpfTextView.TextBuffer, out this.textDocument);
 		}
 
 		public int AddAdornments()
 		{
-			barManager.AddDropdownBar(2, new NavigationDropdown(textDocument.FilePath));
+			dropdown = new NavigationDropdown(analysisService, textDocument.FilePath);
+			barManager.AddDropdownBar(2, dropdown);
 			return VSConstants.S_OK;
 		}
 
@@ -37,6 +39,7 @@ namespace DanTup.DartVS
 
 		public int RemoveAdornments()
 		{
+			dropdown.Unregister();
 			barManager.RemoveDropdownBar();
 			return VSConstants.S_OK;
 		}

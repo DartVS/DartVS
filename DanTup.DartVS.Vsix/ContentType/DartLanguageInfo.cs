@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.TextManager.Interop;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
 {
@@ -10,16 +9,18 @@ namespace DanTup.DartVS
 	{
 		ITextDocumentFactoryService textDocumentFactory;
 		IVsEditorAdaptersFactoryService editorAdapterFactory;
+		DartAnalysisService analysisService;
 
-		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory)
+		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartAnalysisService analysisService)
 		{
 			this.textDocumentFactory = textDocumentFactory;
 			this.editorAdapterFactory = editorAdapterFactory;
+			this.analysisService = analysisService;
 		}
 
 		public int GetCodeWindowManager(IVsCodeWindow pCodeWin, out IVsCodeWindowManager ppCodeWinMgr)
 		{
-			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin);
+			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin, analysisService);
 			return VSConstants.S_OK;
 		}
 
