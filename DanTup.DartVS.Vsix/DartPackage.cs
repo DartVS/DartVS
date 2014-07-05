@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
@@ -23,6 +25,8 @@ namespace DanTup.DartVS
 
 		[Import]
 		IVsEditorAdaptersFactoryService editorAdapterFactory = null;
+
+		static DTE2 dte;
 
 		DartErrorListProvider errorProvider;
 		DartFileChangeTracker changeTracking;
@@ -56,6 +60,22 @@ namespace DanTup.DartVS
 		protected override void Dispose(bool disposing)
 		{
 			analysisService.Dispose();
+		}
+
+		internal static DTE2 DTE
+		{
+			get
+			{
+				if (dte == null)
+					dte = ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE2;
+
+				return dte;
+			}
+		}
+
+		public static T GetGlobalService<T>(Type type = null) where T : class
+		{
+			return Package.GetGlobalService(type ?? typeof(T)) as T;
 		}
 	}
 }
