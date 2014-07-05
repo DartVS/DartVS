@@ -22,6 +22,7 @@ namespace DanTup.DartVS
 
 		IDisposable subscription;
 		AnalysisOutline[] topLevelItems = new AnalysisOutline[0];
+		AnalysisOutline[] secondLevelItems = new AnalysisOutline[0];
 
 		public NavigationDropdown(DartAnalysisService analysisService, string file, IWpfTextView wpfTextView)
 		{
@@ -73,7 +74,28 @@ namespace DanTup.DartVS
 				.FirstOrDefault(o => o.Item.Offset <= caretPosition && o.Item.Offset + o.Item.Length >= caretPosition); // Find the first item within the range
 
 			if (itemToSelect != null)
+			{
 				RefreshComboOnUiThread(0, itemToSelect.Index);
+				if (itemToSelect.Item.Children != null)
+					secondLevelItems = itemToSelect.Item.Children.ToArray();
+				else
+					secondLevelItems = new AnalysisOutline[0];
+				SelectSecondLevelItemForPosition(caretPosition);
+			}
+			else
+				RefreshComboOnUiThread(0, -1);
+		}
+
+		void SelectSecondLevelItemForPosition(int caretPosition)
+		{
+			var itemToSelect = secondLevelItems
+				.Select((item, index) => new { Item = item, Index = index }) // Add indexes, since that's ultimately what we need!
+				.FirstOrDefault(o => o.Item.Offset <= caretPosition && o.Item.Offset + o.Item.Length >= caretPosition); // Find the first item within the range
+
+			if (itemToSelect != null)
+				RefreshComboOnUiThread(1, itemToSelect.Index);
+			else
+				RefreshComboOnUiThread(1, -1);
 		}
 
 		void CenterAndFocus(int index, int length)
@@ -95,7 +117,7 @@ namespace DanTup.DartVS
 					pcEntries = (uint)topLevelItems.Length;
 					break;
 				case 1:
-					pcEntries = 0;
+					pcEntries = (uint)secondLevelItems.Length;
 					break;
 				default:
 					pcEntries = 0;
@@ -138,12 +160,13 @@ namespace DanTup.DartVS
 						ppszText = ""; // Likely an old notification :(
 					break;
 				case 1:
-					// TODO: Stuff here
-					ppszText = "INFO FOR " + file;
+					if (iIndex < secondLevelItems.Length)
+						ppszText = secondLevelItems[iIndex].Element.Name;
+					else
+						ppszText = ""; // Likely an old notification :(
 					break;
 				default:
-					// TODO: Stuff here
-					ppszText = "INFO FOR " + file;
+					ppszText = "";
 					break;
 			}
 
@@ -167,7 +190,11 @@ namespace DanTup.DartVS
 					}
 					break;
 				case 1:
-					// TODO: Stuff here
+					if (iIndex < secondLevelItems.Length)
+					{
+						var selectedItem = secondLevelItems[iIndex].Element;
+						CenterAndFocus(selectedItem.Location.Offset, selectedItem.Location.Length);
+					}
 					break;
 				default:
 					break;
