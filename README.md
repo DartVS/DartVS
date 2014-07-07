@@ -41,6 +41,8 @@ however it's still some way off release :(
   - [ ] [F5 -> `pub serve`](/../../issues/17)
   - [ ] [`pub build`](/../../issues/17)
 - [ ] [Refactorings](/../../issues/18)
+- [ ] [Snippets](/../../issues/31)
+- [ ] [Automatic insertion of comment lines when typing Dart docs](/../../issues/32)
 
 ## Installation
 - Install from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/69112f14-62d0-40fb-9ccc-03e3534e7121)
