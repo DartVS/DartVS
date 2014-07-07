@@ -75,10 +75,13 @@ namespace DanTup.DartVS
 
 			// Put dummy content in tooltip while the request in in-flight.
 			quickInfoContent.Add("Loading...");
-			applicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(triggerPoint.Value.Position, 1, SpanTrackingMode.EdgeInclusive);
+			// Attempt to create a span 1 char left and 1 char right; but within bounds of buffer (otherwise crashes).
+			var start = Math.Max(triggerPoint.Value.Position - 1, 0);
+			var length = Math.Min(triggerPoint.Value.Position + 1, buffer.CurrentSnapshot.Length) - start;
+			applicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(start, length, SpanTrackingMode.EdgeInclusive);
 
 			// Fire off a request to the service to get the data.
-			var hoverTask = analysisService.GetHover(filePath, triggerPoint.Value.Position);
+			var hoverTask = analysisService.GetHover(filePath, triggerPoint.Value.Position); // Can't await, not-async method :(
 			hoverTask.ContinueWith(hovers =>
 			{
 				// Build the tooltip info if the response was valid.
