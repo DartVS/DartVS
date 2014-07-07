@@ -8,7 +8,7 @@ The current version of DartVS available to install (v0.6) in Visual Studio is ve
 and shells out to DartAnalyzer on a per-file basis for errors/warnings. This is not terribly reliable!
 
 A new version of the extension (v0.8/v1) is in-progress which uses Google's Dart Analysis service and is much faster and more reliable,
-howver it's still some way off release :(
+however it's still some way off release :(
 
 ## Live in v0.6
 - [x] Use DartAnalyzer from the SDK when saving any .dart file and report errors/warnings/hints to the Visual Studio error list
@@ -16,7 +16,7 @@ howver it's still some way off release :(
 - [x] Mostly-reliable Syntax Highlighting
 
 ## In Development for v1
-- [ ] Switch to Google's Dart analysis service](/../../issues/23)
+- [ ] [Switch to Google's Dart analysis service](/../../issues/23)
 - [ ] [Reliable Syntax Highlighting](/../../issues/4)
 - [ ] [Show errors "live" without having to save](/../../issues/24)
 - [ ] [Show error window automatically when errors exist](/../../issues/8)
