@@ -23,7 +23,7 @@ however it's still some way off release :(
 - [x] [Show errors with squiggles in the editor](/../../issues/25)
 - [x] [Tooltips to show doc comments](/../../issues/11)
 - [x] [Show Dart icon for .dart files](/../../issues/10)
-- [x] [Goto Definition](/../../issues/14)
+- [x] [Go to Definition](/../../issues/14)
 - [ ] [Format Document](/../../issues/26)
 - [ ] [Format Selection](/../../issues/26)
 - [ ] [Automatically format block on closing brace](/../../issues/27)
