@@ -93,7 +93,7 @@ namespace DanTup.DartAnalysis.Tests
 				// Clear the error list ready for next time.
 				errors.Clear();
 
-				await Task.Delay(10000); // HACK: Allow the buffer to clear; since we're using ReplaceSubjects now :/
+				await Task.Delay(10000); // HACK: Allow the buffer to clear; since we're using ReplaySubjects now :/
 
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
 				using (secondAnalysisCompleteEvent.Connect())
