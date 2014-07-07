@@ -16,7 +16,7 @@ namespace DanTup.DartAnalysis
 	{
 		public static async Task<Version> GetServerVersion(this DartAnalysisService service)
 		{
-			var response = await service.Service.Send(new ServerVersionRequest());
+			var response = await service.Service.Send(new ServerVersionRequest()).ConfigureAwait(continueOnCapturedContext: false);
 
 			return Version.Parse(response.result.version);
 		}

@@ -47,7 +47,7 @@ namespace DanTup.DartAnalysis
 	{
 		public static async Task<AnalysisHoverItem[]> GetHover(this DartAnalysisService service, string file, int offset)
 		{
-			var response = await service.Service.Send(new AnalysisGetHoverRequest(file, offset));
+			var response = await service.Service.Send(new AnalysisGetHoverRequest(file, offset)).ConfigureAwait(continueOnCapturedContext: false);
 
 			return response.result.hovers;
 		}

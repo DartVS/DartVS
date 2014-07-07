@@ -33,7 +33,7 @@ namespace DanTup.DartAnalysis
 
 		public static async Task SetAnalysisSubscriptions(this DartAnalysisService service, Dictionary<AnalysisSubscription, string[]> subscriptions)
 		{
-			var response = await service.Service.Send(new AnalysisSetSubscriptionsRequest(subscriptions.ToDictionary(s => s.Key.ToString().ToUpperInvariant(), s => s.Value)));
+			var response = await service.Service.Send(new AnalysisSetSubscriptionsRequest(subscriptions.ToDictionary(s => s.Key.ToString().ToUpperInvariant(), s => s.Value))).ConfigureAwait(continueOnCapturedContext: false);
 
 			// There's nothing useful on this response to return.
 

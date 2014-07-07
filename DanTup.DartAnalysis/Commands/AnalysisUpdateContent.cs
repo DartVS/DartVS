@@ -60,7 +60,7 @@ namespace DanTup.DartAnalysis
 
 		public static async Task UpdateContent(this DartAnalysisService service, Dictionary<string, string> files)
 		{
-			var response = await service.Service.Send(new AnalysisUpdateContentRequest(files.ToDictionary(kvp => kvp.Key, kvp => new AnalysisUpdateContentFile(kvp.Value))));
+			var response = await service.Service.Send(new AnalysisUpdateContentRequest(files.ToDictionary(kvp => kvp.Key, kvp => new AnalysisUpdateContentFile(kvp.Value)))).ConfigureAwait(continueOnCapturedContext: false);
 
 			// There's nothing useful on this response to return.
 

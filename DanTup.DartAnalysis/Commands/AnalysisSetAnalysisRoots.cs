@@ -33,7 +33,7 @@ namespace DanTup.DartAnalysis
 
 		public static async Task SetAnalysisRoots(this DartAnalysisService service, string[] included, string[] excluded)
 		{
-			var response = await service.Service.Send(new AnalysisSetAnalysisRootsRequest(included, excluded));
+			var response = await service.Service.Send(new AnalysisSetAnalysisRootsRequest(included, excluded)).ConfigureAwait(continueOnCapturedContext: false);
 
 			// There's nothing useful on this response to return.
 

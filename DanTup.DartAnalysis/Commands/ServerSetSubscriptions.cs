@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace DanTup.DartAnalysis
 {
@@ -27,7 +27,7 @@ namespace DanTup.DartAnalysis
 	{
 		public static async Task SetServerSubscriptions(this DartAnalysisService service, params ServerSubscription[] subscriptions)
 		{
-			var response = await service.Service.Send(new ServerSetSubscriptionsRequest(subscriptions.Select(s => s.ToString().ToUpperInvariant()).ToArray()));
+			var response = await service.Service.Send(new ServerSetSubscriptionsRequest(subscriptions.Select(s => s.ToString().ToUpperInvariant()).ToArray())).ConfigureAwait(continueOnCapturedContext: false);
 
 			// There's nothing useful on this response to return.
 
