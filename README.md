@@ -16,19 +16,19 @@ however it's still some way off release :(
 - [x] Mostly-reliable Syntax Highlighting
 
 ## In Development for v1
-- [ ] [Switch to Google's Dart analysis service](/../../issues/23)
-- [ ] [Reliable Syntax Highlighting](/../../issues/4)
-- [ ] [Show errors "live" without having to save](/../../issues/24)
-- [ ] [Show error window automatically when errors exist](/../../issues/8)
-- [ ] [Show errors with squiggles in the editor](/../../issues/25)
-- [ ] [Tooltips to show doc comments](/../../issues/11)
-- [ ] [Show Dart icon for .dart files](/../../issues/10)
-- [ ] [Goto Definition](/../../issues/14)
+- [x] [Switch to Google's Dart analysis service](/../../issues/23)
+- [x] [Reliable Syntax Highlighting](/../../issues/4)
+- [x] [Show errors "live" without having to save](/../../issues/24)
+- [x] [Show error window automatically when errors exist](/../../issues/8)
+- [x] [Show errors with squiggles in the editor](/../../issues/25)
+- [x] [Tooltips to show doc comments](/../../issues/11)
+- [x] [Show Dart icon for .dart files](/../../issues/10)
+- [x] [Goto Definition](/../../issues/14)
 - [ ] [Format Document](/../../issues/26)
 - [ ] [Format Selection](/../../issues/26)
 - [ ] [Automatically format block on closing brace](/../../issues/27)
 - [ ] [Highlight other references to selected item](/../../issues/13)
-- [ ] [Show outline navigation bars at top of editor](/../../issues/12)
+- [x] [Show outline navigation bars at top of editor](/../../issues/12)
 - [ ] [Code Completion](/../../issues/5)
 - [ ] [Find References](/../../issues/15)
 
