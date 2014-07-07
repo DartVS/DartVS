@@ -20,6 +20,7 @@ namespace DanTup.DartVS
 		IOleCommandTarget nextCommandTarget;
 		DartAnalysisService analysisService;
 
+		IDisposable subscription;
 		AnalysisNavigationRegion[] navigationRegions = new AnalysisNavigationRegion[0];
 
 		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
@@ -31,12 +32,19 @@ namespace DanTup.DartVS
 
 			Dispatcher.CurrentDispatcher.InvokeAsync(() =>
 			{
-				// Add the target later to make sure it makes it in before other command handlers
+				// Add the target later to make sure it makes it in before other command handlers.
 				ErrorHandler.ThrowOnFailure(textViewAdapter.AddCommandFilter(this, out nextCommandTarget));
 			}, DispatcherPriority.ApplicationIdle);
 
-			// Subscribe to outline updates for this file
-			this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
+			// Make sure we remove our subscription when the file is closed so we don't leak.
+			textView.Closed += (o, e) =>
+			{
+				if (subscription != null)
+					subscription.Dispose();
+			};
+
+			// Subscribe to outline updates for this file.
+			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
 
 		void UpdateNavigationData(AnalysisNavigationNotification notification)
@@ -57,7 +65,7 @@ namespace DanTup.DartVS
 					var target = navigationRegion.Targets.First();
 					var file = target.Location.File;
 					var position = target.Location.Offset;
-					
+
 					Helpers.OpenFileInPreviewTab(file);
 					Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
 					{

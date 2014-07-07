@@ -87,9 +87,9 @@ namespace DanTup.DartVS
 			return new TagSpan<ClassificationTag>(new SnapshotSpan(buffer.CurrentSnapshot, highlight.Offset, highlight.Length), new ClassificationTag(classificationMapping[highlight.Type]));
 		}
 
-		protected override void Subscribe(Action<AnalysisHighlightsNotification> updateSourceData)
+		protected override IDisposable Subscribe(Action<AnalysisHighlightsNotification> updateSourceData)
 		{
-			this.analysisService.AnalysisHighlightsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
+			return this.analysisService.AnalysisHighlightsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
 		protected override AnalysisHighlightRegion[] GetDataToTag(AnalysisHighlightsNotification notification)

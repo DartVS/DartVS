@@ -46,9 +46,9 @@ namespace DanTup.DartVS
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
 
-		protected override void Subscribe(Action<AnalysisErrorsNotification> updateSourceData)
+		protected override IDisposable Subscribe(Action<AnalysisErrorsNotification> updateSourceData)
 		{
-			this.analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
+			return this.analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
 		protected override AnalysisError[] GetDataToTag(AnalysisErrorsNotification notification)

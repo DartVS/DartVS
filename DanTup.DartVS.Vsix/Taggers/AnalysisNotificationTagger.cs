@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace DanTup.DartVS
 {
-	abstract class AnalysisNotificationTagger<TTag, TSourceData, TNotificationType> : ITagger<TTag> where TTag : ITag
+	abstract class AnalysisNotificationTagger<TTag, TSourceData, TNotificationType> : IDisposable, ITagger<TTag> where TTag : ITag
 	{
 		protected ITextBuffer buffer;
 		protected ITextDocumentFactoryService textDocumentFactory;
@@ -16,6 +16,8 @@ namespace DanTup.DartVS
 		protected TSourceData[] currentData = new TSourceData[0];
 		int earliestOffset = 0;
 		int latestEnd = 0;
+
+		IDisposable subscription;
 
 		public AnalysisNotificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
 		{
@@ -26,7 +28,7 @@ namespace DanTup.DartVS
 			textDocumentFactory.TryGetTextDocument(this.buffer, out this.textDocument);
 
 			// Subscribe to errors for the current file.
-			this.Subscribe(UpdateSourceData);
+			subscription = this.Subscribe(UpdateSourceData);
 		}
 
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
@@ -74,8 +76,13 @@ namespace DanTup.DartVS
 			}
 		}
 
+		public void Dispose()
+		{
+			subscription.Dispose();
+		}
+
 		protected abstract ITagSpan<TTag> CreateTag(TSourceData data);
-		protected abstract void Subscribe(Action<TNotificationType> updateSourceData);
+		protected abstract IDisposable Subscribe(Action<TNotificationType> updateSourceData);
 		protected abstract TSourceData[] GetDataToTag(TNotificationType notification);
 		protected abstract Tuple<int, int> GetOffsetAndLength(TSourceData data);
 	}
