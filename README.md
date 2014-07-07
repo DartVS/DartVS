@@ -31,6 +31,7 @@ however it's still some way off release :(
 - [x] [Show outline navigation bars at top of editor](/../../issues/12)
 - [ ] [Code Completion](/../../issues/5)
 - [ ] [Find References](/../../issues/15)
+- [ ] [Remove hard-coded references to analysis service](/../../issues/30)
 
 ## Planned for after v1
 - [ ] [Code Folding](/../../issues/19)
