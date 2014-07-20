@@ -154,6 +154,7 @@
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
+    <Compile Include="Properties\SharedAssemblyInfo.cs" />
     <Compile Include="Providers\BraceCompletionProvider.cs" />
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

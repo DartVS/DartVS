@@ -6,5 +6,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Danny Tuppeny")]
 [assembly: AssemblyCopyright("Copyright Danny Tuppeny © 2014")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.5.*")]
-[assembly: AssemblyFileVersion("0.5.0.0")]
