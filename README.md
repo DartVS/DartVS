@@ -35,6 +35,7 @@ however it's still some way off release :(
 
 ## Planned for after v1
 - [ ] [Code Folding](/../../issues/19)
+- [ ] [Test Support](/../../issues/34)
 - [ ] [Debugging](/../../issues/28)
 - [ ] [Project System](/../../issues/9)
   - [ ] [Automatic `pub get`](/../../issues/17)
