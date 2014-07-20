@@ -31,9 +31,9 @@ namespace DanTup.DartAnalysis.Tests
 					// Ensure the single-error file got the expected error.
 					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
 					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
-					Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
 					Assert.Equal(AnalysisErrorSeverity.Warning, error.Severity);
 					Assert.Equal(AnalysisErrorType.StaticWarning, error.Type);
+					Assert.Equal("The argument type 'int' cannot be assigned to the parameter type 'String'", error.Message);
 				}
 			}
 		}
@@ -63,9 +63,9 @@ namespace DanTup.DartAnalysis.Tests
 					// Ensure the single-error file got the expected error.
 					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
 					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
-					Assert.Equal("StaticWarningCode.ARGUMENT_TYPE_NOT_ASSIGNABLE", error.ErrorCode);
 					Assert.Equal(AnalysisErrorSeverity.Warning, error.Severity);
 					Assert.Equal(AnalysisErrorType.StaticWarning, error.Type);
+					Assert.Equal("The argument type 'int' cannot be assigned to the parameter type 'String'", error.Message);
 				}
 			}
 		}

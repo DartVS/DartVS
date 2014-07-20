@@ -13,7 +13,6 @@ namespace DanTup.DartAnalysis
 
 	class AnalysisErrorJson
 	{
-		public string errorCode = null;
 		public string severity = null;
 		public string type = null;
 		public AnalysisLocationJson location = null;
@@ -51,7 +50,6 @@ namespace DanTup.DartAnalysis
 
 	public struct AnalysisError
 	{
-		public string ErrorCode { get; internal set; }
 		public AnalysisErrorSeverity Severity { get; internal set; }
 		public AnalysisErrorType Type { get; internal set; }
 		public AnalysisLocation Location { get; internal set; }
@@ -93,7 +91,6 @@ namespace DanTup.DartAnalysis
 				File = notification.file,
 				Errors = notification.errors.Select(e => new AnalysisError
 				{
-					ErrorCode = e.errorCode,
 					Severity = ErrorSeverities.FirstOrDefault(s => s.ToString().ToLowerInvariant() == e.severity.ToLowerInvariant().Replace("_", "")),
 					Type = ErrorTypes.FirstOrDefault(et => et.ToString().ToLowerInvariant() == e.type.ToLowerInvariant().Replace("_", "")),
 					Location = new AnalysisLocation
