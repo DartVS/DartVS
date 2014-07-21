@@ -34,23 +34,6 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	// TODO: Currently sending lenghs/offsets doesn't seem to do anything different to without, but
-	// it sounds like partial updates may be supported in future, so we'll revisit this later.
-	//class AnalysisUpdateContentFileWithOffset : AnalysisUpdateContentFile
-	//{
-	//	public int offset;
-	//	public int oldLength;
-	//	public int newLength;
-
-	//	public AnalysisUpdateContentFileWithOffset(string content, int offset, int oldLength, int newLength)
-	//		: base(content)
-	//	{
-	//		this.offset = offset;
-	//		this.oldLength = oldLength;
-	//		this.newLength = newLength;
-	//	}
-	//}
-
 	public static class AnalysisUpdateContentImplementation
 	{
 		public static Task UpdateContent(this DartAnalysisService service, string filename, string contents)
