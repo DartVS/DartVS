@@ -22,7 +22,7 @@ namespace DanTup.DartVS
 
 		[ImportingConstructor]
 		public DartAnalysisService([Import]DartProjectTracker projectTracker, [Import]OpenFileTracker openFileTracker)
-			: base(SdkPath, @"M:\Coding\Applications\Dart\dart\pkg\analysis_server\bin\server.dart")
+			: base(SdkPath, @"M:\Apps\Dart\AnalysisServer\\analysis_server.dart.snapshot")
 		{
 			this.projectTracker = projectTracker;
 			this.openFileTracker = openFileTracker;

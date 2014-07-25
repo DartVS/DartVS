@@ -29,7 +29,7 @@ namespace DanTup.DartAnalysis
 		public AnalysisServiceWrapper(string sdkFolder, string serverScript, Action<Event> eventHandler = null)
 		{
 			this.eventHandler = eventHandler;
-			service = new StdIOService(Path.Combine(sdkFolder, @"bin\dart.exe"), serverScript, ReceiveMessage, ReceiveError);
+			service = new StdIOService(Path.Combine(sdkFolder, @"bin\dart.exe"), string.Format("{0} --sdk={1}", serverScript, sdkFolder), ReceiveMessage, ReceiveError);
 		}
 
 		/// <summary>
