@@ -145,7 +145,7 @@ namespace DanTup.DartAnalysis
 			{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
 			{ "analysis.highlights", typeof(Event<AnalysisHighlightsEvent>) },
 			{ "analysis.navigation", typeof(Event<AnalysisNavigationEvent>) },
-			{ "analysis.outline", typeof(Event<AnalysisOutlineEventJson>) },
+			{ "analysis.outline", typeof(Event<AnalysisOutlineEvent>) },
 		};
 
 		/// <summary>

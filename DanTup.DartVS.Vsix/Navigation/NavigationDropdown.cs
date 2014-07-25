@@ -69,7 +69,7 @@ namespace DanTup.DartVS
 			subscription.Dispose();
 		}
 
-		void UpdateSourceData(AnalysisOutlineNotification notification)
+		void UpdateSourceData(AnalysisOutlineEvent notification)
 		{
 			topLevelItems = notification.Outline.Children.ToArray();
 

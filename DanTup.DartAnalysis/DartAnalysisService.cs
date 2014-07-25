@@ -37,8 +37,8 @@ namespace DanTup.DartAnalysis
 		readonly ISubject<AnalysisNavigationEvent> analysisNavigation = new ReplaySubject<AnalysisNavigationEvent>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisNavigationEvent> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
 
-		readonly ISubject<AnalysisOutlineNotification> analysisOutline = new ReplaySubject<AnalysisOutlineNotification>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisOutlineNotification> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
+		readonly ISubject<AnalysisOutlineEvent> analysisOutline = new ReplaySubject<AnalysisOutlineEvent>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisOutlineEvent> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
 
 		#endregion
 
@@ -63,8 +63,8 @@ namespace DanTup.DartAnalysis
 				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEvent>)notification).@params);
 			else if (notification is Event<AnalysisNavigationEvent>)
 				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEvent>)notification).@params);
-			else if (notification is Event<AnalysisOutlineEventJson>)
-				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisOutlineEvent>)
+				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEvent>)notification).@params);
 		}
 
 		void TryRaiseEvent<T>(ISubject<T> subject, Func<T> createNotification)
