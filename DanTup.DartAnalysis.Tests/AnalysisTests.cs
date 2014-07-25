@@ -15,7 +15,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
 				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
@@ -43,7 +43,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
 				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
@@ -75,8 +75,8 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
-				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
+				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
 				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
@@ -125,7 +125,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
 				List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
@@ -164,7 +164,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
 
 				List<AnalysisNavigationRegion> regions = new List<AnalysisNavigationRegion>(); // Keep track of errors that are reported
@@ -221,7 +221,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisOutlineEvent = service.AnalysisOutlineNotification.FirstAsync().PublishLast();
 
 				List<AnalysisOutline> outlines = new List<AnalysisOutline>(); // Keep track of errors that are reported
@@ -297,7 +297,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.IsAnalysing == false).PublishLast();
+				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				//var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
 				//List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
