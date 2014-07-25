@@ -33,7 +33,7 @@ namespace DanTup.DartVS
 		}
 	}
 
-	class ClassificationTagger : AnalysisNotificationTagger<ClassificationTag, AnalysisHighlightRegion, AnalysisHighlightsNotification>
+	class ClassificationTagger : AnalysisNotificationTagger<ClassificationTag, AnalysisHighlightRegion, AnalysisHighlightsEvent>
 	{
 		IDictionary<HighlightType, IClassificationType> classificationMapping;
 
@@ -87,12 +87,12 @@ namespace DanTup.DartVS
 			return new TagSpan<ClassificationTag>(new SnapshotSpan(buffer.CurrentSnapshot, highlight.Offset, highlight.Length), new ClassificationTag(classificationMapping[highlight.Type]));
 		}
 
-		protected override IDisposable Subscribe(Action<AnalysisHighlightsNotification> updateSourceData)
+		protected override IDisposable Subscribe(Action<AnalysisHighlightsEvent> updateSourceData)
 		{
 			return this.analysisService.AnalysisHighlightsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
-		protected override AnalysisHighlightRegion[] GetDataToTag(AnalysisHighlightsNotification notification)
+		protected override AnalysisHighlightRegion[] GetDataToTag(AnalysisHighlightsEvent notification)
 		{
 			// HACK: This happens if when the base constructor Subscribes, we already ahve an event in the stream...
 			// TODO: Make this better. Ideally, we need to set classificationMapping before the base class Subscribes...

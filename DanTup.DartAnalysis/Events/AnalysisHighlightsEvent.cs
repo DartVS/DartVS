@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
 {
-	public struct AnalysisHighlightsNotification
+	public struct AnalysisHighlightsEvent
 	{
 		[JsonProperty]
 		public string File { get; internal set; }
