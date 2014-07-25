@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
 {
@@ -27,21 +28,43 @@ namespace DanTup.DartAnalysis
 
 	public struct AnalysisElement
 	{
+		[JsonProperty]
 		public ElementKind Kind { get; internal set; }
+
+		[JsonProperty]
 		public string Name { get; internal set; }
+
+		[JsonProperty]
 		public AnalysisLocation Location { get; internal set; }
+
+		[JsonProperty]
 		public AnalysisElementFlags Flags { get; internal set; }
+
+		[JsonProperty]
 		public string Parameters { get; internal set; }
+
+		[JsonProperty]
 		public string ReturnType { get; internal set; }
+
+		[JsonProperty]
 		public AnalysisOutline[] Children { get; internal set; }
 	}
 
 	public struct AnalysisLocation
 	{
+		[JsonProperty]
 		public string File { get; internal set; }
+
+		[JsonProperty]
 		public int Offset { get; internal set; }
+
+		[JsonProperty]
 		public int Length { get; internal set; }
+
+		[JsonProperty]
 		public int StartLine { get; internal set; }
+
+		[JsonProperty]
 		public int StartColumn { get; internal set; }
 	}
 

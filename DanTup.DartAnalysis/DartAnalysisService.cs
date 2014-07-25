@@ -28,8 +28,8 @@ namespace DanTup.DartAnalysis
 		readonly ISubject<ServerStatusNotification> serverStatus = new ReplaySubject<ServerStatusNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<ServerStatusNotification> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
 
-		readonly ISubject<AnalysisErrorsNotification> analysisErrors = new ReplaySubject<AnalysisErrorsNotification>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisErrorsNotification> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
+		readonly ISubject<AnalysisErrors> analysisErrors = new ReplaySubject<AnalysisErrors>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisErrors> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
 
 		readonly ISubject<AnalysisHighlightsNotification> analysisHighlights = new ReplaySubject<AnalysisHighlightsNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisHighlightsNotification> AnalysisHighlightsNotification { get { return analysisHighlights.AsObservable(); } }
@@ -57,8 +57,8 @@ namespace DanTup.DartAnalysis
 		{
 			if (notification is Event<ServerStatusEventJson>)
 				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEventJson>)notification).@params.AsNotification());
-			else if (notification is Event<AnalysisErrorsEventJson>)
-				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisErrors>)
+				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrors>)notification).@params);
 			else if (notification is Event<AnalysisHighlightsEventJson>)
 				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEventJson>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisNavigationEventJson>)

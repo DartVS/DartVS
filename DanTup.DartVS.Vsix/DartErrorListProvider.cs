@@ -17,7 +17,7 @@ namespace DanTup.DartVS
 			errorProvider = new ErrorListProvider(package);
 		}
 
-		internal void UpdateErrors(AnalysisErrorsNotification errorNotification)
+		internal void UpdateErrors(AnalysisErrors errorNotification)
 		{
 			errorProvider.SuspendRefresh();
 			RemoveErrorsForFile(errorNotification.File);

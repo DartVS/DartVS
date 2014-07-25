@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json;
 namespace DanTup.DartAnalysis
 {
 	/// <summary>
@@ -8,7 +9,8 @@ namespace DanTup.DartAnalysis
 	/// <typeparam name="TParams">The type of the paramters for this event.</typeparam>
 	class Event<TParams> : Event
 	{
-		public TParams @params = default(TParams);
+		[JsonProperty]
+		public TParams @params { get; private set; }
 	}
 
 	/// <summary>
