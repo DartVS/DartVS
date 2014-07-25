@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Web.Script.Serialization;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
@@ -9,6 +9,10 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class JsonSerialiser
 	{
+		JsonConverter[] converters = new[] {
+			new GoogleEnumJsonConverter()
+		};
+
 		/// <summary>
 		/// Serialises the provided object into JSON.
 		/// </summary>
@@ -16,7 +20,7 @@ namespace DanTup.DartAnalysis
 		/// <returns>String of JSON representing the provided object.</returns>
 		public string Serialise(object obj)
 		{
-			return JsonConvert.SerializeObject(obj);
+			return JsonConvert.SerializeObject(obj, converters);
 		}
 
 		/// <summary>
@@ -38,7 +42,35 @@ namespace DanTup.DartAnalysis
 		/// <returns>A concrete object built from the provided JSON.</returns>
 		public object Deserialise(string json, Type t)
 		{
-			return JsonConvert.DeserializeObject(json, t);
+			return JsonConvert.DeserializeObject(json, t, converters);
+		}
+	}
+
+	class GoogleEnumJsonConverter : JsonConverter
+	{
+		public override bool CanConvert(Type objectType)
+		{
+			return objectType.IsEnum;
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			if (reader.TokenType != JsonToken.String)
+				throw new JsonSerializationException(string.Format("Cannot convert non-string value to {0}.", objectType));
+
+			var matchingEnumValue = Enum
+				.GetNames(objectType)
+				.FirstOrDefault(ht => ht.ToLowerInvariant() == reader.Value.ToString().ToLowerInvariant().Replace("_", ""));
+
+			if (matchingEnumValue == null)
+				throw new JsonSerializationException(string.Format("Cannot convert value {0} to {1}.", reader.Value, objectType));
+
+			return Enum.Parse(objectType, matchingEnumValue);
+		}
+
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
