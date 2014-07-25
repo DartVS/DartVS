@@ -26,7 +26,7 @@ namespace DanTup.DartVS
 		}
 	}
 
-	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrors>
+	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrorsEvent>
 	{
 		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
 			: base(buffer, textDocumentFactory, analysisService)
@@ -46,12 +46,12 @@ namespace DanTup.DartVS
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
 
-		protected override IDisposable Subscribe(Action<AnalysisErrors> updateSourceData)
+		protected override IDisposable Subscribe(Action<AnalysisErrorsEvent> updateSourceData)
 		{
 			return this.analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
-		protected override AnalysisError[] GetDataToTag(AnalysisErrors notification)
+		protected override AnalysisError[] GetDataToTag(AnalysisErrorsEvent notification)
 		{
 			return notification.Errors.Where(e => e.Location.File == textDocument.FilePath).ToArray();
 		}

@@ -142,7 +142,7 @@ namespace DanTup.DartAnalysis
 		static readonly Dictionary<string, Type> KnownEventTypes = new Dictionary<string, Type> {
 			{ "server.connected", typeof(Event) },
 			{ "server.status", typeof(Event<ServerStatusEventJson>) },
-			{ "analysis.errors", typeof(Event<AnalysisErrors>) },
+			{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
 			{ "analysis.highlights", typeof(Event<AnalysisHighlightsNotification>) },
 			{ "analysis.navigation", typeof(Event<AnalysisNavigationEventJson>) },
 			{ "analysis.outline", typeof(Event<AnalysisOutlineEventJson>) },

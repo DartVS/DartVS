@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 namespace DanTup.DartAnalysis
 {
-	public struct AnalysisErrors
+	public struct AnalysisErrorsEvent
 	{
 		[JsonProperty]
 		public string File { get; internal set; }
