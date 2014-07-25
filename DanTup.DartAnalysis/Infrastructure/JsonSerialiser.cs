@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
 {
@@ -8,8 +9,6 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class JsonSerialiser
 	{
-		readonly JavaScriptSerializer serialiser = new JavaScriptSerializer();
-
 		/// <summary>
 		/// Serialises the provided object into JSON.
 		/// </summary>
@@ -17,7 +16,7 @@ namespace DanTup.DartAnalysis
 		/// <returns>String of JSON representing the provided object.</returns>
 		public string Serialise(object obj)
 		{
-			return serialiser.Serialize(obj);
+			return JsonConvert.SerializeObject(obj);
 		}
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace DanTup.DartAnalysis
 		/// <returns>A concrete object built from the provided JSON.</returns>
 		public object Deserialise(string json, Type t)
 		{
-			return serialiser.Deserialize(json, t);
+			return JsonConvert.DeserializeObject(json, t);
 		}
 	}
 }
