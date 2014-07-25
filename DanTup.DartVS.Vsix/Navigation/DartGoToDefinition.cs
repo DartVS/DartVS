@@ -47,7 +47,7 @@ namespace DanTup.DartVS
 			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
 
-		void UpdateNavigationData(AnalysisNavigationNotification notification)
+		void UpdateNavigationData(AnalysisNavigationEvent notification)
 		{
 			navigationRegions = notification.Regions.ToArray();
 		}
