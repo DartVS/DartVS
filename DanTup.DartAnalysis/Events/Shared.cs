@@ -3,29 +3,6 @@ using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
 {
-	#region JSON deserialisation objects
-
-	class AnalysisElementJson
-	{
-		public string kind = null;
-		public string name = null;
-		public AnalysisLocationJson location = null;
-		public int flags = 0;
-		public string parameters = null;
-		public string returnType = null;
-	}
-
-	class AnalysisLocationJson
-	{
-		public string file = null;
-		public int offset = 0;
-		public int length = 0;
-		public int startLine = 0;
-		public int startColumn = 0;
-	}
-
-	#endregion
-
 	public struct AnalysisElement
 	{
 		[JsonProperty]
