@@ -59,8 +59,8 @@ namespace DanTup.DartAnalysis
 				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEventJson>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisErrors>)
 				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrors>)notification).@params);
-			else if (notification is Event<AnalysisHighlightsEventJson>)
-				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEventJson>)notification).@params.AsNotification());
+			else if (notification is Event<AnalysisHighlightsNotification>)
+				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsNotification>)notification).@params);
 			else if (notification is Event<AnalysisNavigationEventJson>)
 				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEventJson>)notification).@params.AsNotification());
 			else if (notification is Event<AnalysisOutlineEventJson>)

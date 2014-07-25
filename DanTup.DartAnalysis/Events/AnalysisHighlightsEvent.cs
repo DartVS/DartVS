@@ -1,35 +1,27 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
 {
-	#region JSON deserialisation objects
-
-	class AnalysisHighlightsEventJson
-	{
-		public string file = null;
-		public AnalysisHighlightRegionJson[] regions = null;
-	}
-
-	class AnalysisHighlightRegionJson
-	{
-		public int offset = 0;
-		public int length = 0;
-		public string type = null;
-	}
-
-	#endregion
-
 	public struct AnalysisHighlightsNotification
 	{
+		[JsonProperty]
 		public string File { get; internal set; }
+
+		[JsonProperty]
 		public AnalysisHighlightRegion[] Regions { get; internal set; }
 	}
 
 	public struct AnalysisHighlightRegion
 	{
+		[JsonProperty]
 		public int Offset { get; internal set; }
+
+		[JsonProperty]
 		public int Length { get; internal set; }
+
+		[JsonProperty]
 		public HighlightType Type { get; internal set; }
 	}
 
@@ -70,24 +62,5 @@ namespace DanTup.DartAnalysis
 		TopLevelVariable,
 		TypeNameDynamic,
 		TypeParameter
-	}
-
-	internal static class AnalysisHighlightsEventImplementation
-	{
-		static HighlightType[] HighlightTypes = Enum.GetValues(typeof(HighlightType)).Cast<HighlightType>().ToArray();
-
-		public static AnalysisHighlightsNotification AsNotification(this AnalysisHighlightsEventJson notification)
-		{
-			return new AnalysisHighlightsNotification
-			{
-				File = notification.file,
-				Regions = notification.regions.Select(e => new AnalysisHighlightRegion
-				{
-					Offset = e.offset,
-					Length = e.length,
-					Type = HighlightTypes.FirstOrDefault(ht => ht.ToString().ToLowerInvariant() == e.type.ToLowerInvariant().Replace("_", "")),
-				}).ToArray(),
-			};
-		}
 	}
 }
