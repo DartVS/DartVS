@@ -1,30 +1,10 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace DanTup.DartAnalysis
 {
-	#region JSON deserialisation objects
-
-	class ServerStatusEventJson
+	public struct ServerStatusEvent
 	{
-		public ServerAnalysisStatusJson analysis = null;
-	}
-
-	class ServerAnalysisStatusJson
-	{
-		public bool analyzing = false;
-	}
-
-	#endregion
-
-	public struct ServerStatusNotification
-	{
+		[JsonProperty]
 		public bool IsAnalysing { get; internal set; }
-	}
-
-	internal static class ServerStatusEventImplementation
-	{
-		public static ServerStatusNotification AsNotification(this ServerStatusEventJson notification)
-		{
-			return new ServerStatusNotification { IsAnalysing = notification.analysis.analyzing };
-		}
 	}
 }

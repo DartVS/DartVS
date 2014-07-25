@@ -25,8 +25,8 @@ namespace DanTup.DartAnalysis
 		// (eg. Open Document, which adds a file to Subscriptions, fires before the taggers are created).
 		// This is certainly a big hack; but I think it's better than trying to coordinate setting subscriptions from taggers for now.
 
-		readonly ISubject<ServerStatusNotification> serverStatus = new ReplaySubject<ServerStatusNotification>(TimeSpan.FromSeconds(10));
-		public IObservable<ServerStatusNotification> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
+		readonly ISubject<ServerStatusEvent> serverStatus = new ReplaySubject<ServerStatusEvent>(TimeSpan.FromSeconds(10));
+		public IObservable<ServerStatusEvent> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
 
 		readonly ISubject<AnalysisErrorsEvent> analysisErrors = new ReplaySubject<AnalysisErrorsEvent>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisErrorsEvent> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
@@ -55,8 +55,8 @@ namespace DanTup.DartAnalysis
 
 		void HandleEvent(Event notification)
 		{
-			if (notification is Event<ServerStatusEventJson>)
-				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEventJson>)notification).@params.AsNotification());
+			if (notification is Event<ServerStatusEvent>)
+				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEvent>)notification).@params);
 			else if (notification is Event<AnalysisErrorsEvent>)
 				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEvent>)notification).@params);
 			else if (notification is Event<AnalysisHighlightsEvent>)
