@@ -50,7 +50,7 @@ namespace DanTup.DartAnalysis
 	{
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType.IsEnum;
+			return objectType.IsEnum && !objectType.GetCustomAttributes(typeof(FlagsAttribute), false).Any();
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
