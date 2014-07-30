@@ -15,7 +15,7 @@ namespace DanTup.DartVS
 		protected IWpfTextView textView;
 		protected ITextDocument textDocument;
 		protected IOleCommandTarget nextCommandTarget;
-		DartAnalysisService analysisService;
+		protected DartAnalysisService analysisService;
 
 		T commandID;
 

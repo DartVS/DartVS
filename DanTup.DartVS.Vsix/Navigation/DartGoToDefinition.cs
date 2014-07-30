@@ -12,37 +12,14 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace DanTup.DartVS
 {
-	class DartGoToDefinition : IOleCommandTarget
+	class DartGoToDefinition : DartOleCommandTarget<VSConstants.VSStd97CmdID>
 	{
-		IVsTextView textViewAdapter;
-		IWpfTextView textView;
-		ITextDocument textDocument;
-		IOleCommandTarget nextCommandTarget;
-		DartAnalysisService analysisService;
-
 		IDisposable subscription;
 		AnalysisNavigationRegion[] navigationRegions = new AnalysisNavigationRegion[0];
 
 		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
+			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd97CmdID.GotoDefn)
 		{
-			this.textViewAdapter = textViewAdapter;
-			this.textView = textView;
-			this.analysisService = analysisService;
-			textDocumentFactory.TryGetTextDocument(textView.TextBuffer, out this.textDocument);
-
-			Dispatcher.CurrentDispatcher.InvokeAsync(() =>
-			{
-				// Add the target later to make sure it makes it in before other command handlers.
-				ErrorHandler.ThrowOnFailure(textViewAdapter.AddCommandFilter(this, out nextCommandTarget));
-			}, DispatcherPriority.ApplicationIdle);
-
-			// Make sure we remove our subscription when the file is closed so we don't leak.
-			textView.Closed += (o, e) =>
-			{
-				if (subscription != null)
-					subscription.Dispose();
-			};
-
 			// Subscribe to outline updates for this file.
 			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
@@ -52,59 +29,37 @@ namespace DanTup.DartVS
 			navigationRegions = notification.Regions.ToArray();
 		}
 
-		public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
+		protected override void Exec()
 		{
-			if (pguidCmdGroup == typeof(VSConstants.VSStd97CmdID).GUID && nCmdID == Convert.ToUInt32(VSConstants.VSStd97CmdID.GotoDefn, CultureInfo.InvariantCulture))
+			var offset = textView.Caret.Position.BufferPosition.Position;
+			var navigationRegion = navigationRegions.FirstOrDefault(r => r.Offset <= offset && r.Offset + r.Length >= offset);
+
+			if (navigationRegion.Targets != null && navigationRegion.Targets.Any())
 			{
-				var offset = textView.Caret.Position.BufferPosition.Position;
-				var navigationRegion = navigationRegions.FirstOrDefault(r => r.Offset <= offset && r.Offset + r.Length >= offset);
+				// TODO: Show user if there are multiple!
+				var target = navigationRegion.Targets.First();
+				var file = target.Location.File;
+				var position = target.Location.Offset;
 
-				if (navigationRegion.Targets != null && navigationRegion.Targets.Any())
+				Helpers.OpenFileInPreviewTab(file);
+				Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
 				{
-					// TODO: Show user if there are multiple!
-					var target = navigationRegion.Targets.First();
-					var file = target.Location.File;
-					var position = target.Location.Offset;
-
-					Helpers.OpenFileInPreviewTab(file);
-					Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+					try
 					{
-						try
-						{
-							IWpfTextView view = Helpers.GetCurentTextView();
-							ITextSnapshot snapshot = view.TextBuffer.CurrentSnapshot;
-							view.Caret.MoveTo(new SnapshotPoint(snapshot, position));
-							view.ViewScroller.EnsureSpanVisible(new SnapshotSpan(snapshot, position, 1), EnsureSpanVisibleOptions.AlwaysCenter);
-						}
-						catch
-						{ }
+						IWpfTextView view = Helpers.GetCurentTextView();
+						ITextSnapshot snapshot = view.TextBuffer.CurrentSnapshot;
+						view.Caret.MoveTo(new SnapshotPoint(snapshot, position));
+						view.ViewScroller.EnsureSpanVisible(new SnapshotSpan(snapshot, position, 1), EnsureSpanVisibleOptions.AlwaysCenter);
+					}
+					catch
+					{ }
 
-					}), DispatcherPriority.ApplicationIdle, null);
-				}
-				else
-				{
-					// TODO: Alert user!
-				}
+				}), DispatcherPriority.ApplicationIdle, null);
 			}
-
-			return nextCommandTarget.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
-		}
-
-		public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
-		{
-			if (pguidCmdGroup != typeof(VSConstants.VSStd97CmdID).GUID)
-				return nextCommandTarget.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
-
-			for (int i = 0; i < cCmds; i++)
+			else
 			{
-				if (prgCmds[i].cmdID == Convert.ToUInt32(VSConstants.VSStd97CmdID.GotoDefn, CultureInfo.InvariantCulture))
-				{
-					prgCmds[i].cmdf = (uint)(OLECMDF.OLECMDF_ENABLED | OLECMDF.OLECMDF_SUPPORTED);
-					return VSConstants.S_OK;
-				}
+				// TODO: Alert user!
 			}
-
-			return nextCommandTarget.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
 		}
 	}
 }
