@@ -31,6 +31,7 @@ namespace DanTup.DartVS
 			var textView = editorAdaptersFactoryService.GetWpfTextView(textViewAdapter);
 
 			textView.Properties.GetOrCreateSingletonProperty<DartGoToDefinition>(() => new DartGoToDefinition(textDocumentFactory, textViewAdapter, textView, analysisService));
+			textView.Properties.GetOrCreateSingletonProperty<DartFormatDocument>(() => new DartFormatDocument(textDocumentFactory, textViewAdapter, textView));
 		}
 	}
 }

@@ -149,6 +149,7 @@
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartProjectInfo.cs" />
+    <Compile Include="Formatting\DartFormatDocument.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Navigation\DartGoToDefinition.cs" />
     <Compile Include="Navigation\DartViewCreationListener.cs" />
