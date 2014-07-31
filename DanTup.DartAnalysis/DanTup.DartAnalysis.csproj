@@ -68,6 +68,7 @@
     <Compile Include="Commands\ServerSetSubscriptions.cs" />
     <Compile Include="Commands\ServerShutdown.cs" />
     <Compile Include="DartAnalysisService.cs" />
+    <Compile Include="DartFormatter.cs" />
     <Compile Include="Events\AnalysisOutlineEvent.cs" />
     <Compile Include="Events\AnalysisNavigationEvent.cs" />
     <Compile Include="Events\AnalysisHighlightsEvent.cs" />
