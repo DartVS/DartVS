@@ -8,8 +8,6 @@ namespace DanTup.DartVS
 {
 	class DartFormatDocument : DartOleCommandTarget<VSConstants.VSStd2KCmdID>
 	{
-		DartFormatter formatter = new DartFormatter();
-
 		public DartFormatDocument(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd2KCmdID.FORMATDOCUMENT)
 		{
@@ -22,7 +20,9 @@ namespace DanTup.DartVS
 			var caretLine = textView.TextSnapshot.GetLineNumberFromPosition(textView.Caret.Position.BufferPosition.Position);
 
 			// Call the formatter.
-			var formattedFileContents = formatter.FormatText(fileContents);
+			string formattedFileContents;
+			using (var formatter = new DartFormatter(DartAnalysisService.SdkPath))
+				formattedFileContents = formatter.FormatText(fileContents);
 
 			// Create a span that is the entire document, since we're going to replace it.
 			var entireDocumentSpan = new Span(0, textView.TextSnapshot.TextBuffer.CurrentSnapshot.Length);

@@ -52,6 +52,14 @@ namespace DanTup.DartAnalysis
 				process.StandardInput.WriteLine(value);
 		}
 
+		public void WaitForExit(int milliseconds = 0)
+		{
+			if (milliseconds == 0)
+				process.WaitForExit();
+			else
+				process.WaitForExit(milliseconds);
+		}
+
 		#region OMG DO WE STILL HAVE TO DO THIS?
 
 		public void Dispose()

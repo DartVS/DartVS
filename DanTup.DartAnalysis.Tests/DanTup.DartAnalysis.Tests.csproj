@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormattingTests.cs" />
     <Compile Include="AnalysisTests.cs" />
     <Compile Include="ServerTests.cs" />
     <Compile Include="Tests.cs" />
