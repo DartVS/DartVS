@@ -51,17 +51,20 @@ namespace DanTup.DartAnalysis
 		ClassTypeAlias,
 		CompilationUnit,
 		Constructor,
-		Getter,
 		Field,
 		Function,
 		FunctionTypeAlias,
+		Getter,
 		Library,
+		LocalVariable,
 		Method,
+		Parameter,
 		Setter,
 		TopLevelVariable,
-		Unknown,
+		TypeParameter,
 		UnitTestCase,
-		UnitTestGroup
+		UnitTestGroup,
+		Unknown,
 	}
 
 	[Flags]

@@ -58,9 +58,11 @@ namespace DanTup.DartAnalysis
 			if (reader.TokenType != JsonToken.String)
 				throw new JsonSerializationException(string.Format("Cannot convert non-string value to {0}.", objectType));
 
+			var wantedEnumValue = reader.Value.ToString().Replace("_", "");
+
 			var matchingEnumValue = Enum
 				.GetNames(objectType)
-				.FirstOrDefault(ht => ht.ToLowerInvariant() == reader.Value.ToString().ToLowerInvariant().Replace("_", ""));
+				.FirstOrDefault(ht => string.Equals(ht, wantedEnumValue, StringComparison.OrdinalIgnoreCase));
 
 			if (matchingEnumValue == null)
 				throw new JsonSerializationException(string.Format("Cannot convert value {0} to {1}.", reader.Value, objectType));
