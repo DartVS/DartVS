@@ -30,6 +30,28 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "analysis_server", "http://l
 		SlnRelativePath = "..\Dart\dart\pkg\analysis_server\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DanTup.DartAnalysis.Tests.SampleDartProject", "http://localhost:49251", "{88C4EE36-6BF1-4144-8081-126217A59B56}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_49251"
+		Debug.AspNetCompiler.PhysicalPath = "DanTup.DartAnalysis.Tests.SampleDartProject\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49251\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_49251"
+		Release.AspNetCompiler.PhysicalPath = "DanTup.DartAnalysis.Tests.SampleDartProject\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49251\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "DanTup.DartAnalysis.Tests.SampleDartProject\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +74,10 @@ Global
 		{0C6FC1E7-DD9B-448C-9D5D-1CB31E742492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C6FC1E7-DD9B-448C-9D5D-1CB31E742492}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C6FC1E7-DD9B-448C-9D5D-1CB31E742492}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{88C4EE36-6BF1-4144-8081-126217A59B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C4EE36-6BF1-4144-8081-126217A59B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C4EE36-6BF1-4144-8081-126217A59B56}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C4EE36-6BF1-4144-8081-126217A59B56}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
