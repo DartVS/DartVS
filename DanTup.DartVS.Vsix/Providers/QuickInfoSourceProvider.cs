@@ -11,8 +11,7 @@ namespace DanTup.DartVS
 {
 	[Export(typeof(IQuickInfoSourceProvider))]
 	[ContentType(DartContentTypeDefinition.DartContentType)]
-	[Name("Test")]
-	[Order(Before = "Default Quick Info Presenter")]
+	[Name("Dart Quick")]
 	class QuickInfoSourceProvider : IQuickInfoSourceProvider
 	{
 		[Import]
