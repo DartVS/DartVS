@@ -25,15 +25,14 @@ however it's still some way off release :(
 - [x] [Show Dart icon for .dart files](/../../issues/10)
 - [x] [Go to Definition](/../../issues/14)
 - [x] [Format Document](/../../issues/26)
-- [ ] [Format Selection](/../../issues/26)
-- [ ] [Automatically format block on closing brace](/../../issues/27)
-- [ ] [Highlight other references to selected item](/../../issues/13)
 - [x] [Show outline navigation bars at top of editor](/../../issues/12)
 - [ ] [Code Completion](/../../issues/5)
-- [ ] [Find References](/../../issues/15)
 - [ ] [Remove hard-coded references to analysis service](/../../issues/30)
 
 ## Planned for after v1
+- [ ] [Automatically format block on closing brace](/../../issues/27)
+- [ ] [Highlight other references to selected item](/../../issues/13)
+- [ ] [Find References](/../../issues/15)
 - [ ] [Code Folding](/../../issues/19)
 - [ ] [Test Support](/../../issues/34)
 - [ ] [Debugging](/../../issues/28)
