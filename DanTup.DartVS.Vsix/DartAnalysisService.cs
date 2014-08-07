@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using DanTup.DartAnalysis;
 
 namespace DanTup.DartVS
@@ -20,9 +22,11 @@ namespace DanTup.DartVS
 			Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.User)
 			?? Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Machine);
 
+		public static readonly string ExtensionFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
 		[ImportingConstructor]
 		public DartAnalysisService([Import]DartProjectTracker projectTracker, [Import]OpenFileTracker openFileTracker)
-			: base(SdkPath, @"M:\Apps\Dart\AnalysisServer\\analysis_server.dart.snapshot")
+			: base(SdkPath, Path.Combine(ExtensionFolder, @"AnalysisServer.dart"))
 		{
 			this.projectTracker = projectTracker;
 			this.openFileTracker = openFileTracker;
