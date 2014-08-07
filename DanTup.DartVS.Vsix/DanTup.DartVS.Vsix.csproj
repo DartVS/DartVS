@@ -165,8 +165,10 @@
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DartPackage.cs" />
+    <Compile Include="Completion\CompletionController.cs" />
     <Compile Include="Providers\PeekableItemProvider.cs" />
     <Compile Include="Providers\QuickInfoControllerProvider.cs" />
+    <Compile Include="Completion\CompletionSourceProvider.cs" />
     <Compile Include="Providers\QuickInfoSourceProvider.cs" />
     <Compile Include="Providers\SmartIndentProvider.cs" />
     <Compile Include="Taggers\AnalysisNotificationTagger.cs" />

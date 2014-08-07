@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -24,6 +20,9 @@ namespace DanTup.DartVS
 		IVsEditorAdaptersFactoryService editorAdaptersFactoryService = null;
 
 		[Import]
+		ICompletionBroker completionBroker = null;
+
+		[Import]
 		DartAnalysisService analysisService = null;
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
@@ -32,6 +31,7 @@ namespace DanTup.DartVS
 
 			textView.Properties.GetOrCreateSingletonProperty<DartGoToDefinition>(() => new DartGoToDefinition(textDocumentFactory, textViewAdapter, textView, analysisService));
 			textView.Properties.GetOrCreateSingletonProperty<DartFormatDocument>(() => new DartFormatDocument(textDocumentFactory, textViewAdapter, textView, analysisService));
+			textView.Properties.GetOrCreateSingletonProperty<CompletionController>(() => new CompletionController(textDocumentFactory, textViewAdapter, textView, completionBroker, analysisService));
 		}
 	}
 }
