@@ -29,7 +29,7 @@ namespace DanTup.DartVS
 			navigationRegions = notification.Regions.ToArray();
 		}
 
-		protected override void Exec()
+		protected override void Exec(uint nCmdID, IntPtr pvaIn)
 		{
 			var offset = textView.Caret.Position.BufferPosition.Position;
 			var navigationRegion = navigationRegions.FirstOrDefault(r => r.Offset <= offset && r.Offset + r.Length >= offset);

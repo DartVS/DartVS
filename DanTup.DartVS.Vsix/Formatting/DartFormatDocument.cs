@@ -1,4 +1,5 @@
-﻿using DanTup.DartAnalysis;
+﻿using System;
+using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -13,7 +14,7 @@ namespace DanTup.DartVS
 		{
 		}
 
-		protected override void Exec()
+		protected override void Exec(uint nCmdID, IntPtr pvaIn)
 		{
 			// Get the current state of the document (we can't format on-disk, as it might not have been saved).
 			var fileContents = textView.TextSnapshot.GetText();

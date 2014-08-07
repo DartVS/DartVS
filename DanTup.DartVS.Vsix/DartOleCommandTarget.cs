@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
@@ -17,14 +18,14 @@ namespace DanTup.DartVS
 		protected IOleCommandTarget nextCommandTarget;
 		protected DartAnalysisService analysisService;
 
-		T commandID;
+		uint[] commandIDs;
 
-		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService, T commandID)
+		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService, params T[] commandIDs)
 		{
 			this.textViewAdapter = textViewAdapter;
 			this.textView = textView;
 			this.analysisService = analysisService;
-			this.commandID = commandID;
+			this.commandIDs = commandIDs.Select(commandID => Convert.ToUInt32(commandID, CultureInfo.InvariantCulture)).ToArray();
 
 			textDocumentFactory.TryGetTextDocument(textView.TextBuffer, out this.textDocument);
 
@@ -37,15 +38,15 @@ namespace DanTup.DartVS
 
 		public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
 		{
-			if (pguidCmdGroup == typeof(T).GUID && nCmdID == Convert.ToUInt32(commandID, CultureInfo.InvariantCulture))
+			if (pguidCmdGroup == typeof(T).GUID && commandIDs.Contains(nCmdID))
 			{
-				this.Exec();
+				this.Exec(nCmdID, pvaIn);
 			}
 
 			return nextCommandTarget.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 		}
 
-		protected abstract void Exec();
+		protected abstract void Exec(uint nCmdID, IntPtr pvaIn);
 
 		public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
 		{
@@ -54,7 +55,7 @@ namespace DanTup.DartVS
 
 			for (int i = 0; i < cCmds; i++)
 			{
-				if (prgCmds[i].cmdID == Convert.ToUInt32(commandID, CultureInfo.InvariantCulture))
+				if (commandIDs.Contains(prgCmds[i].cmdID))
 				{
 					prgCmds[i].cmdf = (uint)(OLECMDF.OLECMDF_ENABLED | OLECMDF.OLECMDF_SUPPORTED);
 					return VSConstants.S_OK;
