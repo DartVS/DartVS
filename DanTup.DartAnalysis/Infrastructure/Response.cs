@@ -31,7 +31,7 @@
 	/// </summary>
 	class ErrorResult
 	{
-		public int code = 0;
+		public string code = null;
 		public string message = null;
 	}
 }

@@ -10,14 +10,14 @@ namespace DanTup.DartAnalysis
 		/// <summary>
 		/// The error code returned by the Analysis Service.
 		/// </summary>
-		public int Code { get; private set; }
+		public string Code { get; private set; }
 
 		/// <summary>
 		/// The error message returned by the Analysis Service.
 		/// </summary>
 		public string ErrorMessage { get; private set; }
 
-		public ErrorResponseException(int code, string message)
+		public ErrorResponseException(string code, string message)
 			: base("Error response from server: " + message)
 		{
 			this.Code = code;
