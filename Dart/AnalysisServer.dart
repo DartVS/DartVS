@@ -142,10 +142,10 @@ class AnalysisLogger implements Logger {
     baseLogger.info(A_message, exception);
   }
 }
-class AnalysisServerContextDirectoryManager extends ContextDirectoryManager {
+class ServerContextManager extends ContextManager {
   final AnalysisServer analysisServer;
   AnalysisOptionsImpl defaultOptions = new AnalysisOptionsImpl();
-  AnalysisServerContextDirectoryManager(this.analysisServer, ResourceProvider resourceProvider, PackageMapProvider packageMapProvider) : super(resourceProvider, packageMapProvider);
+  ServerContextManager(this.analysisServer, ResourceProvider resourceProvider, PackageMapProvider packageMapProvider) : super(resourceProvider, packageMapProvider);
   void addContext(Folder folder, Map<String, List<Folder>> packageMap) {
     AnalysisContext context = AnalysisEngine.A_instance.createAnalysisContext();
     analysisServer.folderMap[folder] = context;
@@ -179,7 +179,7 @@ class AnalysisServer {
   final ResourceProvider resourceProvider;
   final Index index;
   SearchEngine searchEngine;
-  AnalysisServerContextDirectoryManager contextDirectoryManager;
+  ServerContextManager contextDirectoryManager;
   bool running;
   bool statusAnalyzing = false;
   List<RequestHandler> handlers;
@@ -193,7 +193,7 @@ class AnalysisServer {
   AnalysisServer(this.channel, this.resourceProvider, PackageMapProvider packageMapProvider, this.index, this.A_defaultSdk, {this.rethrowExceptions: true}) {
     searchEngine = createSearchEngine(index);
     operationQueue = new ServerOperationQueue(this);
-    contextDirectoryManager = new AnalysisServerContextDirectoryManager(this, resourceProvider, packageMapProvider);
+    contextDirectoryManager = new ServerContextManager(this, resourceProvider, packageMapProvider);
     AnalysisEngine.A_instance.logger = new AnalysisLogger();
     running = true;
     Notification notification = new Notification(SERVER_CONNECTED);
@@ -346,9 +346,12 @@ class AnalysisServer {
       if (analysisContext != null) {
         Source A_source = getSource(A_file);
         if (A_change.offset == null) {
-          analysisContext.setContents(A_source, A_change.content);
+          analysisContext.setContents(A_source, A_change.contentOrReplacement);
         } else {
-          analysisContext.setChangedContents(A_source, A_change.content, A_change.offset, A_change.oldLength, A_change.newLength);
+          TimestampedData<String> oldContents = analysisContext.getContents(A_source);
+          int offsetEnd = A_change.offset + A_change.length;
+          String newContents = oldContents.data.substring(0, A_change.offset) + A_change.contentOrReplacement + oldContents.data.substring(offsetEnd);
+          analysisContext.setChangedContents(A_source, newContents, A_change.offset, A_change.length, A_change.contentOrReplacement.length);
         }
         schedulePerformAnalysisOperation(analysisContext);
       }
@@ -2034,18 +2037,28 @@ const String ENABLE_DEFERRED_LOADING = 'enableDeferredLoading';
 const String ENABLE_ENUMS = 'enableEnums';
 const String GENERATE_DART2JS_HINTS = 'generateDart2jsHints';
 const String GENERATE_HINTS = 'generateHints';
-class _ContextDirectoryInfo {
-  p.StreamSubscription<WatchEvent> changeSubscription;
-  Map<String, Source> sources = new A_p.HashMap<String,Source>();
-  Set<String> packageMapDependencies;
-}
-abstract class ContextDirectoryManager {
-  static const String PUBSPEC_NAME = 'pubspec.yaml';
-  Map<Folder, _ContextDirectoryInfo> _currentDirectoryInfo = new A_p.HashMap<Folder,_ContextDirectoryInfo>();
+const String PUBSPEC_NAME = 'pubspec.yaml';
+abstract class ContextManager {
+  Map<Folder, _ContextInfo> _contexts = new A_p.HashMap<Folder,_ContextInfo>();
   final ResourceProvider resourceProvider;
+  Context pathContext;
   final PackageMapProvider packageMapProvider;
-  ContextDirectoryManager(this.resourceProvider, this.packageMapProvider);
+  ContextManager(this.resourceProvider, this.packageMapProvider) {
+    pathContext = resourceProvider.pathContext;
+  }
+  void addContext(Folder folder, Map<String, List<Folder>> packageMap);
+  void applyChangesToContext(Folder contextFolder, ChangeSet changeSet);
+  bool isInAnalysisRoot(String A_path) {
+    for (Folder A_root in _contexts.keys) {
+      if (A_root.contains(A_path)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  void removeContext(Folder folder);
   void setRoots(List<String> includedPaths, List<String> excludedPaths) {
+    List<Folder> contextFolders = _contexts.keys.toList();
     Set<Folder> includedFolders = new A_p.HashSet<Folder>();
     for (int i = 0; i < includedPaths.length; i++) {
       String A_path = includedPaths[i];
@@ -2060,42 +2073,110 @@ abstract class ContextDirectoryManager {
       throw new UnimplementedError('Excluded paths are not supported yet');
     }
     Set<Folder> excludedFolders = new A_p.HashSet<Folder>();
-    Set<Folder> currentFolders = _currentDirectoryInfo.keys.toSet();
-    Set<Folder> newFolders = includedFolders.difference(currentFolders);
-    Set<Folder> oldFolders = currentFolders.difference(includedFolders);
-    for (Folder folder in oldFolders) {
-      _destroyContext(folder);
+    for (Folder contextFolder in contextFolders) {
+      bool isIncluded = includedFolders.any((folder) {
+        return folder.contains(contextFolder.path);
+      });
+      if (!isIncluded) {
+        _destroyContext(contextFolder);
+      }
     }
-    for (Folder folder in newFolders) {
-      _createContext(folder);
+    for (Folder includedFolder in includedFolders) {
+      bool wasIncluded = contextFolders.any((folder) {
+        return folder.contains(includedFolder.path);
+      });
+      if (!wasIncluded) {
+        _createContexts(includedFolder, false);
+      }
     }
   }
-  void _createContext(Folder folder) {
-    _ContextDirectoryInfo A_info = new _ContextDirectoryInfo();
-    _currentDirectoryInfo[folder] = A_info;
+  void updateContextPackageMap(Folder contextFolder, Map<String, List<Folder>> packageMap);
+  _ContextInfo _createContext(Folder folder, List<_ContextInfo> children) {
+    _ContextInfo A_info = new _ContextInfo(folder, children);
+    _contexts[folder] = A_info;
     A_info.changeSubscription = folder.changes.listen((WatchEvent event) {
       _handleWatchEvent(folder, A_info, event);
     });
-    A_File pubspecFile = folder.getChild(PUBSPEC_NAME);
     PackageMapInfo packageMapInfo = packageMapProvider.computePackageMap(folder);
     A_info.packageMapDependencies = packageMapInfo.dependencies;
     addContext(folder, packageMapInfo.packageMap);
+    return A_info;
+  }
+  _ContextInfo _createContextWithSources(Folder folder, List<_ContextInfo> children) {
+    _ContextInfo A_info = _createContext(folder, children);
     ChangeSet changeSet = new ChangeSet();
     _addSourceFiles(changeSet, folder, A_info);
     applyChangesToContext(folder, changeSet);
+    return A_info;
+  }
+  List<_ContextInfo> _createContexts(Folder folder, bool withPubspecOnly) {
+    {
+      A_File pubspecFile = folder.getChild(PUBSPEC_NAME);
+      if (pubspecFile.exists) {
+        _ContextInfo A_info = _createContextWithSources(folder, <_ContextInfo>[]);
+        return [A_info];
+      }
+    }
+    List<_ContextInfo> children = <_ContextInfo>[];
+    for (Resource child in folder.A_getChildren()) {
+      if (child is Folder) {
+        List<_ContextInfo> childContexts = _createContexts(child, true);
+        children.addAll(childContexts);
+      }
+    }
+    if (withPubspecOnly) {
+      return children;
+    }
+    _createContextWithSources(folder, children);
+    return children;
   }
   void _destroyContext(Folder folder) {
-    _currentDirectoryInfo[folder].changeSubscription.cancel();
-    _currentDirectoryInfo.remove(folder);
+    _contexts[folder].changeSubscription.cancel();
+    _contexts.remove(folder);
     removeContext(folder);
   }
-  void _handleWatchEvent(Folder folder, _ContextDirectoryInfo A_info, WatchEvent event) {
+  void _extractContext(_ContextInfo oldInfo, A_File pubspecFile) {
+    Folder newFolder = pubspecFile.parent;
+    _ContextInfo newInfo = _createContext(newFolder, []);
+    newInfo.parent = oldInfo;
+    Map<String, Source> extractedSources = new A_p.HashMap<String,Source>();
+    oldInfo.sources.forEach((A_path, A_source) {
+      if (newFolder.contains(A_path)) {
+        extractedSources[A_path] = A_source;
+      }
+    });
+    {
+      ChangeSet changeSet = new ChangeSet();
+      extractedSources.forEach((A_path, A_source) {
+        newInfo.sources[A_path] = A_source;
+        changeSet.addedSource(A_source);
+      });
+      applyChangesToContext(newFolder, changeSet);
+    }
+    {
+      ChangeSet changeSet = new ChangeSet();
+      extractedSources.forEach((A_path, A_source) {
+        oldInfo.sources.remove(A_path);
+        changeSet.removedSource(A_source);
+      });
+      applyChangesToContext(oldInfo.folder, changeSet);
+    }
+  }
+  void _handleWatchEvent(Folder folder, _ContextInfo A_info, WatchEvent event) {
+    String A_path = event.path;
+    if (A_info.excludes(A_path)) {
+      return;
+    }
     switch (event.type) {
       case ChangeType.ADD:
-        if (_isInPackagesDir(event.path, folder)) {
+        if (_isInPackagesDir(A_path, folder)) {
           break;
         }
-        Resource resource = resourceProvider.getResource(event.path);
+        Resource resource = resourceProvider.getResource(A_path);
+        if (_isPubspec(A_path)) {
+          _extractContext(A_info, resource);
+          return;
+        }
         if (resource is A_File) {
           A_File A_file = resource;
           if (_shouldFileBeAnalyzed(A_file)) {
@@ -2103,23 +2184,27 @@ abstract class ContextDirectoryManager {
             Source A_source = A_file.createSource();
             changeSet.addedSource(A_source);
             applyChangesToContext(folder, changeSet);
-            A_info.sources[event.path] = A_source;
+            A_info.sources[A_path] = A_source;
           }
         }
         break;
 
       case ChangeType.REMOVE:
-        Source A_source = A_info.sources[event.path];
+        if (A_info.isPubspec(A_path)) {
+          _mergeContext(A_info);
+          return;
+        }
+        Source A_source = A_info.sources[A_path];
         if (A_source != null) {
           ChangeSet changeSet = new ChangeSet();
           changeSet.removedSource(A_source);
           applyChangesToContext(folder, changeSet);
-          A_info.sources.remove(event.path);
+          A_info.sources.remove(A_path);
         }
         break;
 
       case ChangeType.A_MODIFY:
-        Source A_source = A_info.sources[event.path];
+        Source A_source = A_info.sources[A_path];
         if (A_source != null) {
           ChangeSet changeSet = new ChangeSet();
           changeSet.changedSource(A_source);
@@ -2127,15 +2212,15 @@ abstract class ContextDirectoryManager {
         }
         break;
     }
-    if (A_info.packageMapDependencies.contains(event.path)) {
+    if (A_info.packageMapDependencies.contains(A_path)) {
       PackageMapInfo packageMapInfo = packageMapProvider.computePackageMap(folder);
       A_info.packageMapDependencies = packageMapInfo.dependencies;
       updateContextPackageMap(folder, packageMapInfo.packageMap);
     }
   }
   bool _isInPackagesDir(String A_path, Folder folder) {
-    String relativePath = resourceProvider.pathContext.A_relative(A_path, from: folder.path);
-    List<String> pathParts = resourceProvider.pathContext.split(relativePath);
+    String relativePath = pathContext.A_relative(A_path, from: folder.path);
+    List<String> pathParts = pathContext.split(relativePath);
     for (int i = 0; i < pathParts.length - 1; i++) {
       if (pathParts[i] == 'packages') {
         return true;
@@ -2143,7 +2228,26 @@ abstract class ContextDirectoryManager {
     }
     return false;
   }
-  static void _addSourceFiles(ChangeSet changeSet, Folder folder, _ContextDirectoryInfo A_info) {
+  bool _isPubspec(String A_path) {
+    return pathContext.A_basename(A_path) == PUBSPEC_NAME;
+  }
+  void _mergeContext(_ContextInfo A_info) {
+    _destroyContext(A_info.folder);
+    _ContextInfo parentInfo = A_info.parent;
+    if (parentInfo != null) {
+      parentInfo.children.remove(A_info);
+      ChangeSet changeSet = new ChangeSet();
+      A_info.sources.forEach((A_path, A_source) {
+        parentInfo.sources[A_path] = A_source;
+        changeSet.addedSource(A_source);
+      });
+      applyChangesToContext(parentInfo.folder, changeSet);
+    }
+  }
+  static void _addSourceFiles(ChangeSet changeSet, Folder folder, _ContextInfo A_info) {
+    if (A_info.excludesResource(folder)) {
+      return;
+    }
     List<Resource> children = folder.A_getChildren();
     for (Resource child in children) {
       if (child is A_File) {
@@ -2166,18 +2270,32 @@ abstract class ContextDirectoryManager {
     }
     return A_file.exists;
   }
-  bool isInAnalysisRoot(String A_path) {
-    for (Folder A_root in _currentDirectoryInfo.keys) {
-      if (A_root.contains(A_path)) {
-        return true;
-      }
+}
+class _ContextInfo {
+  final Folder folder;
+  final List<_ContextInfo> children;
+  _ContextInfo parent;
+  String pubspecPath;
+  p.StreamSubscription<WatchEvent> changeSubscription;
+  Map<String, Source> sources = new A_p.HashMap<String,Source>();
+  Set<String> packageMapDependencies;
+  _ContextInfo(this.folder, this.children) {
+    pubspecPath = folder.getChild(PUBSPEC_NAME).path;
+    for (_ContextInfo child in children) {
+      child.parent = this;
     }
-    return false;
   }
-  void addContext(Folder folder, Map<String, List<Folder>> packageMap);
-  void applyChangesToContext(Folder contextFolder, ChangeSet changeSet);
-  void removeContext(Folder folder);
-  void updateContextPackageMap(Folder contextFolder, Map<String, List<Folder>> packageMap);
+  bool excludes(String A_path) {
+    return children.any((child) {
+      return child.folder.contains(A_path);
+    });
+  }
+  bool excludesResource(Resource resource) {
+    return excludes(resource.path);
+  }
+  bool isPubspec(String A_path) {
+    return A_path == pubspecPath;
+  }
 }
 class AnalysisDomainHandler implements RequestHandler {
   final AnalysisServer server;
@@ -2279,16 +2397,32 @@ class AnalysisDomainHandler implements RequestHandler {
   Response updateContent(Request request) {
     var changes = new A_p.HashMap<String,ContentChange>();
     RequestDatum filesDatum = request.getRequiredParameter(FILES);
-    filesDatum.forEachMap((A_file, changeDatum) {
-      var A_change = new ContentChange();
-      A_change.content = changeDatum[CONTENT].isNull ? null : changeDatum[CONTENT].asString();
-      if (changeDatum.hasKey(OFFSET)) {
-        A_change.offset = changeDatum[OFFSET].asInt();
-        A_change.oldLength = changeDatum[OLD_LENGTH].asInt();
-        A_change.newLength = changeDatum[NEW_LENGTH].asInt();
+    Response errorResponse;
+    for (String A_file in filesDatum.keys) {
+      RequestDatum changeDatum = filesDatum[A_file];
+      ContentChange A_change = new ContentChange();
+      switch (changeDatum[TYPE].asString()) {
+        case 'add':
+          A_change.contentOrReplacement = changeDatum[CONTENT].asString();
+          break;
+
+        case 'change':
+          A_change.offset = changeDatum[OFFSET].asInt();
+          A_change.length = changeDatum[LENGTH].asInt();
+          A_change.contentOrReplacement = changeDatum[REPLACEMENT].asString();
+          break;
+
+        case 'remove':
+          break;
+
+        default:
+          return new Response.invalidParameter(request, changeDatum[TYPE].path, 'be one of "add", "change", or "remove"');
       }
       changes[A_file] = A_change;
-    });
+    }
+    if (errorResponse != null) {
+      return errorResponse;
+    }
     server.updateContent(changes);
     return new Response(request.id);
   }
@@ -2330,10 +2464,9 @@ class AnalysisDomainHandler implements RequestHandler {
   }
 }
 class ContentChange {
-  String content;
+  String contentOrReplacement;
   int offset;
-  int oldLength;
-  int newLength;
+  int length;
 }
 class CompletionDomainHandler implements RequestHandler {
   final AnalysisServer server;
@@ -2892,9 +3025,7 @@ class RequestDatum {
     }
     return new RequestDatum(request, "${path}.${A_key}", A_map[A_key]);
   }
-  bool hasKey(String A_key) {
-    return _asMap().containsKey(A_key);
-  }
+  Iterable<String> get keys => _asMap().keys;
   void forEachMap(void f(String key, RequestDatum value)) {
     _asMap().forEach((String A_key, A_value) {
       f(A_key, new RequestDatum(request, "${path}.${A_key}", A_value));
@@ -3651,11 +3782,9 @@ const String MEMBER_ELEMENT = 'memberElement';
 const String A_MESSAGE = 'message';
 const String MIXINS = 'mixins';
 const String NAME = 'name';
-const String NEW_LENGTH = 'newLength';
 const String A_OCCURRENCES = 'occurrences';
 const String OFFSET = 'offset';
 const String OFFSETS = 'offsets';
-const String OLD_LENGTH = 'oldLength';
 const String OPTIONS = 'options';
 const String A_OUTLINE = 'outline';
 const String A_OVERRIDES = 'overrides';
@@ -3667,7 +3796,7 @@ const String POSITIONS = 'positions';
 const String PROPAGATED_TYPE = 'propagatedType';
 const String REGIONS = 'regions';
 const String RELEVANCE = 'relevance';
-const String REPLACEMENT = 'relacement';
+const String REPLACEMENT = 'replacement';
 const String REPLACEMENT_OFFSET = 'replacementOffset';
 const String REPLACEMENT_LENGTH = 'replacementLength';
 const String RETURN_TYPE = 'returnType';
