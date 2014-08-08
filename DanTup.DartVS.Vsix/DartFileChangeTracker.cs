@@ -32,6 +32,10 @@ namespace DanTup.DartVS
 
 		void DocumentChanged(Document document)
 		{
+			// Sometimes this is null :-/
+			if (document == null)
+				return;
+
 			var path = document.FullName;
 
 			var textDoc = document.Object("") as TextDocument;
