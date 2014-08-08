@@ -80,6 +80,10 @@
       <Project>{65ebab30-e636-4515-8315-4f42cf29b6f3}</Project>
       <Name>DanTup.DartAnalysis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DanTup.DartVS.Vsix\DanTup.DartVS.Vsix.csproj">
+      <Project>{cfc8b136-5d0d-4439-9373-e7b1ca027118}</Project>
+      <Name>DanTup.DartVS.Vsix</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

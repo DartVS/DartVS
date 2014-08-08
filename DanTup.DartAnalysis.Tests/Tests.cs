@@ -1,11 +1,21 @@
-﻿namespace DanTup.DartAnalysis.Tests
+﻿using System;
+using System.IO;
+using System.Reflection;
+namespace DanTup.DartAnalysis.Tests
 {
 	public abstract class Tests
 	{
-		protected const string SdkFolder = @"M:\Apps\Dart\sdk";
-		protected const string ServerScript = @"M:\Coding\Applications\DanTup.DartVS\Dart\AnalysisServer.dart";
-		protected const string SampleDartProject = @"M:\Coding\Applications\DanTup.DartVS\DanTup.DartAnalysis.Tests.SampleDartProject";
-		protected const string HelloWorldFile = SampleDartProject + @"\hello_world.dart";
-		protected const string SingleTypeErrorFile = SampleDartProject + @"\single_type_error.dart";
+		protected string SdkFolder
+		{
+			// Hijack ENV-reading property
+			get { return DanTup.DartVS.DartAnalysisService.SdkPath; }
+		}
+
+		string CodebaseRoot = Path.GetFullPath(new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), @"..\..\..\")).AbsolutePath); // up out of debug, bin, Tests
+
+		protected string ServerScript { get { return Path.Combine(CodebaseRoot, "Dart\\AnalysisServer.dart"); } }
+		protected string SampleDartProject { get { return Path.Combine(CodebaseRoot, "DanTup.DartAnalysis.Tests.SampleDartProject"); } }
+		protected string HelloWorldFile { get { return SampleDartProject + @"\hello_world.dart"; } }
+		protected string SingleTypeErrorFile { get { return SampleDartProject + @"\single_type_error.dart"; } }
 	}
 }

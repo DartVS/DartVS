@@ -23,10 +23,11 @@ namespace DanTup.DartVS
 			?? Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Machine);
 
 		public static readonly string ExtensionFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		public static readonly string AnalysisServerScript = Path.Combine(ExtensionFolder, @"AnalysisServer.dart");
 
 		[ImportingConstructor]
 		public DartAnalysisService([Import]DartProjectTracker projectTracker, [Import]OpenFileTracker openFileTracker)
-			: base(SdkPath, Path.Combine(ExtensionFolder, @"AnalysisServer.dart"))
+			: base(SdkPath, AnalysisServerScript)
 		{
 			this.projectTracker = projectTracker;
 			this.openFileTracker = openFileTracker;

@@ -169,7 +169,7 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
 					Assert.Equal(1, regions[1].Targets.Length);
-					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].Location.File);
+					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].Location.File, StringComparer.OrdinalIgnoreCase);
 					Assert.Equal(307, regions[1].Targets[0].Location.Offset);
 					Assert.Equal(5, regions[1].Targets[0].Location.Length);
 					Assert.Equal(8, regions[1].Targets[0].Location.StartLine);
@@ -283,7 +283,7 @@ namespace DanTup.DartAnalysis.Tests
 					Assert.Equal(1, hovers.Length);
 					Assert.Equal(17, hovers[0].offset);
 					Assert.Equal(5, hovers[0].length);
-					Assert.Equal("M:\\Apps\\Dart\\sdk\\lib\\core/core.dart", hovers[0].containingLibraryPath);
+					Assert.Equal(SdkFolder + "\\lib\\core/core.dart", hovers[0].containingLibraryPath, StringComparer.OrdinalIgnoreCase);
 					Assert.Equal("dart.core", hovers[0].containingLibraryName);
 					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].dartdoc);
 					Assert.Equal("function", hovers[0].elementKind);
