@@ -71,7 +71,7 @@ namespace DanTup.DartVS
 
 		void UpdateSourceData(AnalysisOutlineEvent notification)
 		{
-			topLevelItems = notification.Outline.Children.ToArray();
+			topLevelItems = (notification.Outline.Children ?? new AnalysisOutline[0]).ToArray();
 
 			SelectTopLevelItemForPosition(wpfTextView.Caret.Position.BufferPosition.Position);
 		}
