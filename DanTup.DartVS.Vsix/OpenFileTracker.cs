@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -20,6 +19,7 @@ namespace DanTup.DartVS
 		[Import]
 		internal SVsServiceProvider ServiceProvider = null;
 
+		SolutionEvents solutionEvents;
 		DocumentEvents documentEvents;
 
 		// There's no ConcurrentHashSet, so we'll just use a dictionary :/
@@ -39,6 +39,11 @@ namespace DanTup.DartVS
 			documentEvents.DocumentOpened += TrackDocument;
 			documentEvents.DocumentClosing += UntrackDocument;
 
+			// When a solution is closed, VS calls DocumentClosing with NULLS (ARGH!!! WTF?!), so we'll have to skip over
+			// them and manually empty tracked documents when this happens :(
+			solutionEvents = dte.Events.SolutionEvents;
+			solutionEvents.BeforeClosing += UntrackAllDocuments;
+
 			// Subscribe for existing projects already open when we were triggered.
 			foreach (Document document in dte.Documents)
 				TrackDocument(document);
@@ -53,9 +58,20 @@ namespace DanTup.DartVS
 
 		void UntrackDocument(Document document)
 		{
-			byte _;
-			if (openDartDocuments.TryRemove(document.FullName, out _))
-				RaiseDocumentsChanged();
+			// When a solution is closed, VS calls DocumentClosing with NULLS (ARGH!!! WTF?!), so we'll have to skip over
+			// them and manually empty tracked documents when this happens (UntrackAllDocuments) :(
+			if (document != null)
+			{
+				byte _;
+				if (openDartDocuments.TryRemove(document.FullName, out _))
+					RaiseDocumentsChanged();
+			}
+		}
+
+		void UntrackAllDocuments()
+		{
+			openDartDocuments.Clear();
+			RaiseDocumentsChanged();
 		}
 
 		void RaiseDocumentsChanged()
