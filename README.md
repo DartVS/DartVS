@@ -27,6 +27,7 @@ however it's still some way off release :(
 - [x] [Format Document](/../../issues/26)
 - [x] [Show outline navigation bars at top of editor](/../../issues/12)
 - [ ] [Code Completion](/../../issues/5)
+- [ ] [Dart icon for .dart files](/../../issues/10)
 - [x] [Remove hard-coded references to analysis service](/../../issues/30)
 
 ## Planned for after v1
