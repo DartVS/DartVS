@@ -31,6 +31,7 @@ namespace DanTup.DartVS
 		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
 			: base(buffer, textDocumentFactory, analysisService)
 		{
+			this.Subscribe();
 		}
 
 		protected override ITagSpan<ErrorTag> CreateTag(AnalysisError error)

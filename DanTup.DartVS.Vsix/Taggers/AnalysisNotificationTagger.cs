@@ -26,8 +26,13 @@ namespace DanTup.DartVS
 			this.analysisService = analysisService;
 
 			textDocumentFactory.TryGetTextDocument(this.buffer, out this.textDocument);
+		}
 
+		protected void Subscribe()
+		{
 			// Subscribe to errors for the current file.
+			// This isn't done in the constructor, because some classes need to do some setup in their own constructor
+			// before we're able to respond to events.
 			subscription = this.Subscribe(UpdateSourceData);
 		}
 
@@ -78,7 +83,8 @@ namespace DanTup.DartVS
 
 		public void Dispose()
 		{
-			subscription.Dispose();
+			if (subscription != null)
+				subscription.Dispose();
 		}
 
 		protected abstract ITagSpan<TTag> CreateTag(TSourceData data);

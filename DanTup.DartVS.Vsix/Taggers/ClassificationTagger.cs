@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using DanTup.DartAnalysis;
@@ -80,6 +79,8 @@ namespace DanTup.DartVS
 				//{ HighlightType.TypeNameDynamic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
 				//{ HighlightType.TypeParameter, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
 			};
+
+			this.Subscribe();
 		}
 
 		protected override ITagSpan<ClassificationTag> CreateTag(AnalysisHighlightRegion highlight)
