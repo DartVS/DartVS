@@ -17,9 +17,6 @@ namespace DanTup.DartVS
 	[Export]
 	public class DartProjectTracker
 	{
-		[Import]
-		internal SVsServiceProvider ServiceProvider = null;
-
 		SolutionEvents solutionEvents;
 
 		ConcurrentDictionary<string, Project> dartProjects = new ConcurrentDictionary<string, Project>();
@@ -47,6 +44,8 @@ namespace DanTup.DartVS
 		void TrackProject(Project project)
 		{
 			var projectFolder = GetProjectLocation(project);
+			if (projectFolder == null)
+				return;
 
 			openProjectWatchers.TryAdd(projectFolder, CreateWatcher(project));
 
@@ -60,6 +59,8 @@ namespace DanTup.DartVS
 		void UntrackProject(Project project)
 		{
 			var projectFolder = GetProjectLocation(project);
+			if (projectFolder == null)
+				return;
 
 			// Remove the FSW
 			FileSystemWatcher watcher;
@@ -89,7 +90,18 @@ namespace DanTup.DartVS
 		string GetProjectLocation(Project project)
 		{
 			// This way seems to be reliable for both projects and "web sites" (whereas project.FullName gives URL for web sites).
-			return (string)project.Properties.Item("FullPath").Value;
+			// Doh! But not reliable for some others :(
+			if (project.Properties == null)
+				return null;
+
+			try
+			{
+				return (string)project.Properties.Item("FullPath").Value;
+			}
+			catch
+			{
+				return null; // Some projects crash trying to do .Item("FullPath") :(
+			}
 		}
 
 		FileSystemWatcher CreateWatcher(Project project)
