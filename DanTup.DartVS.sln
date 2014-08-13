@@ -52,6 +52,15 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DanTup.DartAnalysis.Tests.S
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C5514ED0-02F0-4FC1-AFBE-01B1FD1C14B2}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENCE.txt = LICENCE.txt
+		README.md = README.md
+		UpdateSnapshot.cmd = UpdateSnapshot.cmd
+		UpdateVersions.fsx = UpdateVersions.fsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
