@@ -17,15 +17,17 @@ namespace DanTup.DartAnalysis.Tests
 			}
 		}
 
-		[Fact(Skip = "Server shutdown doesn't seem to work yet?")]
+		[Fact]
 		public async Task ServerShutdown()
 		{
 			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
 			{
 				await service.ServerShutdown();
 
+				await Task.Delay(5000); // Allow 5 secs for shutdown
+
 				// Attempt to send a normal request; this should fail because the server has been shutdown!
-				Assert.Throws<Exception>(() => service.GetServerVersion().Wait());
+				Assert.Throws<AggregateException>(() => service.GetServerVersion().Wait());
 			}
 		}
 

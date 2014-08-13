@@ -48,6 +48,9 @@ namespace DanTup.DartAnalysis
 		/// <param name="value">The data to send to STDIN (newline is automatically appended).</param>
 		public void WriteLine(string value)
 		{
+			if (process.HasExited)
+				throw new Exception("Process has exited!");
+
 			lock (process.StandardInput) // Can't find any info on whether WriteLine below is threadsafe, so letassume the worst
 				process.StandardInput.WriteLine(value);
 		}
