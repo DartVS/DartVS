@@ -1,4 +1,5 @@
-﻿namespace DanTup.DartAnalysis
+﻿using System;
+namespace DanTup.DartAnalysis
 {
 	/// <summary>
 	/// Abstract base for classes representing a request for the Analysis Service.
@@ -18,5 +19,15 @@
 	abstract class Request<TParamsType, TResponseType> : Request<TResponseType>
 	{
 		public TParamsType @params;
+
+		public Request(TParamsType @params)
+		{
+			this.@params = @params;
+		}
+
+		[Obsolete]
+		public Request()
+		{
+		}
 	}
 }
