@@ -33,7 +33,7 @@ let getCSharpType = function
     | "String" -> "string"
     | x -> x
 
-let formatPropertyName (x : string) = x.[0].ToString().ToUpper() + x.[1..]
+let formatName (x : string) = x.[0].ToString().ToUpper() + x.[1..]
 
 let extractCSharpType (fieldNode : XElement) =
     let cSharpType = fieldNode.XPathSelectElement(".//ref").Value |> getCSharpType
@@ -45,7 +45,7 @@ let getField (fieldNode : XElement) =
     sprintf "%s\t\tpublic %s %s;\r\n"
         (fieldNode |> extractDoc)
         (fieldNode |> extractCSharpType)
-        (fieldNode.Attribute(!!"name").Value |> formatPropertyName)
+        (fieldNode.Attribute(!!"name").Value |> formatName)
             
 
 let getType (typeNode : XElement) =
@@ -53,11 +53,36 @@ let getType (typeNode : XElement) =
         (typeNode.Attribute(!!"name").Value)
         (typeNode.Descendants(!!"field") |> collect getField)
 
+let getRequest (typeNode : XElement) =
+    match typeNode.Element(!!"params") with
+        | null -> ""
+        | _ ->
+            sprintf "\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+                (typeNode.Parent.Attribute(!!"name").Value |> formatName)
+                (typeNode.Attribute(!!"method").Value |> formatName)
+                "Request"
+                (typeNode.Element(!!"params").Descendants(!!"field") |> collect getField)
+
+let getResponse (typeNode : XElement) =
+    match typeNode.Element(!!"result") with
+        | null -> ""
+        | _ ->
+            sprintf "\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+                (typeNode.Parent.Attribute(!!"name").Value |> formatName)
+                (typeNode.Attribute(!!"method").Value |> formatName)
+                "Response"
+                (typeNode.Element(!!"result").Descendants(!!"field") |> collect getField)
+
 let getAllTypes () =
     sprintf """namespace DanTup.DartAnalysis.Json
 {
 %s
-}""" (doc.Document.XPathSelectElements("//types/type") |> collect getType)
+%s
+%s
+}"""
+        (doc.Document.XPathSelectElements("//types/type") |> collect getType)
+        (doc.Document.XPathSelectElements("//domain/request") |> collect getRequest)
+        (doc.Document.XPathSelectElements("//domain/request") |> collect getResponse)
 
 
 
