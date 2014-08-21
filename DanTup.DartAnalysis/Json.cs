@@ -1004,7 +1004,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A table mapping services to a list of the files being
 		/// subscribed to the service.
 		/// </summary>
-		public AnalysisService Subscriptions;
+		public Dictionary<AnalysisService, string[]> Subscriptions;
 	}
 
 	[AnalysisMethod("analysis.updateContent")]
@@ -1014,7 +1014,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A table mapping the files whose content has changed to a
 		/// description of the content change.
 		/// </summary>
-		public string Files;
+		public Dictionary<string, AddContentOverlay> Files;
 	}
 
 	[AnalysisMethod("analysis.updateOptions")]
