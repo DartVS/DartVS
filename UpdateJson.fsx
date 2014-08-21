@@ -55,11 +55,18 @@ let formatConstantName (x : string) =
     let words = x.Split('_')
     words |> Array.map (fun x -> x.[0].ToString().ToUpper() + x.[1..].ToLower()) |> String.concat ""
 
-let extractCSharpType (fieldNode : XElement) =
+let rec extractCSharpDictionary (fieldNode : XElement) =
+    sprintf "Dictionary<%s, %s>"
+        (fieldNode.Element(!!"map").Descendants(!!"key") |> Seq.exactlyOne |> extractCSharpType)
+        (fieldNode.Element(!!"map").Descendants(!!"value") |> Seq.head |> extractCSharpType) // TODO: Eliminate this Seq.head; support unions properly! :(
+
+and extractCSharpType (fieldNode : XElement) =
     let cSharpType = fieldNode.XPathSelectElement(".//ref").Value |> getCSharpType
-    match fieldNode.Element(!!"list") with
-        | null -> sprintf "%s" cSharpType
-        | _ -> sprintf "%s[]" cSharpType
+    match fieldNode.Element(!!"list"), fieldNode.Element(!!"map") with
+        | null, null -> sprintf "%s" cSharpType
+        | _ , null -> sprintf "%s[]" cSharpType
+        | null, _ -> fieldNode |> extractCSharpDictionary
+        | _, _ -> failwithf "Confused by both map and list %s" (fieldNode.Attribute(!!"name").Value)
 
 let getField (fieldNode : XElement) =
     sprintf "%s\t\tpublic %s %s;\r\n"
