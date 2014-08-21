@@ -71,7 +71,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum AnalysisService
 	{
-		FOLDING, HIGHLIGHTS, NAVIGATION, OCCURRENCES, OUTLINE, OVERRIDES
+		Folding, Highlights, Navigation, Occurrences, Outline, Overrides
 	}
 
 	public class AnalysisStatus
@@ -98,7 +98,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum CompletionRelevance
 	{
-		LOW, DEFAULT, HIGH
+		Low, Default, High
 	}
 
 	public class CompletionSuggestion
@@ -201,12 +201,12 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum CompletionSuggestionKind
 	{
-		ARGUMENTLIST, CLASS, CLASSALIAS, CONSTRUCTOR, FIELD, FUNCTION, FUNCTIONTYPEALIAS, GETTER, IMPORT, LIBRARYPREFIX, LOCALVARIABLE, METHOD, METHODNAME, NAMEDARGUMENT, OPTIONALARGUMENT, PARAMETER, SETTER, TOPLEVELVARIABLE, TYPEPARAMETER
+		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
 	}
 
 	public enum DebugService
 	{
-		LAUNCHDATA
+		LaunchData
 	}
 
 	public class Element
@@ -247,7 +247,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum ElementKind
 	{
-		CLASS, CLASSTYPEALIAS, COMPILATIONUNIT, CONSTRUCTOR, GETTER, FIELD, FUNCTION, FUNCTIONTYPEALIAS, LIBRARY, LOCALVARIABLE, METHOD, SETTER, TOPLEVELVARIABLE, TYPEPARAMETER, UNKNOWN, UNITTESTGROUP, UNITTESTTEST
+		Class, ClassTypeAlias, CompilationUnit, Constructor, Getter, Field, Function, FunctionTypeAlias, Library, LocalVariable, Method, Setter, TopLevelVariable, TypeParameter, Unknown, UnitTestGroup, UnitTestTest
 	}
 
 	public class Error
@@ -281,12 +281,12 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum ErrorSeverity
 	{
-		INFO, WARNING, ERROR
+		Info, Warning, Error
 	}
 
 	public enum ErrorType
 	{
-		COMPILETIMEERROR, HINT, STATICTYPEWARNING, STATICWARNING, SYNTACTICERROR, TODO
+		CompileTimeError, Hint, StaticTypeWarning, StaticWarning, SyntacticError, Todo
 	}
 
 	public class ExecutableFile
@@ -303,12 +303,12 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum ExecutableKind
 	{
-		CLIENT, EITHER, SERVER
+		Client, Either, Server
 	}
 
 	public enum FoldingKind
 	{
-		COMMENT, CLASSMEMBER, DIRECTIVES, DOCUMENTATIONCOMMENT, TOPLEVELDECLARATION
+		Comment, ClassMember, Directives, DocumentationComment, TopLevelDeclaration
 	}
 
 	public class FoldingRegion
@@ -345,7 +345,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum HighlightRegionType
 	{
-		ANNOTATION, BUILTIN, CLASS, COMMENTBLOCK, COMMENTDOCUMENTATION, COMMENTENDOFLINE, CONSTRUCTOR, DIRECTIVE, DYNAMICTYPE, FIELD, FIELDSTATIC, FUNCTION, FUNCTIONDECLARATION, FUNCTIONTYPEALIAS, GETTERDECLARATION, IDENTIFIERDEFAULT, IMPORTPREFIX, KEYWORD, LITERALBOOLEAN, LITERALDOUBLE, LITERALINTEGER, LITERALLIST, LITERALMAP, LITERALSTRING, LOCALVARIABLE, LOCALVARIABLEDECLARATION, METHOD, METHODDECLARATION, METHODDECLARATIONSTATIC, METHODSTATIC, PARAMETER, SETTERDECLARATION, TOPLEVELVARIABLE, TYPENAMEDYNAMIC, TYPEPARAMETER
+		Annotation, BuiltIn, Class, CommentBlock, CommentDocumentation, CommentEndOfLine, Constructor, Directive, DynamicType, Field, FieldStatic, Function, FunctionDeclaration, FunctionTypeAlias, GetterDeclaration, IdentifierDefault, ImportPrefix, Keyword, LiteralBoolean, LiteralDouble, LiteralInteger, LiteralList, LiteralMap, LiteralString, LocalVariable, LocalVariableDeclaration, Method, MethodDeclaration, MethodDeclarationStatic, MethodStatic, Parameter, SetterDeclaration, TopLevelVariable, TypeNameDynamic, TypeParameter
 	}
 
 	public class HoverInformation
@@ -450,7 +450,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum LinkedEditSuggestionKind
 	{
-		METHOD, PARAMETER, TYPE, VARIABLE
+		Method, Parameter, Type, Variable
 	}
 
 	public class Location
@@ -602,7 +602,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum RefactoringKind
 	{
-		CONVERTGETTERTOMETHOD, CONVERTMETHODTOGETTER, EXTRACTLOCALVARIABLE, EXTRACTMETHOD, INLINELOCALVARIABLE, INLINEMETHOD, RENAME
+		ConvertGetterToMethod, ConvertMethodToGetter, ExtractLocalVariable, ExtractMethod, InlineLocalVariable, InlineMethod, Rename
 	}
 
 	public class RefactoringProblem
@@ -624,7 +624,7 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum RefactoringProblemSeverity
 	{
-		INFO, WARNING, ERROR, FATAL
+		Info, Warning, Error, Fatal
 	}
 
 	public class RemoveContentOverlay
@@ -661,12 +661,12 @@ namespace DanTup.DartAnalysis.Json
 
 	public enum SearchResultKind
 	{
-		DECLARATION, INVOCATION, READ, READWRITE, REFERENCE, WRITE
+		Declaration, Invocation, Read, ReadWrite, Reference, Write
 	}
 
 	public enum ServerService
 	{
-		STATUS
+		Status
 	}
 
 	public class SourceChange
