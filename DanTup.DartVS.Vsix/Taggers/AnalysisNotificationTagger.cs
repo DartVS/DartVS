@@ -14,8 +14,6 @@ namespace DanTup.DartVS
 		protected ITextDocument textDocument;
 		protected DartAnalysisService analysisService;
 		protected TSourceData[] currentData = new TSourceData[0];
-		int earliestOffset = 0;
-		int latestEnd = 0;
 
 		IDisposable subscription;
 
