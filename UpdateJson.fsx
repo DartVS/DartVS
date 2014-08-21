@@ -57,7 +57,9 @@ let getRequest (typeNode : XElement) =
     match typeNode.Element(!!"params") with
         | null -> ""
         | _ ->
-            sprintf "\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\t[AnalysisMethod(\"%s.%s\")]\r\n\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+                (typeNode.Parent.Attribute(!!"name").Value)
+                (typeNode.Attribute(!!"method").Value)
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
                 (typeNode.Attribute(!!"method").Value |> formatName)
                 "Request"
