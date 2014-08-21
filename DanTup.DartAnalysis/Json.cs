@@ -2,6 +2,11 @@
 
 namespace DanTup.DartAnalysis.Json
 {
+	/// <summary>
+	/// A directive to begin overlaying the contents of a file.  The
+	/// supplied content will be used for analysis in place of the
+	/// file contents in the filesystem.
+	/// </summary>
 	public class AddContentOverlay
 	{
 		public string Type;
@@ -11,6 +16,10 @@ namespace DanTup.DartAnalysis.Json
 		public string Content;
 	}
 
+	/// <summary>
+	/// An indication of an error, warning, or hint that was produced
+	/// by the analysis.
+	/// </summary>
 	public class AnalysisError
 	{
 		/// <summary>
@@ -40,6 +49,11 @@ namespace DanTup.DartAnalysis.Json
 		public string Correction;
 	}
 
+	/// <summary>
+	/// A set of options controlling what kind of analysis is to be
+	/// performed. If the value of a field is omitted the value of the
+	/// option will not be changed.
+	/// </summary>
 	public class AnalysisOptions
 	{
 		/// <summary>
@@ -78,6 +92,9 @@ namespace DanTup.DartAnalysis.Json
 		Folding, Highlights, Navigation, Occurrences, Outline, Overrides
 	}
 
+	/// <summary>
+	/// An indication of the current state of analysis.
+	/// </summary>
 	public class AnalysisStatus
 	{
 		/// <summary>
@@ -91,6 +108,11 @@ namespace DanTup.DartAnalysis.Json
 		public string AnalysisTarget;
 	}
 
+	/// <summary>
+	/// A directive to modify an existing file content overlay. One or more
+	/// ranges of text are deleted from the old file content overlay and
+	/// replaced with new text.
+	/// </summary>
 	public class ChangeContentOverlay
 	{
 		public string Type;
@@ -109,6 +131,11 @@ namespace DanTup.DartAnalysis.Json
 		Low, Default, High
 	}
 
+	/// <summary>
+	/// A suggestion for how to complete partially entered text. Many
+	/// of the fields are optional, depending on the kind of element
+	/// being suggested.
+	/// </summary>
 	public class CompletionSuggestion
 	{
 		/// <summary>
@@ -225,6 +252,10 @@ namespace DanTup.DartAnalysis.Json
 		LaunchData
 	}
 
+	/// <summary>
+	/// Information about an element (something that can be declared
+	/// in code).
+	/// </summary>
 	public class Element
 	{
 		/// <summary>
@@ -269,6 +300,11 @@ namespace DanTup.DartAnalysis.Json
 		Class, ClassTypeAlias, CompilationUnit, Constructor, Getter, Field, Function, FunctionTypeAlias, Library, LocalVariable, Method, Setter, TopLevelVariable, TypeParameter, Unknown, UnitTestGroup, UnitTestTest
 	}
 
+	/// <summary>
+	/// An indication of a problem with the execution of the server,
+	/// typically in response to a request. The error codes that can
+	/// be returned are documented in the section titled Errors.
+	/// </summary>
 	public class Error
 	{
 		/// <summary>
@@ -286,6 +322,9 @@ namespace DanTup.DartAnalysis.Json
 		public object Data;
 	}
 
+	/// <summary>
+	/// A list of fixes associated with a specific error
+	/// </summary>
 	public class ErrorFixes
 	{
 		/// <summary>
@@ -315,6 +354,9 @@ namespace DanTup.DartAnalysis.Json
 		CompileTimeError, Hint, StaticTypeWarning, StaticWarning, SyntacticError, Todo
 	}
 
+	/// <summary>
+	/// A description of an executable file.
+	/// </summary>
 	public class ExecutableFile
 	{
 		/// <summary>
@@ -343,6 +385,9 @@ namespace DanTup.DartAnalysis.Json
 		Comment, ClassMember, Directives, DocumentationComment, TopLevelDeclaration
 	}
 
+	/// <summary>
+	/// A description of a region that can be folded.
+	/// </summary>
 	public class FoldingRegion
 	{
 		/// <summary>
@@ -359,6 +404,10 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
+	/// <summary>
+	/// A description of a region that could have special highlighting
+	/// associated with it.
+	/// </summary>
 	public class HighlightRegion
 	{
 		/// <summary>
@@ -384,6 +433,9 @@ namespace DanTup.DartAnalysis.Json
 		Annotation, BuiltIn, Class, CommentBlock, CommentDocumentation, CommentEndOfLine, Constructor, Directive, DynamicType, Field, FieldStatic, Function, FunctionDeclaration, FunctionTypeAlias, GetterDeclaration, IdentifierDefault, ImportPrefix, Keyword, LiteralBoolean, LiteralDouble, LiteralInteger, LiteralList, LiteralMap, LiteralString, LocalVariable, LocalVariableDeclaration, Method, MethodDeclaration, MethodDeclarationStatic, MethodStatic, Parameter, SetterDeclaration, TopLevelVariable, TypeNameDynamic, TypeParameter
 	}
 
+	/// <summary>
+	/// The hover information associated with a specific location.
+	/// </summary>
 	public class HoverInformation
 	{
 		/// <summary>
@@ -452,6 +504,15 @@ namespace DanTup.DartAnalysis.Json
 		public string StaticType;
 	}
 
+	/// <summary>
+	/// A collection of positions that should be linked (edited
+	/// simultaneously) for the purposes of updating code after a
+	/// source change. For example, if a set of edits introduced a
+	/// new variable name, the group would contain all of the
+	/// positions of the variable name so that if the client wanted
+	/// to let the user edit the variable name after the operation,
+	/// all occurrences of the name could be edited simultaneously.
+	/// </summary>
 	public class LinkedEditGroup
 	{
 		/// <summary>
@@ -471,6 +532,10 @@ namespace DanTup.DartAnalysis.Json
 		public LinkedEditSuggestion[] Suggestions;
 	}
 
+	/// <summary>
+	/// A suggestion of a value that could be used to replace all of
+	/// the linked edit regions in a LinkedEditGroup.
+	/// </summary>
 	public class LinkedEditSuggestion
 	{
 		/// <summary>
@@ -493,6 +558,9 @@ namespace DanTup.DartAnalysis.Json
 		Method, Parameter, Type, Variable
 	}
 
+	/// <summary>
+	/// A location (character range) within a file.
+	/// </summary>
 	public class Location
 	{
 		/// <summary>
@@ -519,6 +587,10 @@ namespace DanTup.DartAnalysis.Json
 		public int StartColumn;
 	}
 
+	/// <summary>
+	/// A description of a region from which the user can navigate to
+	/// the declaration of an element.
+	/// </summary>
 	public class NavigationRegion
 	{
 		/// <summary>
@@ -537,6 +609,10 @@ namespace DanTup.DartAnalysis.Json
 		public Element[] Targets;
 	}
 
+	/// <summary>
+	/// A description of the references to a single element within a
+	/// single file.
+	/// </summary>
 	public class Occurrences
 	{
 		/// <summary>
@@ -554,6 +630,9 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
+	/// <summary>
+	/// An node in the outline structure of a file.
+	/// </summary>
 	public class Outline
 	{
 		/// <summary>
@@ -578,6 +657,9 @@ namespace DanTup.DartAnalysis.Json
 		public Outline[] Children;
 	}
 
+	/// <summary>
+	/// A description of a member that overrides an inherited member.
+	/// </summary>
 	public class Override
 	{
 		/// <summary>
@@ -604,6 +686,9 @@ namespace DanTup.DartAnalysis.Json
 		public OverriddenMember[] InterfaceMembers;
 	}
 
+	/// <summary>
+	/// A description of a member that is being overridden.
+	/// </summary>
 	public class OverriddenMember
 	{
 		/// <summary>
@@ -616,6 +701,9 @@ namespace DanTup.DartAnalysis.Json
 		public string ClassName;
 	}
 
+	/// <summary>
+	/// A description of a parameter.
+	/// </summary>
 	public class Parameter
 	{
 		/// <summary>
@@ -628,6 +716,9 @@ namespace DanTup.DartAnalysis.Json
 		public string Name;
 	}
 
+	/// <summary>
+	/// A position within a file.
+	/// </summary>
 	public class Position
 	{
 		/// <summary>
@@ -649,6 +740,9 @@ namespace DanTup.DartAnalysis.Json
 		ConvertGetterToMethod, ConvertMethodToGetter, ExtractLocalVariable, ExtractMethod, InlineLocalVariable, InlineMethod, Rename
 	}
 
+	/// <summary>
+	/// A description of a problem related to a refactoring.
+	/// </summary>
 	public class RefactoringProblem
 	{
 		/// <summary>
@@ -675,11 +769,19 @@ namespace DanTup.DartAnalysis.Json
 		Info, Warning, Error, Fatal
 	}
 
+	/// <summary>
+	/// A directive to remove an existing file content overlay.
+	/// After processing this directive, the file contents will once
+	/// again be read from the file system.
+	/// </summary>
 	public class RemoveContentOverlay
 	{
 		public string Type;
 	}
 
+	/// <summary>
+	/// A single result from a search request.
+	/// </summary>
 	public class SearchResult
 	{
 		/// <summary>
@@ -724,6 +826,10 @@ namespace DanTup.DartAnalysis.Json
 		Status
 	}
 
+	/// <summary>
+	/// A description of a set of edits that implement a single
+	/// conceptual change.
+	/// </summary>
 	public class SourceChange
 	{
 		/// <summary>
@@ -747,6 +853,9 @@ namespace DanTup.DartAnalysis.Json
 		public Position Selection;
 	}
 
+	/// <summary>
+	/// A description of a single change to a single file.
+	/// </summary>
 	public class SourceEdit
 	{
 		/// <summary>
@@ -764,6 +873,9 @@ namespace DanTup.DartAnalysis.Json
 		public string Replacement;
 	}
 
+	/// <summary>
+	/// A description of a set of changes to a single file.
+	/// </summary>
 	public class SourceFileEdit
 	{
 		/// <summary>
@@ -776,6 +888,9 @@ namespace DanTup.DartAnalysis.Json
 		public SourceEdit[] Edits;
 	}
 
+	/// <summary>
+	/// A representation of a class in a type hierarchy.
+	/// </summary>
 	public class TypeHierarchyItem
 	{
 		/// <summary>
