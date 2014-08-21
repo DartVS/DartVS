@@ -38,15 +38,16 @@ let populateTypeMapping (typeNode : XElement) =
 let populateTypeMappings () =
     doc.Document.XPathSelectElements("//types/type") |> Seq.iter populateTypeMapping
 
-let extractDoc (fieldNode : XElement) =
+let extractDoc (indent : int) (fieldNode : XElement) =
+    let indentString = new String('\t', indent)
     match fieldNode.Element(!!"p") with
         | null -> ""
         | _ ->
             fieldNode.Element(!!"p").Value.Trim().Split('\n')
                 |> Seq.map (fun s -> s.Trim())
-                |> Seq.map (sprintf "\t\t/// %s")
+                |> Seq.map (sprintf "%s/// %s" indentString)
                 |> String.concat "\r\n"
-                |> sprintf "\t\t/// <summary>\r\n%s\r\n\t\t/// </summary>\r\n"
+                |> (fun x -> sprintf "%s/// <summary>\r\n%s\r\n%s/// </summary>\r\n" indentString x indentString)
 
 let formatName (x : string) = x.[0].ToString().ToUpper() + x.[1..]
 
@@ -62,7 +63,7 @@ let extractCSharpType (fieldNode : XElement) =
 
 let getField (fieldNode : XElement) =
     sprintf "%s\t\tpublic %s %s;\r\n"
-        (fieldNode |> extractDoc)
+        (fieldNode |> extractDoc 2)
         (fieldNode |> extractCSharpType)
         (fieldNode.Attribute(!!"name").Value |> formatName)
 
@@ -76,7 +77,8 @@ let getType (typeNode : XElement) =
     else if typeNode.Element(!!"ref") <> null then // This type will be mapped onto a primitive
         ""
     else if typeNode.Element(!!"enum") <> null then
-        sprintf "\tpublic enum %s\r\n\t{\r\n\t\t%s\r\n\t}\r\n\r\n"
+        sprintf "%s\tpublic enum %s\r\n\t{\r\n\t\t%s\r\n\t}\r\n\r\n"
+            (typeNode |> extractDoc 1)
             (typeNode.Attribute(!!"name").Value)
             ((typeNode.Descendants(!!"code") |> Seq.map getEnum |> String.concat ", "))
     else
