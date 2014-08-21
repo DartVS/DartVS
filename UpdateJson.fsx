@@ -17,8 +17,26 @@ let outputRequestFilename = """DanTup.DartAnalysis\Requests.cs"""
 let doc = XDocument.Load(apiDocFilename)
 let ( !! ) : string -> XName = XName.op_Implicit;;
 
+let mutable mappedTypes =
+    Map.empty
+        .Add("String", "string")
+
 let collect (f : XElement -> string) (x : seq<XElement>) : string =
     x |> Seq.map f |> String.concat ""
+
+
+let getCSharpType t =
+    if mappedTypes.ContainsKey t then
+        mappedTypes.[t]
+    else
+        t
+
+let populateTypeMapping (typeNode : XElement) =
+    if typeNode.Element(!!"ref") <> null then
+        mappedTypes <- mappedTypes.Add ((typeNode.Attribute(!!"name").Value), getCSharpType (typeNode.Element(!!"ref").Value))
+
+let populateTypeMappings () =
+    doc.Document.XPathSelectElements("//types/type") |> Seq.iter populateTypeMapping
 
 let extractDoc (fieldNode : XElement) =
     match fieldNode.Element(!!"p") with
@@ -29,10 +47,6 @@ let extractDoc (fieldNode : XElement) =
                 |> Seq.map (sprintf "\t\t/// %s")
                 |> String.concat "\r\n"
                 |> sprintf "\t\t/// <summary>\r\n%s\r\n\t\t/// </summary>\r\n"
-
-let getCSharpType = function
-    | "String" -> "string"
-    | x -> x
 
 let formatName (x : string) = x.[0].ToString().ToUpper() + x.[1..]
 
@@ -47,12 +61,24 @@ let getField (fieldNode : XElement) =
         (fieldNode |> extractDoc)
         (fieldNode |> extractCSharpType)
         (fieldNode.Attribute(!!"name").Value |> formatName)
-            
+
+let getEnum (enumCodeNode : XElement) =
+    let words = enumCodeNode.Value.Split('_')
+    words |> Array.map formatName |> String.concat ""
 
 let getType (typeNode : XElement) =
-    sprintf "\tpublic class %s\r\n\t{\r\n%s\t}\r\n\r\n"
-        (typeNode.Attribute(!!"name").Value)
-        (typeNode.Descendants(!!"field") |> collect getField)
+    if typeNode.Element(!!"object") <> null then
+        sprintf "\tpublic class %s\r\n\t{\r\n%s\t}\r\n\r\n"
+            (typeNode.Attribute(!!"name").Value)
+            (typeNode.Descendants(!!"field") |> collect getField)
+    else if typeNode.Element(!!"ref") <> null then // This type will be mapped onto a primitive
+        ""
+    else if typeNode.Element(!!"enum") <> null then
+        sprintf "\tpublic enum %s\r\n\t{\r\n\t\t%s\r\n\t}\r\n\r\n"
+            (typeNode.Attribute(!!"name").Value)
+            ((typeNode.Descendants(!!"code") |> Seq.map getEnum |> String.concat ", "))
+    else
+        failwithf "Don't know how to handle type %s" (typeNode.Attribute(!!"name").Value)
 
 let getRequest (typeNode : XElement) =
     match typeNode.Element(!!"params") with
@@ -152,5 +178,6 @@ namespace DanTup.DartAnalysis
 
 
 // Do the stuff!
+populateTypeMappings()
 File.WriteAllText(outputJsonFilename, getAllJsonTypes())
 File.WriteAllText(outputRequestFilename, getAllRequestTypes())
