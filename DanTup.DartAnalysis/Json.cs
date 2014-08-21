@@ -2,7 +2,7 @@
 
 namespace DanTup.DartAnalysis.Json
 {
-	class AddContentOverlay
+	public class AddContentOverlay
 	{
 		public string Type;
 		/// <summary>
@@ -11,7 +11,7 @@ namespace DanTup.DartAnalysis.Json
 		public string Content;
 	}
 
-	class AnalysisError
+	public class AnalysisError
 	{
 		/// <summary>
 		/// The severity of the error.
@@ -40,7 +40,7 @@ namespace DanTup.DartAnalysis.Json
 		public string Correction;
 	}
 
-	class AnalysisOptions
+	public class AnalysisOptions
 	{
 		/// <summary>
 		/// True if the client wants to enable support for the
@@ -69,11 +69,11 @@ namespace DanTup.DartAnalysis.Json
 		public bool GenerateHints;
 	}
 
-	class AnalysisService
+	public class AnalysisService
 	{
 	}
 
-	class AnalysisStatus
+	public class AnalysisStatus
 	{
 		/// <summary>
 		/// True if analysis is currently being performed.
@@ -86,7 +86,7 @@ namespace DanTup.DartAnalysis.Json
 		public string AnalysisTarget;
 	}
 
-	class ChangeContentOverlay
+	public class ChangeContentOverlay
 	{
 		public string Type;
 		/// <summary>
@@ -95,15 +95,15 @@ namespace DanTup.DartAnalysis.Json
 		public SourceEdit[] Edits;
 	}
 
-	class CompletionId
+	public class CompletionId
 	{
 	}
 
-	class CompletionRelevance
+	public class CompletionRelevance
 	{
 	}
 
-	class CompletionSuggestion
+	public class CompletionSuggestion
 	{
 		/// <summary>
 		/// The kind of element being suggested.
@@ -201,19 +201,19 @@ namespace DanTup.DartAnalysis.Json
 		public string ParameterType;
 	}
 
-	class CompletionSuggestionKind
+	public class CompletionSuggestionKind
 	{
 	}
 
-	class DebugContextId
+	public class DebugContextId
 	{
 	}
 
-	class DebugService
+	public class DebugService
 	{
 	}
 
-	class Element
+	public class Element
 	{
 		/// <summary>
 		/// The kind of the element.
@@ -249,11 +249,11 @@ namespace DanTup.DartAnalysis.Json
 		public string ReturnType;
 	}
 
-	class ElementKind
+	public class ElementKind
 	{
 	}
 
-	class Error
+	public class Error
 	{
 		/// <summary>
 		/// A code that uniquely identifies the error that occurred.
@@ -270,7 +270,7 @@ namespace DanTup.DartAnalysis.Json
 		public object Data;
 	}
 
-	class ErrorFixes
+	public class ErrorFixes
 	{
 		/// <summary>
 		/// The error with which the fixes are associated.
@@ -282,15 +282,15 @@ namespace DanTup.DartAnalysis.Json
 		public SourceChange[] Fixes;
 	}
 
-	class ErrorSeverity
+	public class ErrorSeverity
 	{
 	}
 
-	class ErrorType
+	public class ErrorType
 	{
 	}
 
-	class ExecutableFile
+	public class ExecutableFile
 	{
 		/// <summary>
 		/// The path of the executable file.
@@ -302,19 +302,19 @@ namespace DanTup.DartAnalysis.Json
 		public ExecutableKind Offset;
 	}
 
-	class ExecutableKind
+	public class ExecutableKind
 	{
 	}
 
-	class FilePath
+	public class FilePath
 	{
 	}
 
-	class FoldingKind
+	public class FoldingKind
 	{
 	}
 
-	class FoldingRegion
+	public class FoldingRegion
 	{
 		/// <summary>
 		/// The kind of the region.
@@ -330,7 +330,7 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	class HighlightRegion
+	public class HighlightRegion
 	{
 		/// <summary>
 		/// The type of highlight associated with the region.
@@ -346,11 +346,11 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	class HighlightRegionType
+	public class HighlightRegionType
 	{
 	}
 
-	class HoverInformation
+	public class HoverInformation
 	{
 		/// <summary>
 		/// The offset of the range of characters that encompases the
@@ -418,7 +418,7 @@ namespace DanTup.DartAnalysis.Json
 		public string StaticType;
 	}
 
-	class LinkedEditGroup
+	public class LinkedEditGroup
 	{
 		/// <summary>
 		/// The positions of the regions that should be edited
@@ -437,7 +437,7 @@ namespace DanTup.DartAnalysis.Json
 		public LinkedEditSuggestion[] Suggestions;
 	}
 
-	class LinkedEditSuggestion
+	public class LinkedEditSuggestion
 	{
 		/// <summary>
 		/// The value that could be used to replace all of the linked
@@ -450,11 +450,11 @@ namespace DanTup.DartAnalysis.Json
 		public LinkedEditSuggestionKind Kind;
 	}
 
-	class LinkedEditSuggestionKind
+	public class LinkedEditSuggestionKind
 	{
 	}
 
-	class Location
+	public class Location
 	{
 		/// <summary>
 		/// The file containing the range.
@@ -480,7 +480,7 @@ namespace DanTup.DartAnalysis.Json
 		public int StartColumn;
 	}
 
-	class NavigationRegion
+	public class NavigationRegion
 	{
 		/// <summary>
 		/// The offset of the region from which the user can navigate.
@@ -498,7 +498,7 @@ namespace DanTup.DartAnalysis.Json
 		public Element[] Targets;
 	}
 
-	class Occurrences
+	public class Occurrences
 	{
 		/// <summary>
 		/// The element that was referenced.
@@ -515,7 +515,7 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	class Outline
+	public class Outline
 	{
 		/// <summary>
 		/// A description of the element represented by this node.
@@ -539,7 +539,7 @@ namespace DanTup.DartAnalysis.Json
 		public Outline[] Children;
 	}
 
-	class Override
+	public class Override
 	{
 		/// <summary>
 		/// The offset of the name of the overriding member.
@@ -565,7 +565,7 @@ namespace DanTup.DartAnalysis.Json
 		public OverriddenMember[] InterfaceMembers;
 	}
 
-	class OverriddenMember
+	public class OverriddenMember
 	{
 		/// <summary>
 		/// The element that is being overridden.
@@ -577,7 +577,7 @@ namespace DanTup.DartAnalysis.Json
 		public string ClassName;
 	}
 
-	class Parameter
+	public class Parameter
 	{
 		/// <summary>
 		/// The type that should be given to the parameter.
@@ -589,7 +589,7 @@ namespace DanTup.DartAnalysis.Json
 		public string Name;
 	}
 
-	class Position
+	public class Position
 	{
 		/// <summary>
 		/// The file containing the position.
@@ -601,11 +601,11 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
-	class RefactoringKind
+	public class RefactoringKind
 	{
 	}
 
-	class RefactoringProblem
+	public class RefactoringProblem
 	{
 		/// <summary>
 		/// The severity of the problem being represented.
@@ -622,20 +622,20 @@ namespace DanTup.DartAnalysis.Json
 		public Location Location;
 	}
 
-	class RefactoringProblemSeverity
+	public class RefactoringProblemSeverity
 	{
 	}
 
-	class RemoveContentOverlay
+	public class RemoveContentOverlay
 	{
 		public string Type;
 	}
 
-	class SearchId
+	public class SearchId
 	{
 	}
 
-	class SearchResult
+	public class SearchResult
 	{
 		/// <summary>
 		/// The location of the code that matched the search criteria.
@@ -662,15 +662,15 @@ namespace DanTup.DartAnalysis.Json
 		public Element[] Path;
 	}
 
-	class SearchResultKind
+	public class SearchResultKind
 	{
 	}
 
-	class ServerService
+	public class ServerService
 	{
 	}
 
-	class SourceChange
+	public class SourceChange
 	{
 		/// <summary>
 		/// A human-readable description of the change to be applied.
@@ -693,7 +693,7 @@ namespace DanTup.DartAnalysis.Json
 		public Position Selection;
 	}
 
-	class SourceEdit
+	public class SourceEdit
 	{
 		/// <summary>
 		/// The offset of the region to be modified.
@@ -710,7 +710,7 @@ namespace DanTup.DartAnalysis.Json
 		public string Replacement;
 	}
 
-	class SourceFileEdit
+	public class SourceFileEdit
 	{
 		/// <summary>
 		/// The file containing the code to be modified.
@@ -722,7 +722,7 @@ namespace DanTup.DartAnalysis.Json
 		public SourceEdit[] Edits;
 	}
 
-	class TypeHierarchyItem
+	public class TypeHierarchyItem
 	{
 		/// <summary>
 		/// The class element represented by this item.
@@ -772,7 +772,7 @@ namespace DanTup.DartAnalysis.Json
 
 
 	[AnalysisMethod("server.setSubscriptions")]
-	class ServerSetSubscriptionsRequest
+	public class ServerSetSubscriptionsRequest
 	{
 		/// <summary>
 		/// A list of the services being subscribed to.
@@ -781,7 +781,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.getErrors")]
-	class AnalysisGetErrorsRequest
+	public class AnalysisGetErrorsRequest
 	{
 		/// <summary>
 		/// The file for which errors are being requested.
@@ -790,7 +790,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.getHover")]
-	class AnalysisGetHoverRequest
+	public class AnalysisGetHoverRequest
 	{
 		/// <summary>
 		/// The file in which hover information is being
@@ -805,7 +805,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.setAnalysisRoots")]
-	class AnalysisSetAnalysisRootsRequest
+	public class AnalysisSetAnalysisRootsRequest
 	{
 		/// <summary>
 		/// A list of the files and directories that should be
@@ -820,7 +820,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.setPriorityFiles")]
-	class AnalysisSetPriorityFilesRequest
+	public class AnalysisSetPriorityFilesRequest
 	{
 		/// <summary>
 		/// The files that are to be a priority for analysis.
@@ -829,7 +829,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.setSubscriptions")]
-	class AnalysisSetSubscriptionsRequest
+	public class AnalysisSetSubscriptionsRequest
 	{
 		/// <summary>
 		/// A table mapping services to a list of the files being
@@ -839,7 +839,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.updateContent")]
-	class AnalysisUpdateContentRequest
+	public class AnalysisUpdateContentRequest
 	{
 		/// <summary>
 		/// A table mapping the files whose content has changed to a
@@ -849,7 +849,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("analysis.updateOptions")]
-	class AnalysisUpdateOptionsRequest
+	public class AnalysisUpdateOptionsRequest
 	{
 		/// <summary>
 		/// The options that are to be used to control analysis.
@@ -858,7 +858,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("completion.getSuggestions")]
-	class CompletionGetSuggestionsRequest
+	public class CompletionGetSuggestionsRequest
 	{
 		/// <summary>
 		/// The file containing the point at which suggestions are
@@ -873,7 +873,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("search.findElementReferences")]
-	class SearchFindElementReferencesRequest
+	public class SearchFindElementReferencesRequest
 	{
 		/// <summary>
 		/// The file containing the declaration of or reference to
@@ -893,7 +893,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("search.findMemberDeclarations")]
-	class SearchFindMemberDeclarationsRequest
+	public class SearchFindMemberDeclarationsRequest
 	{
 		/// <summary>
 		/// The name of the declarations to be found.
@@ -902,7 +902,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("search.findMemberReferences")]
-	class SearchFindMemberReferencesRequest
+	public class SearchFindMemberReferencesRequest
 	{
 		/// <summary>
 		/// The name of the references to be found.
@@ -911,7 +911,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("search.findTopLevelDeclarations")]
-	class SearchFindTopLevelDeclarationsRequest
+	public class SearchFindTopLevelDeclarationsRequest
 	{
 		/// <summary>
 		/// The regular expression used to match the names of the
@@ -921,7 +921,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("search.getTypeHierarchy")]
-	class SearchGetTypeHierarchyRequest
+	public class SearchGetTypeHierarchyRequest
 	{
 		/// <summary>
 		/// The file containing the declaration or reference to the
@@ -935,7 +935,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("edit.getAssists")]
-	class EditGetAssistsRequest
+	public class EditGetAssistsRequest
 	{
 		/// <summary>
 		/// The file containing the code for which assists are being
@@ -955,7 +955,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("edit.getAvailableRefactorings")]
-	class EditGetAvailableRefactoringsRequest
+	public class EditGetAvailableRefactoringsRequest
 	{
 		/// <summary>
 		/// The file containing the code on which the refactoring
@@ -975,7 +975,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("edit.getFixes")]
-	class EditGetFixesRequest
+	public class EditGetFixesRequest
 	{
 		/// <summary>
 		/// The file containing the errors for which fixes are being
@@ -990,7 +990,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("edit.getRefactoring")]
-	class EditGetRefactoringRequest
+	public class EditGetRefactoringRequest
 	{
 		/// <summary>
 		/// The identifier of the kind of refactoring to be
@@ -1028,7 +1028,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("debug.createContext")]
-	class DebugCreateContextRequest
+	public class DebugCreateContextRequest
 	{
 		/// <summary>
 		/// The path of the Dart or HTML file that will be launched.
@@ -1037,7 +1037,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("debug.deleteContext")]
-	class DebugDeleteContextRequest
+	public class DebugDeleteContextRequest
 	{
 		/// <summary>
 		/// The identifier of the debugging context that is to be
@@ -1047,7 +1047,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("debug.mapUri")]
-	class DebugMapUriRequest
+	public class DebugMapUriRequest
 	{
 		/// <summary>
 		/// The identifier of the debugging context in which the URI
@@ -1065,7 +1065,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	[AnalysisMethod("debug.setSubscriptions")]
-	class DebugSetSubscriptionsRequest
+	public class DebugSetSubscriptionsRequest
 	{
 		/// <summary>
 		/// A list of the services being subscribed to.
@@ -1074,7 +1074,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
-	class ServerGetVersionResponse
+	public class ServerGetVersionResponse
 	{
 		/// <summary>
 		/// The version number of the analysis server.
@@ -1082,7 +1082,7 @@ namespace DanTup.DartAnalysis.Json
 		public string Version;
 	}
 
-	class AnalysisGetErrorsResponse
+	public class AnalysisGetErrorsResponse
 	{
 		/// <summary>
 		/// The errors associated with the file.
@@ -1090,7 +1090,7 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisError[] Errors;
 	}
 
-	class AnalysisGetHoverResponse
+	public class AnalysisGetHoverResponse
 	{
 		/// <summary>
 		/// The hover information associated with the
@@ -1103,7 +1103,7 @@ namespace DanTup.DartAnalysis.Json
 		public HoverInformation[] Hovers;
 	}
 
-	class CompletionGetSuggestionsResponse
+	public class CompletionGetSuggestionsResponse
 	{
 		/// <summary>
 		/// The identifier used to associate results with this
@@ -1112,7 +1112,7 @@ namespace DanTup.DartAnalysis.Json
 		public CompletionId Id;
 	}
 
-	class SearchFindElementReferencesResponse
+	public class SearchFindElementReferencesResponse
 	{
 		/// <summary>
 		/// The identifier used to associate results with this
@@ -1127,7 +1127,7 @@ namespace DanTup.DartAnalysis.Json
 		public Element Element;
 	}
 
-	class SearchFindMemberDeclarationsResponse
+	public class SearchFindMemberDeclarationsResponse
 	{
 		/// <summary>
 		/// The identifier used to associate results with this
@@ -1136,7 +1136,7 @@ namespace DanTup.DartAnalysis.Json
 		public SearchId Id;
 	}
 
-	class SearchFindMemberReferencesResponse
+	public class SearchFindMemberReferencesResponse
 	{
 		/// <summary>
 		/// The identifier used to associate results with this
@@ -1145,7 +1145,7 @@ namespace DanTup.DartAnalysis.Json
 		public SearchId Id;
 	}
 
-	class SearchFindTopLevelDeclarationsResponse
+	public class SearchFindTopLevelDeclarationsResponse
 	{
 		/// <summary>
 		/// The identifier used to associate results with this
@@ -1154,7 +1154,7 @@ namespace DanTup.DartAnalysis.Json
 		public SearchId Id;
 	}
 
-	class SearchGetTypeHierarchyResponse
+	public class SearchGetTypeHierarchyResponse
 	{
 		/// <summary>
 		/// A list of the types in the requested hierarchy. The
@@ -1167,7 +1167,7 @@ namespace DanTup.DartAnalysis.Json
 		public TypeHierarchyItem[] HierarchyItems;
 	}
 
-	class EditGetAssistsResponse
+	public class EditGetAssistsResponse
 	{
 		/// <summary>
 		/// The assists that are available at the given location.
@@ -1175,7 +1175,7 @@ namespace DanTup.DartAnalysis.Json
 		public SourceChange[] Assists;
 	}
 
-	class EditGetAvailableRefactoringsResponse
+	public class EditGetAvailableRefactoringsResponse
 	{
 		/// <summary>
 		/// The kinds of refactorings that are valid for the given
@@ -1184,7 +1184,7 @@ namespace DanTup.DartAnalysis.Json
 		public RefactoringKind[] Kinds;
 	}
 
-	class EditGetFixesResponse
+	public class EditGetFixesResponse
 	{
 		/// <summary>
 		/// The fixes that are available for each of the analysis
@@ -1199,7 +1199,7 @@ namespace DanTup.DartAnalysis.Json
 		public ErrorFixes[] Fixes;
 	}
 
-	class EditGetRefactoringResponse
+	public class EditGetRefactoringResponse
 	{
 		/// <summary>
 		/// The status of the refactoring. The array will be empty
@@ -1225,7 +1225,7 @@ namespace DanTup.DartAnalysis.Json
 		public SourceChange Change;
 	}
 
-	class DebugCreateContextResponse
+	public class DebugCreateContextResponse
 	{
 		/// <summary>
 		/// The identifier used to refer to the debugging context
@@ -1234,7 +1234,7 @@ namespace DanTup.DartAnalysis.Json
 		public DebugContextId Id;
 	}
 
-	class DebugMapUriResponse
+	public class DebugMapUriResponse
 	{
 		/// <summary>
 		/// The file to which the URI was mapped. This field is

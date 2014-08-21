@@ -4,17 +4,17 @@ using DanTup.DartAnalysis.Json;
 
 namespace DanTup.DartAnalysis
 {
-	class ServerGetVersion : Request<Response<ServerGetVersionResponse>>
+	public class ServerGetVersion : Request<Response<ServerGetVersionResponse>>
 	{
 
 	}
 
-	class ServerShutdown : Request<Response>
+	public class ServerShutdown : Request<Response>
 	{
 
 	}
 
-	class ServerSetSubscriptions : Request<ServerSetSubscriptionsRequest, Response>
+	public class ServerSetSubscriptions : Request<ServerSetSubscriptionsRequest, Response>
 	{
 		public ServerSetSubscriptions(ServerSetSubscriptionsRequest @params)
 			: base(@params)
@@ -22,7 +22,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisGetErrors : Request<AnalysisGetErrorsRequest, Response<AnalysisGetErrorsResponse>>
+	public class AnalysisGetErrors : Request<AnalysisGetErrorsRequest, Response<AnalysisGetErrorsResponse>>
 	{
 		public AnalysisGetErrors(AnalysisGetErrorsRequest @params)
 			: base(@params)
@@ -30,7 +30,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisGetHover : Request<AnalysisGetHoverRequest, Response<AnalysisGetHoverResponse>>
+	public class AnalysisGetHover : Request<AnalysisGetHoverRequest, Response<AnalysisGetHoverResponse>>
 	{
 		public AnalysisGetHover(AnalysisGetHoverRequest @params)
 			: base(@params)
@@ -38,12 +38,12 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisReanalyze : Request<Response>
+	public class AnalysisReanalyze : Request<Response>
 	{
 
 	}
 
-	class AnalysisSetAnalysisRoots : Request<AnalysisSetAnalysisRootsRequest, Response>
+	public class AnalysisSetAnalysisRoots : Request<AnalysisSetAnalysisRootsRequest, Response>
 	{
 		public AnalysisSetAnalysisRoots(AnalysisSetAnalysisRootsRequest @params)
 			: base(@params)
@@ -51,7 +51,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisSetPriorityFiles : Request<AnalysisSetPriorityFilesRequest, Response>
+	public class AnalysisSetPriorityFiles : Request<AnalysisSetPriorityFilesRequest, Response>
 	{
 		public AnalysisSetPriorityFiles(AnalysisSetPriorityFilesRequest @params)
 			: base(@params)
@@ -59,7 +59,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisSetSubscriptions : Request<AnalysisSetSubscriptionsRequest, Response>
+	public class AnalysisSetSubscriptions : Request<AnalysisSetSubscriptionsRequest, Response>
 	{
 		public AnalysisSetSubscriptions(AnalysisSetSubscriptionsRequest @params)
 			: base(@params)
@@ -67,7 +67,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisUpdateContent : Request<AnalysisUpdateContentRequest, Response>
+	public class AnalysisUpdateContent : Request<AnalysisUpdateContentRequest, Response>
 	{
 		public AnalysisUpdateContent(AnalysisUpdateContentRequest @params)
 			: base(@params)
@@ -75,7 +75,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class AnalysisUpdateOptions : Request<AnalysisUpdateOptionsRequest, Response>
+	public class AnalysisUpdateOptions : Request<AnalysisUpdateOptionsRequest, Response>
 	{
 		public AnalysisUpdateOptions(AnalysisUpdateOptionsRequest @params)
 			: base(@params)
@@ -83,7 +83,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class CompletionGetSuggestions : Request<CompletionGetSuggestionsRequest, Response<CompletionGetSuggestionsResponse>>
+	public class CompletionGetSuggestions : Request<CompletionGetSuggestionsRequest, Response<CompletionGetSuggestionsResponse>>
 	{
 		public CompletionGetSuggestions(CompletionGetSuggestionsRequest @params)
 			: base(@params)
@@ -91,7 +91,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class SearchFindElementReferences : Request<SearchFindElementReferencesRequest, Response<SearchFindElementReferencesResponse>>
+	public class SearchFindElementReferences : Request<SearchFindElementReferencesRequest, Response<SearchFindElementReferencesResponse>>
 	{
 		public SearchFindElementReferences(SearchFindElementReferencesRequest @params)
 			: base(@params)
@@ -99,7 +99,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class SearchFindMemberDeclarations : Request<SearchFindMemberDeclarationsRequest, Response<SearchFindMemberDeclarationsResponse>>
+	public class SearchFindMemberDeclarations : Request<SearchFindMemberDeclarationsRequest, Response<SearchFindMemberDeclarationsResponse>>
 	{
 		public SearchFindMemberDeclarations(SearchFindMemberDeclarationsRequest @params)
 			: base(@params)
@@ -107,7 +107,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class SearchFindMemberReferences : Request<SearchFindMemberReferencesRequest, Response<SearchFindMemberReferencesResponse>>
+	public class SearchFindMemberReferences : Request<SearchFindMemberReferencesRequest, Response<SearchFindMemberReferencesResponse>>
 	{
 		public SearchFindMemberReferences(SearchFindMemberReferencesRequest @params)
 			: base(@params)
@@ -115,7 +115,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class SearchFindTopLevelDeclarations : Request<SearchFindTopLevelDeclarationsRequest, Response<SearchFindTopLevelDeclarationsResponse>>
+	public class SearchFindTopLevelDeclarations : Request<SearchFindTopLevelDeclarationsRequest, Response<SearchFindTopLevelDeclarationsResponse>>
 	{
 		public SearchFindTopLevelDeclarations(SearchFindTopLevelDeclarationsRequest @params)
 			: base(@params)
@@ -123,7 +123,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class SearchGetTypeHierarchy : Request<SearchGetTypeHierarchyRequest, Response<SearchGetTypeHierarchyResponse>>
+	public class SearchGetTypeHierarchy : Request<SearchGetTypeHierarchyRequest, Response<SearchGetTypeHierarchyResponse>>
 	{
 		public SearchGetTypeHierarchy(SearchGetTypeHierarchyRequest @params)
 			: base(@params)
@@ -131,7 +131,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class EditGetAssists : Request<EditGetAssistsRequest, Response<EditGetAssistsResponse>>
+	public class EditGetAssists : Request<EditGetAssistsRequest, Response<EditGetAssistsResponse>>
 	{
 		public EditGetAssists(EditGetAssistsRequest @params)
 			: base(@params)
@@ -139,7 +139,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class EditGetAvailableRefactorings : Request<EditGetAvailableRefactoringsRequest, Response<EditGetAvailableRefactoringsResponse>>
+	public class EditGetAvailableRefactorings : Request<EditGetAvailableRefactoringsRequest, Response<EditGetAvailableRefactoringsResponse>>
 	{
 		public EditGetAvailableRefactorings(EditGetAvailableRefactoringsRequest @params)
 			: base(@params)
@@ -147,7 +147,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class EditGetFixes : Request<EditGetFixesRequest, Response<EditGetFixesResponse>>
+	public class EditGetFixes : Request<EditGetFixesRequest, Response<EditGetFixesResponse>>
 	{
 		public EditGetFixes(EditGetFixesRequest @params)
 			: base(@params)
@@ -155,7 +155,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class EditGetRefactoring : Request<EditGetRefactoringRequest, Response<EditGetRefactoringResponse>>
+	public class EditGetRefactoring : Request<EditGetRefactoringRequest, Response<EditGetRefactoringResponse>>
 	{
 		public EditGetRefactoring(EditGetRefactoringRequest @params)
 			: base(@params)
@@ -163,7 +163,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class DebugCreateContext : Request<DebugCreateContextRequest, Response<DebugCreateContextResponse>>
+	public class DebugCreateContext : Request<DebugCreateContextRequest, Response<DebugCreateContextResponse>>
 	{
 		public DebugCreateContext(DebugCreateContextRequest @params)
 			: base(@params)
@@ -171,7 +171,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class DebugDeleteContext : Request<DebugDeleteContextRequest, Response>
+	public class DebugDeleteContext : Request<DebugDeleteContextRequest, Response>
 	{
 		public DebugDeleteContext(DebugDeleteContextRequest @params)
 			: base(@params)
@@ -179,7 +179,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class DebugMapUri : Request<DebugMapUriRequest, Response<DebugMapUriResponse>>
+	public class DebugMapUri : Request<DebugMapUriRequest, Response<DebugMapUriResponse>>
 	{
 		public DebugMapUri(DebugMapUriRequest @params)
 			: base(@params)
@@ -187,7 +187,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	class DebugSetSubscriptions : Request<DebugSetSubscriptionsRequest, Response>
+	public class DebugSetSubscriptions : Request<DebugSetSubscriptionsRequest, Response>
 	{
 		public DebugSetSubscriptions(DebugSetSubscriptionsRequest @params)
 			: base(@params)
