@@ -71,7 +71,8 @@ let getEnum (enumCodeNode : XElement) = enumCodeNode.Value |> formatConstantName
 
 let getType (typeNode : XElement) =
     if typeNode.Element(!!"object") <> null then
-        sprintf "\tpublic class %s\r\n\t{\r\n%s\t}\r\n\r\n"
+        sprintf "%s\tpublic class %s\r\n\t{\r\n%s\t}\r\n\r\n"
+            (typeNode |> extractDoc 1)
             (typeNode.Attribute(!!"name").Value)
             (typeNode.Descendants(!!"field") |> collect getField)
     else if typeNode.Element(!!"ref") <> null then // This type will be mapped onto a primitive
