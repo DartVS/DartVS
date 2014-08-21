@@ -69,8 +69,9 @@ namespace DanTup.DartAnalysis.Json
 		public bool GenerateHints;
 	}
 
-	public class AnalysisService
+	public enum AnalysisService
 	{
+		FOLDING, HIGHLIGHTS, NAVIGATION, OCCURRENCES, OUTLINE, OVERRIDES
 	}
 
 	public class AnalysisStatus
@@ -95,12 +96,9 @@ namespace DanTup.DartAnalysis.Json
 		public SourceEdit[] Edits;
 	}
 
-	public class CompletionId
+	public enum CompletionRelevance
 	{
-	}
-
-	public class CompletionRelevance
-	{
+		LOW, DEFAULT, HIGH
 	}
 
 	public class CompletionSuggestion
@@ -201,16 +199,14 @@ namespace DanTup.DartAnalysis.Json
 		public string ParameterType;
 	}
 
-	public class CompletionSuggestionKind
+	public enum CompletionSuggestionKind
 	{
+		ARGUMENTLIST, CLASS, CLASSALIAS, CONSTRUCTOR, FIELD, FUNCTION, FUNCTIONTYPEALIAS, GETTER, IMPORT, LIBRARYPREFIX, LOCALVARIABLE, METHOD, METHODNAME, NAMEDARGUMENT, OPTIONALARGUMENT, PARAMETER, SETTER, TOPLEVELVARIABLE, TYPEPARAMETER
 	}
 
-	public class DebugContextId
+	public enum DebugService
 	{
-	}
-
-	public class DebugService
-	{
+		LAUNCHDATA
 	}
 
 	public class Element
@@ -249,8 +245,9 @@ namespace DanTup.DartAnalysis.Json
 		public string ReturnType;
 	}
 
-	public class ElementKind
+	public enum ElementKind
 	{
+		CLASS, CLASSTYPEALIAS, COMPILATIONUNIT, CONSTRUCTOR, GETTER, FIELD, FUNCTION, FUNCTIONTYPEALIAS, LIBRARY, LOCALVARIABLE, METHOD, SETTER, TOPLEVELVARIABLE, TYPEPARAMETER, UNKNOWN, UNITTESTGROUP, UNITTESTTEST
 	}
 
 	public class Error
@@ -282,12 +279,14 @@ namespace DanTup.DartAnalysis.Json
 		public SourceChange[] Fixes;
 	}
 
-	public class ErrorSeverity
+	public enum ErrorSeverity
 	{
+		INFO, WARNING, ERROR
 	}
 
-	public class ErrorType
+	public enum ErrorType
 	{
+		COMPILETIMEERROR, HINT, STATICTYPEWARNING, STATICWARNING, SYNTACTICERROR, TODO
 	}
 
 	public class ExecutableFile
@@ -295,23 +294,21 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The path of the executable file.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the region to be highlighted.
 		/// </summary>
 		public ExecutableKind Offset;
 	}
 
-	public class ExecutableKind
+	public enum ExecutableKind
 	{
+		CLIENT, EITHER, SERVER
 	}
 
-	public class FilePath
+	public enum FoldingKind
 	{
-	}
-
-	public class FoldingKind
-	{
+		COMMENT, CLASSMEMBER, DIRECTIVES, DOCUMENTATIONCOMMENT, TOPLEVELDECLARATION
 	}
 
 	public class FoldingRegion
@@ -346,8 +343,9 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	public class HighlightRegionType
+	public enum HighlightRegionType
 	{
+		ANNOTATION, BUILTIN, CLASS, COMMENTBLOCK, COMMENTDOCUMENTATION, COMMENTENDOFLINE, CONSTRUCTOR, DIRECTIVE, DYNAMICTYPE, FIELD, FIELDSTATIC, FUNCTION, FUNCTIONDECLARATION, FUNCTIONTYPEALIAS, GETTERDECLARATION, IDENTIFIERDEFAULT, IMPORTPREFIX, KEYWORD, LITERALBOOLEAN, LITERALDOUBLE, LITERALINTEGER, LITERALLIST, LITERALMAP, LITERALSTRING, LOCALVARIABLE, LOCALVARIABLEDECLARATION, METHOD, METHODDECLARATION, METHODDECLARATIONSTATIC, METHODSTATIC, PARAMETER, SETTERDECLARATION, TOPLEVELVARIABLE, TYPENAMEDYNAMIC, TYPEPARAMETER
 	}
 
 	public class HoverInformation
@@ -450,8 +448,9 @@ namespace DanTup.DartAnalysis.Json
 		public LinkedEditSuggestionKind Kind;
 	}
 
-	public class LinkedEditSuggestionKind
+	public enum LinkedEditSuggestionKind
 	{
+		METHOD, PARAMETER, TYPE, VARIABLE
 	}
 
 	public class Location
@@ -459,7 +458,7 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The file containing the range.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the range.
 		/// </summary>
@@ -594,15 +593,16 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The file containing the position.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the position.
 		/// </summary>
 		public int Offset;
 	}
 
-	public class RefactoringKind
+	public enum RefactoringKind
 	{
+		CONVERTGETTERTOMETHOD, CONVERTMETHODTOGETTER, EXTRACTLOCALVARIABLE, EXTRACTMETHOD, INLINELOCALVARIABLE, INLINEMETHOD, RENAME
 	}
 
 	public class RefactoringProblem
@@ -622,17 +622,14 @@ namespace DanTup.DartAnalysis.Json
 		public Location Location;
 	}
 
-	public class RefactoringProblemSeverity
+	public enum RefactoringProblemSeverity
 	{
+		INFO, WARNING, ERROR, FATAL
 	}
 
 	public class RemoveContentOverlay
 	{
 		public string Type;
-	}
-
-	public class SearchId
-	{
 	}
 
 	public class SearchResult
@@ -662,12 +659,14 @@ namespace DanTup.DartAnalysis.Json
 		public Element[] Path;
 	}
 
-	public class SearchResultKind
+	public enum SearchResultKind
 	{
+		DECLARATION, INVOCATION, READ, READWRITE, REFERENCE, WRITE
 	}
 
-	public class ServerService
+	public enum ServerService
 	{
+		STATUS
 	}
 
 	public class SourceChange
@@ -715,7 +714,7 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The file containing the code to be modified.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// A list of the edits used to effect the change.
 		/// </summary>
@@ -786,7 +785,7 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The file for which errors are being requested.
 		/// </summary>
-		public FilePath File;
+		public string File;
 	}
 
 	[AnalysisMethod("analysis.getHover")]
@@ -796,7 +795,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file in which hover information is being
 		/// requested.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset for which hover information is being
 		/// requested.
@@ -811,12 +810,12 @@ namespace DanTup.DartAnalysis.Json
 		/// A list of the files and directories that should be
 		/// analyzed.
 		/// </summary>
-		public FilePath[] Included;
+		public string[] Included;
 		/// <summary>
 		/// A list of the files and directories within the
 		/// included directories that should not be analyzed.
 		/// </summary>
-		public FilePath[] Excluded;
+		public string[] Excluded;
 	}
 
 	[AnalysisMethod("analysis.setPriorityFiles")]
@@ -825,7 +824,7 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The files that are to be a priority for analysis.
 		/// </summary>
-		public FilePath[] Files;
+		public string[] Files;
 	}
 
 	[AnalysisMethod("analysis.setSubscriptions")]
@@ -845,7 +844,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A table mapping the files whose content has changed to a
 		/// description of the content change.
 		/// </summary>
-		public FilePath Files;
+		public string Files;
 	}
 
 	[AnalysisMethod("analysis.updateOptions")]
@@ -864,7 +863,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the point at which suggestions are
 		/// to be made.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset within the file at which suggestions are to
 		/// be made.
@@ -879,7 +878,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the declaration of or reference to
 		/// the element used to define the search.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset within the file of the declaration of or
 		/// reference to the element.
@@ -927,7 +926,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the declaration or reference to the
 		/// type for which a hierarchy is being requested.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the name of the type within the file.
 		/// </summary>
@@ -941,7 +940,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the code for which assists are being
 		/// requested.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the code for which assists are being
 		/// requested.
@@ -961,7 +960,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the code on which the refactoring
 		/// would be based.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the code on which the refactoring would be
 		/// based.
@@ -981,7 +980,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the errors for which fixes are being
 		/// requested.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset used to select the errors for which fixes
 		/// will be returned.
@@ -1001,7 +1000,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the code involved in the
 		/// refactoring.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The offset of the region involved in the refactoring.
 		/// </summary>
@@ -1033,7 +1032,7 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The path of the Dart or HTML file that will be launched.
 		/// </summary>
-		public FilePath ContextRoot;
+		public string ContextRoot;
 	}
 
 	[AnalysisMethod("debug.deleteContext")]
@@ -1043,7 +1042,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier of the debugging context that is to be
 		/// deleted.
 		/// </summary>
-		public DebugContextId Id;
+		public string Id;
 	}
 
 	[AnalysisMethod("debug.mapUri")]
@@ -1053,11 +1052,11 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier of the debugging context in which the URI
 		/// is to be mapped.
 		/// </summary>
-		public DebugContextId Id;
+		public string Id;
 		/// <summary>
 		/// The path of the file to be mapped into a URI.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The URI to be mapped into a file path.
 		/// </summary>
@@ -1109,7 +1108,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to associate results with this
 		/// completion request.
 		/// </summary>
-		public CompletionId Id;
+		public string Id;
 	}
 
 	public class SearchFindElementReferencesResponse
@@ -1118,7 +1117,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to associate results with this
 		/// search request.
 		/// </summary>
-		public SearchId Id;
+		public string Id;
 		/// <summary>
 		/// The element referenced or defined at the given offset
 		/// and whose references will be returned in the search
@@ -1133,7 +1132,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to associate results with this
 		/// search request.
 		/// </summary>
-		public SearchId Id;
+		public string Id;
 	}
 
 	public class SearchFindMemberReferencesResponse
@@ -1142,7 +1141,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to associate results with this
 		/// search request.
 		/// </summary>
-		public SearchId Id;
+		public string Id;
 	}
 
 	public class SearchFindTopLevelDeclarationsResponse
@@ -1151,7 +1150,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to associate results with this
 		/// search request.
 		/// </summary>
-		public SearchId Id;
+		public string Id;
 	}
 
 	public class SearchGetTypeHierarchyResponse
@@ -1231,7 +1230,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The identifier used to refer to the debugging context
 		/// that was created.
 		/// </summary>
-		public DebugContextId Id;
+		public string Id;
 	}
 
 	public class DebugMapUriResponse
@@ -1240,7 +1239,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file to which the URI was mapped. This field is
 		/// omitted if the uri field was not given in the request.
 		/// </summary>
-		public FilePath File;
+		public string File;
 		/// <summary>
 		/// The URI to which the file path was mapped. This field is
 		/// omitted if the file field was not given in the request.
