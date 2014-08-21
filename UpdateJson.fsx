@@ -50,6 +50,10 @@ let extractDoc (fieldNode : XElement) =
 
 let formatName (x : string) = x.[0].ToString().ToUpper() + x.[1..]
 
+let formatConstantName (x : string) =
+    let words = x.Split('_')
+    words |> Array.map (fun x -> x.[0].ToString().ToUpper() + x.[1..].ToLower()) |> String.concat ""
+
 let extractCSharpType (fieldNode : XElement) =
     let cSharpType = fieldNode.XPathSelectElement(".//ref").Value |> getCSharpType
     match fieldNode.Element(!!"list") with
@@ -62,9 +66,7 @@ let getField (fieldNode : XElement) =
         (fieldNode |> extractCSharpType)
         (fieldNode.Attribute(!!"name").Value |> formatName)
 
-let getEnum (enumCodeNode : XElement) =
-    let words = enumCodeNode.Value.Split('_')
-    words |> Array.map formatName |> String.concat ""
+let getEnum (enumCodeNode : XElement) = enumCodeNode.Value |> formatConstantName
 
 let getType (typeNode : XElement) =
     if typeNode.Element(!!"object") <> null then
