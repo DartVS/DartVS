@@ -50,7 +50,7 @@ let getField (fieldNode : XElement) =
             
 
 let getType (typeNode : XElement) =
-    sprintf "\tclass %s\r\n\t{\r\n%s\t}\r\n\r\n"
+    sprintf "\tpublic class %s\r\n\t{\r\n%s\t}\r\n\r\n"
         (typeNode.Attribute(!!"name").Value)
         (typeNode.Descendants(!!"field") |> collect getField)
 
@@ -58,7 +58,7 @@ let getRequest (typeNode : XElement) =
     match typeNode.Element(!!"params") with
         | null -> ""
         | _ ->
-            sprintf "\t[AnalysisMethod(\"%s.%s\")]\r\n\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\t[AnalysisMethod(\"%s.%s\")]\r\n\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
                 (typeNode.Parent.Attribute(!!"name").Value)
                 (typeNode.Attribute(!!"method").Value)
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
@@ -70,7 +70,7 @@ let getResponse (typeNode : XElement) =
     match typeNode.Element(!!"result") with
         | null -> ""
         | _ ->
-            sprintf "\tclass %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
                 (typeNode.Attribute(!!"method").Value |> formatName)
                 "Response"
@@ -130,7 +130,7 @@ let getRequestWrapper (typeNode : XElement) =
                     className
                     requestClassName
 
-    sprintf "\tclass %s : %s\r\n\t{\r\n%s\r\n\t}\r\n\r\n"
+    sprintf "\tpublic class %s : %s\r\n\t{\r\n%s\r\n\t}\r\n\r\n"
         className
         baseClass
         ctor
