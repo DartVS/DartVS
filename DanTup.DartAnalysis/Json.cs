@@ -69,6 +69,10 @@ namespace DanTup.DartAnalysis.Json
 		public bool GenerateHints;
 	}
 
+	/// <summary>
+	/// An enumeration of the services provided by the analysis
+	/// domain.
+	/// </summary>
 	public enum AnalysisService
 	{
 		Folding, Highlights, Navigation, Occurrences, Outline, Overrides
@@ -96,6 +100,10 @@ namespace DanTup.DartAnalysis.Json
 		public SourceEdit[] Edits;
 	}
 
+	/// <summary>
+	/// An enumeration of the relevance of a completion
+	/// suggestion.
+	/// </summary>
 	public enum CompletionRelevance
 	{
 		Low, Default, High
@@ -199,11 +207,19 @@ namespace DanTup.DartAnalysis.Json
 		public string ParameterType;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of elements that can be included
+	/// in a completion suggestion.
+	/// </summary>
 	public enum CompletionSuggestionKind
 	{
 		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
 	}
 
+	/// <summary>
+	/// An enumeration of the services provided by the debug
+	/// domain.
+	/// </summary>
 	public enum DebugService
 	{
 		LaunchData
@@ -245,6 +261,9 @@ namespace DanTup.DartAnalysis.Json
 		public string ReturnType;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of elements.
+	/// </summary>
 	public enum ElementKind
 	{
 		Class, ClassTypeAlias, CompilationUnit, Constructor, Getter, Field, Function, FunctionTypeAlias, Library, LocalVariable, Method, Setter, TopLevelVariable, TypeParameter, Unknown, UnitTestGroup, UnitTestTest
@@ -279,11 +298,18 @@ namespace DanTup.DartAnalysis.Json
 		public SourceChange[] Fixes;
 	}
 
+	/// <summary>
+	/// An enumeration of the possible severities of analysis
+	/// errors.
+	/// </summary>
 	public enum ErrorSeverity
 	{
 		Info, Warning, Error
 	}
 
+	/// <summary>
+	/// An enumeration of the possible types of analysis errors.
+	/// </summary>
 	public enum ErrorType
 	{
 		CompileTimeError, Hint, StaticTypeWarning, StaticWarning, SyntacticError, Todo
@@ -301,11 +327,17 @@ namespace DanTup.DartAnalysis.Json
 		public ExecutableKind Offset;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of executable files.
+	/// </summary>
 	public enum ExecutableKind
 	{
 		Client, Either, Server
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of folding regions.
+	/// </summary>
 	public enum FoldingKind
 	{
 		Comment, ClassMember, Directives, DocumentationComment, TopLevelDeclaration
@@ -343,6 +375,10 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of highlighting that can be
+	/// applied to files.
+	/// </summary>
 	public enum HighlightRegionType
 	{
 		Annotation, BuiltIn, Class, CommentBlock, CommentDocumentation, CommentEndOfLine, Constructor, Directive, DynamicType, Field, FieldStatic, Function, FunctionDeclaration, FunctionTypeAlias, GetterDeclaration, IdentifierDefault, ImportPrefix, Keyword, LiteralBoolean, LiteralDouble, LiteralInteger, LiteralList, LiteralMap, LiteralString, LocalVariable, LocalVariableDeclaration, Method, MethodDeclaration, MethodDeclarationStatic, MethodStatic, Parameter, SetterDeclaration, TopLevelVariable, TypeNameDynamic, TypeParameter
@@ -448,6 +484,10 @@ namespace DanTup.DartAnalysis.Json
 		public LinkedEditSuggestionKind Kind;
 	}
 
+	/// <summary>
+	/// An enumeration of the kind of values that can be suggested
+	/// for a linked edit.
+	/// </summary>
 	public enum LinkedEditSuggestionKind
 	{
 		Method, Parameter, Type, Variable
@@ -600,6 +640,10 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of refactorings that can be
+	/// created.
+	/// </summary>
 	public enum RefactoringKind
 	{
 		ConvertGetterToMethod, ConvertMethodToGetter, ExtractLocalVariable, ExtractMethod, InlineLocalVariable, InlineMethod, Rename
@@ -622,6 +666,10 @@ namespace DanTup.DartAnalysis.Json
 		public Location Location;
 	}
 
+	/// <summary>
+	/// An enumeration of the severities of problems that can be
+	/// returned by the refactoring requests.
+	/// </summary>
 	public enum RefactoringProblemSeverity
 	{
 		Info, Warning, Error, Fatal
@@ -659,11 +707,18 @@ namespace DanTup.DartAnalysis.Json
 		public Element[] Path;
 	}
 
+	/// <summary>
+	/// An enumeration of the kinds of search results returned by the
+	/// search domain.
+	/// </summary>
 	public enum SearchResultKind
 	{
 		Declaration, Invocation, Read, ReadWrite, Reference, Write
 	}
 
+	/// <summary>
+	/// An enumeration of the services provided by the server domain.
+	/// </summary>
 	public enum ServerService
 	{
 		Status
