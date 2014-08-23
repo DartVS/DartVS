@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,7 +43,8 @@ namespace DanTup.DartAnalysis
 		{
 			// Create a unique ID for this request.
 			var requestID = Interlocked.Increment(ref id).ToString();
-			request.id = requestID;
+			request.ID = requestID;
+			request.Method = request.GetType().GetCustomAttributes(typeof(AnalysisMethodAttribute), false).Cast<AnalysisMethodAttribute>().Single().Name;
 
 			// Create a TCS and stash it so it can be completed when the response comes through.
 			var task = new TaskCompletionSource<string>();

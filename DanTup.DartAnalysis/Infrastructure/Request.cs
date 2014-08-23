@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 namespace DanTup.DartAnalysis
 {
 	/// <summary>
@@ -7,7 +7,10 @@ namespace DanTup.DartAnalysis
 	/// <typeparam name="TResponseType">The type of the response expected from the request.</typeparam>
 	public abstract class Request<TResponseType>
 	{
-		public string id = "0";
+		[JsonProperty("id")]
+		public string ID = "0";
+		[JsonProperty("method")]
+		public string Method;
 	}
 
 	/// <summary>
@@ -23,11 +26,6 @@ namespace DanTup.DartAnalysis
 		public Request(TParamsType @params)
 		{
 			this.@params = @params;
-		}
-
-		[Obsolete]
-		public Request()
-		{
 		}
 	}
 }
