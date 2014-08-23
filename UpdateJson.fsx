@@ -1,6 +1,8 @@
 ﻿// This script uses Google's Analysis Service docs to generate C# classes
 // that are used for serialising/deserialising JSON.
 
+// TODO: This script (like most of this repo) is currently a mess. Tidy it up!
+
 #r "System.Xml.Linq"
 open System
 open System.IO
