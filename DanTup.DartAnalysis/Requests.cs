@@ -4,16 +4,19 @@ using DanTup.DartAnalysis.Json;
 
 namespace DanTup.DartAnalysis
 {
+	[AnalysisMethod("servergetVersion")]
 	public class ServerGetVersion : Request<Response<ServerGetVersionResponse>>
 	{
 
 	}
 
+	[AnalysisMethod("servershutdown")]
 	public class ServerShutdown : Request<Response>
 	{
 
 	}
 
+	[AnalysisMethod("serversetSubscriptions")]
 	public class ServerSetSubscriptions : Request<ServerSetSubscriptionsRequest, Response>
 	{
 		public ServerSetSubscriptions(ServerSetSubscriptionsRequest @params)
@@ -22,6 +25,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysisgetErrors")]
 	public class AnalysisGetErrors : Request<AnalysisGetErrorsRequest, Response<AnalysisGetErrorsResponse>>
 	{
 		public AnalysisGetErrors(AnalysisGetErrorsRequest @params)
@@ -30,6 +34,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysisgetHover")]
 	public class AnalysisGetHover : Request<AnalysisGetHoverRequest, Response<AnalysisGetHoverResponse>>
 	{
 		public AnalysisGetHover(AnalysisGetHoverRequest @params)
@@ -38,11 +43,13 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysisreanalyze")]
 	public class AnalysisReanalyze : Request<Response>
 	{
 
 	}
 
+	[AnalysisMethod("analysissetAnalysisRoots")]
 	public class AnalysisSetAnalysisRoots : Request<AnalysisSetAnalysisRootsRequest, Response>
 	{
 		public AnalysisSetAnalysisRoots(AnalysisSetAnalysisRootsRequest @params)
@@ -51,6 +58,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysissetPriorityFiles")]
 	public class AnalysisSetPriorityFiles : Request<AnalysisSetPriorityFilesRequest, Response>
 	{
 		public AnalysisSetPriorityFiles(AnalysisSetPriorityFilesRequest @params)
@@ -59,6 +67,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysissetSubscriptions")]
 	public class AnalysisSetSubscriptions : Request<AnalysisSetSubscriptionsRequest, Response>
 	{
 		public AnalysisSetSubscriptions(AnalysisSetSubscriptionsRequest @params)
@@ -67,6 +76,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysisupdateContent")]
 	public class AnalysisUpdateContent : Request<AnalysisUpdateContentRequest, Response>
 	{
 		public AnalysisUpdateContent(AnalysisUpdateContentRequest @params)
@@ -75,6 +85,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("analysisupdateOptions")]
 	public class AnalysisUpdateOptions : Request<AnalysisUpdateOptionsRequest, Response>
 	{
 		public AnalysisUpdateOptions(AnalysisUpdateOptionsRequest @params)
@@ -83,6 +94,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("completiongetSuggestions")]
 	public class CompletionGetSuggestions : Request<CompletionGetSuggestionsRequest, Response<CompletionGetSuggestionsResponse>>
 	{
 		public CompletionGetSuggestions(CompletionGetSuggestionsRequest @params)
@@ -91,6 +103,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("searchfindElementReferences")]
 	public class SearchFindElementReferences : Request<SearchFindElementReferencesRequest, Response<SearchFindElementReferencesResponse>>
 	{
 		public SearchFindElementReferences(SearchFindElementReferencesRequest @params)
@@ -99,6 +112,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("searchfindMemberDeclarations")]
 	public class SearchFindMemberDeclarations : Request<SearchFindMemberDeclarationsRequest, Response<SearchFindMemberDeclarationsResponse>>
 	{
 		public SearchFindMemberDeclarations(SearchFindMemberDeclarationsRequest @params)
@@ -107,6 +121,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("searchfindMemberReferences")]
 	public class SearchFindMemberReferences : Request<SearchFindMemberReferencesRequest, Response<SearchFindMemberReferencesResponse>>
 	{
 		public SearchFindMemberReferences(SearchFindMemberReferencesRequest @params)
@@ -115,6 +130,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("searchfindTopLevelDeclarations")]
 	public class SearchFindTopLevelDeclarations : Request<SearchFindTopLevelDeclarationsRequest, Response<SearchFindTopLevelDeclarationsResponse>>
 	{
 		public SearchFindTopLevelDeclarations(SearchFindTopLevelDeclarationsRequest @params)
@@ -123,6 +139,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("searchgetTypeHierarchy")]
 	public class SearchGetTypeHierarchy : Request<SearchGetTypeHierarchyRequest, Response<SearchGetTypeHierarchyResponse>>
 	{
 		public SearchGetTypeHierarchy(SearchGetTypeHierarchyRequest @params)
@@ -131,6 +148,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("editgetAssists")]
 	public class EditGetAssists : Request<EditGetAssistsRequest, Response<EditGetAssistsResponse>>
 	{
 		public EditGetAssists(EditGetAssistsRequest @params)
@@ -139,6 +157,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("editgetAvailableRefactorings")]
 	public class EditGetAvailableRefactorings : Request<EditGetAvailableRefactoringsRequest, Response<EditGetAvailableRefactoringsResponse>>
 	{
 		public EditGetAvailableRefactorings(EditGetAvailableRefactoringsRequest @params)
@@ -147,6 +166,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("editgetFixes")]
 	public class EditGetFixes : Request<EditGetFixesRequest, Response<EditGetFixesResponse>>
 	{
 		public EditGetFixes(EditGetFixesRequest @params)
@@ -155,6 +175,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("editgetRefactoring")]
 	public class EditGetRefactoring : Request<EditGetRefactoringRequest, Response<EditGetRefactoringResponse>>
 	{
 		public EditGetRefactoring(EditGetRefactoringRequest @params)
@@ -163,6 +184,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("debugcreateContext")]
 	public class DebugCreateContext : Request<DebugCreateContextRequest, Response<DebugCreateContextResponse>>
 	{
 		public DebugCreateContext(DebugCreateContextRequest @params)
@@ -171,6 +193,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("debugdeleteContext")]
 	public class DebugDeleteContext : Request<DebugDeleteContextRequest, Response>
 	{
 		public DebugDeleteContext(DebugDeleteContextRequest @params)
@@ -179,6 +202,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("debugmapUri")]
 	public class DebugMapUri : Request<DebugMapUriRequest, Response<DebugMapUriResponse>>
 	{
 		public DebugMapUri(DebugMapUriRequest @params)
@@ -187,6 +211,7 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
+	[AnalysisMethod("debugsetSubscriptions")]
 	public class DebugSetSubscriptions : Request<DebugSetSubscriptionsRequest, Response>
 	{
 		public DebugSetSubscriptions(DebugSetSubscriptionsRequest @params)

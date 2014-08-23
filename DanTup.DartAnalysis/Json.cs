@@ -1063,7 +1063,6 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
-	[AnalysisMethod("server.setSubscriptions")]
 	public class ServerSetSubscriptionsRequest
 	{
 		/// <summary>
@@ -1073,7 +1072,6 @@ namespace DanTup.DartAnalysis.Json
 		public ServerService[] Subscriptions;
 	}
 
-	[AnalysisMethod("analysis.getErrors")]
 	public class AnalysisGetErrorsRequest
 	{
 		/// <summary>
@@ -1083,7 +1081,6 @@ namespace DanTup.DartAnalysis.Json
 		public string File;
 	}
 
-	[AnalysisMethod("analysis.getHover")]
 	public class AnalysisGetHoverRequest
 	{
 		/// <summary>
@@ -1100,7 +1097,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
-	[AnalysisMethod("analysis.setAnalysisRoots")]
 	public class AnalysisSetAnalysisRootsRequest
 	{
 		/// <summary>
@@ -1117,7 +1113,6 @@ namespace DanTup.DartAnalysis.Json
 		public string[] Excluded;
 	}
 
-	[AnalysisMethod("analysis.setPriorityFiles")]
 	public class AnalysisSetPriorityFilesRequest
 	{
 		/// <summary>
@@ -1127,7 +1122,6 @@ namespace DanTup.DartAnalysis.Json
 		public string[] Files;
 	}
 
-	[AnalysisMethod("analysis.setSubscriptions")]
 	public class AnalysisSetSubscriptionsRequest
 	{
 		/// <summary>
@@ -1138,7 +1132,6 @@ namespace DanTup.DartAnalysis.Json
 		public Dictionary<AnalysisService, string[]> Subscriptions;
 	}
 
-	[AnalysisMethod("analysis.updateContent")]
 	public class AnalysisUpdateContentRequest
 	{
 		/// <summary>
@@ -1149,7 +1142,6 @@ namespace DanTup.DartAnalysis.Json
 		public Dictionary<string, IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay> Files;
 	}
 
-	[AnalysisMethod("analysis.updateOptions")]
 	public class AnalysisUpdateOptionsRequest
 	{
 		/// <summary>
@@ -1159,7 +1151,6 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisOptions Options;
 	}
 
-	[AnalysisMethod("completion.getSuggestions")]
 	public class CompletionGetSuggestionsRequest
 	{
 		/// <summary>
@@ -1176,7 +1167,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
-	[AnalysisMethod("search.findElementReferences")]
 	public class SearchFindElementReferencesRequest
 	{
 		/// <summary>
@@ -1199,7 +1189,6 @@ namespace DanTup.DartAnalysis.Json
 		public bool IncludePotential;
 	}
 
-	[AnalysisMethod("search.findMemberDeclarations")]
 	public class SearchFindMemberDeclarationsRequest
 	{
 		/// <summary>
@@ -1209,7 +1198,6 @@ namespace DanTup.DartAnalysis.Json
 		public string Name;
 	}
 
-	[AnalysisMethod("search.findMemberReferences")]
 	public class SearchFindMemberReferencesRequest
 	{
 		/// <summary>
@@ -1219,7 +1207,6 @@ namespace DanTup.DartAnalysis.Json
 		public string Name;
 	}
 
-	[AnalysisMethod("search.findTopLevelDeclarations")]
 	public class SearchFindTopLevelDeclarationsRequest
 	{
 		/// <summary>
@@ -1230,7 +1217,6 @@ namespace DanTup.DartAnalysis.Json
 		public string Pattern;
 	}
 
-	[AnalysisMethod("search.getTypeHierarchy")]
 	public class SearchGetTypeHierarchyRequest
 	{
 		/// <summary>
@@ -1246,7 +1232,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
-	[AnalysisMethod("edit.getAssists")]
 	public class EditGetAssistsRequest
 	{
 		/// <summary>
@@ -1269,7 +1254,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	[AnalysisMethod("edit.getAvailableRefactorings")]
 	public class EditGetAvailableRefactoringsRequest
 	{
 		/// <summary>
@@ -1292,7 +1276,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Length;
 	}
 
-	[AnalysisMethod("edit.getFixes")]
 	public class EditGetFixesRequest
 	{
 		/// <summary>
@@ -1309,7 +1292,6 @@ namespace DanTup.DartAnalysis.Json
 		public int Offset;
 	}
 
-	[AnalysisMethod("edit.getRefactoring")]
 	public class EditGetRefactoringRequest
 	{
 		/// <summary>
@@ -1353,7 +1335,6 @@ namespace DanTup.DartAnalysis.Json
 		public object Options;
 	}
 
-	[AnalysisMethod("debug.createContext")]
 	public class DebugCreateContextRequest
 	{
 		/// <summary>
@@ -1363,7 +1344,6 @@ namespace DanTup.DartAnalysis.Json
 		public string ContextRoot;
 	}
 
-	[AnalysisMethod("debug.deleteContext")]
 	public class DebugDeleteContextRequest
 	{
 		/// <summary>
@@ -1374,7 +1354,6 @@ namespace DanTup.DartAnalysis.Json
 		public string Id;
 	}
 
-	[AnalysisMethod("debug.mapUri")]
 	public class DebugMapUriRequest
 	{
 		/// <summary>
@@ -1395,7 +1374,6 @@ namespace DanTup.DartAnalysis.Json
 		public string Uri;
 	}
 
-	[AnalysisMethod("debug.setSubscriptions")]
 	public class DebugSetSubscriptionsRequest
 	{
 		/// <summary>
