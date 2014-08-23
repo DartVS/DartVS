@@ -115,9 +115,7 @@ let getRequest (typeNode : XElement) =
     match typeNode.Element(!!"params") with
         | null -> ""
         | _ ->
-            sprintf "\t[AnalysisMethod(\"%s.%s\")]\r\n\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
-                (typeNode.Parent.Attribute(!!"name").Value)
-                (typeNode.Attribute(!!"method").Value)
+            sprintf "\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
                 (typeNode.Attribute(!!"method").Value |> formatName)
                 "Request"
@@ -154,6 +152,10 @@ namespace DanTup.DartAnalysis.Json
 
 
 let getRequestWrapper (typeNode : XElement) =
+    let methodName =
+        (typeNode.Parent.Attribute(!!"name").Value)
+        + (typeNode.Attribute(!!"method").Value)
+
     let className =
         (typeNode.Parent.Attribute(!!"name").Value |> formatName)
         + (typeNode.Attribute(!!"method").Value |> formatName)
@@ -192,7 +194,8 @@ let getRequestWrapper (typeNode : XElement) =
                     className
                     requestClassName
 
-    sprintf "\tpublic class %s : %s\r\n\t{\r\n%s\r\n\t}\r\n\r\n"
+    sprintf "\t[AnalysisMethod(\"%s\")]\r\n\tpublic class %s : %s\r\n\t{\r\n%s\r\n\t}\r\n\r\n"
+        methodName
         className
         baseClass
         ctor
