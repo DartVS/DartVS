@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 
 namespace DanTup.DartVS
 {
@@ -16,7 +17,7 @@ namespace DanTup.DartVS
 	{
 		readonly DartProjectTracker projectTracker;
 		readonly OpenFileTracker openFileTracker;
-		readonly AnalysisSubscription[] subscriptions = new[] { AnalysisSubscription.Highlights, AnalysisSubscription.Outline, AnalysisSubscription.Navigation };
+		readonly AnalysisService[] subscriptions = new[] { AnalysisService.Highlights, AnalysisService.Outline, AnalysisService.Navigation };
 
 		public static readonly string SdkPath =
 			Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.User)

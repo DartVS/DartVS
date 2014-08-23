@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using DanTup.DartAnalysis.Json;
 using Xunit;
 
 namespace DanTup.DartAnalysis.Tests
@@ -69,14 +70,24 @@ namespace DanTup.DartAnalysis.Tests
 					// Build a "fix" for this, which is to change the 1 to a string '1'.
 					await service.UpdateContent(
 						SingleTypeErrorFile,
-						@"
-						void main() {
-							my_function('1');
-						}
+						new ChangeContentOverlay
+						{
+							Type = "change",
+							Edits = new[]
+							{
+								new SourceEdit
+								{
+									Replacement = @"
+void main() {
+	my_function('1');
+}
 
-						void my_function(String a) {
+void my_function(String a) {
+}
+"
+								}
+							}
 						}
-					"
 					);
 
 					// Wait for a server status message (which should be that the analysis complete)
@@ -106,7 +117,7 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
-					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Highlights }, HelloWorldFile);
+					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Highlights }, HelloWorldFile);
 					await analysisHighlightEvent;
 
 					// Ensure it's what we expect
@@ -145,7 +156,7 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
-					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Navigation }, HelloWorldFile);
+					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Navigation }, HelloWorldFile);
 					await analysisNavigationEvent;
 
 					// Ensure it's what we expect
@@ -202,7 +213,7 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Request all the other stuff
-					await service.SetAnalysisSubscriptions(new[] { AnalysisSubscription.Outline }, HelloWorldFile);
+					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Outline }, HelloWorldFile);
 					await analysisOutlineEvent;
 
 					// Ensure it's what we expect
@@ -281,16 +292,16 @@ namespace DanTup.DartAnalysis.Tests
 					var hovers = await service.GetHover(HelloWorldFile, 19);
 
 					Assert.Equal(1, hovers.Length);
-					Assert.Equal(17, hovers[0].offset);
-					Assert.Equal(5, hovers[0].length);
-					Assert.Equal(SdkFolder + "\\lib\\core/core.dart", hovers[0].containingLibraryPath, StringComparer.OrdinalIgnoreCase);
-					Assert.Equal("dart.core", hovers[0].containingLibraryName);
-					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].dartdoc);
-					Assert.Equal("function", hovers[0].elementKind);
-					Assert.Equal("print(Object object) → void", hovers[0].elementDescription);
-					Assert.Null(hovers[0].propagatedType);
-					Assert.Null(hovers[0].staticType);
-					Assert.Null(hovers[0].parameter);
+					Assert.Equal(17, hovers[0].Offset);
+					Assert.Equal(5, hovers[0].Length);
+					Assert.Equal(SdkFolder + "\\lib\\core/core.dart", hovers[0].ContainingLibraryPath, StringComparer.OrdinalIgnoreCase);
+					Assert.Equal("dart.core", hovers[0].ContainingLibraryName);
+					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].Dartdoc);
+					Assert.Equal("function", hovers[0].ElementKind);
+					Assert.Equal("print(Object object) → void", hovers[0].ElementDescription);
+					Assert.Null(hovers[0].PropagatedType);
+					Assert.Null(hovers[0].StaticType);
+					Assert.Null(hovers[0].Parameter);
 				}
 			}
 		}

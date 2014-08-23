@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
@@ -90,7 +91,7 @@ namespace DanTup.DartVS
 				{
 					// Stash the data for the next call, and tell VS to reclaculate now that we have the good info.
 					inProgressTooltipData = tooltipData;
-					inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers.Result[0].offset, hovers.Result[0].length, SpanTrackingMode.EdgeInclusive);
+					inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers.Result[0].Offset, hovers.Result[0].Length, SpanTrackingMode.EdgeInclusive);
 					session.Recalculate();
 				}
 				else
@@ -107,14 +108,14 @@ namespace DanTup.DartVS
 			applicableToSpan = inProgressApplicableToSpan;
 		}
 
-		string BuildTooltip(AnalysisHoverItem[] hovers)
+		string BuildTooltip(HoverInformation[] hovers)
 		{
 			if (hovers == null || hovers.Length == 0 || hovers[0] == null)
 				return null;
 
-			var typeInfo = hovers[0].elementDescription ?? hovers[0].parameter;
+			var typeInfo = hovers[0].ElementDescription ?? hovers[0].Parameter;
 
-			return string.Format("{0}\r\n{1}", typeInfo, hovers[0].dartdoc).Trim();
+			return string.Format("{0}\r\n{1}", typeInfo, hovers[0].Dartdoc).Trim();
 		}
 
 		public void Dispose()

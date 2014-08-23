@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using EnvDTE;
 
 namespace DanTup.DartVS
@@ -41,7 +42,19 @@ namespace DanTup.DartVS
 			var textDoc = document.Object("") as TextDocument;
 			var fileContents = textDoc.CreateEditPoint().GetText(textDoc.EndPoint);
 
-			analysisService.UpdateContent(path, fileContents);
+			var change = new ChangeContentOverlay
+			{
+				Type = "change",
+				Edits = new[] { 
+					new SourceEdit {
+						Offset = 0,
+						Length = int.MaxValue,
+						Replacement = fileContents
+					}
+				}
+			};
+
+			analysisService.UpdateContent(path, change);
 		}
 	}
 }
