@@ -154,6 +154,7 @@ namespace DanTup.DartAnalysis.Json
 let getRequestWrapper (typeNode : XElement) =
     let methodName =
         (typeNode.Parent.Attribute(!!"name").Value)
+        + "."
         + (typeNode.Attribute(!!"method").Value)
 
     let className =
