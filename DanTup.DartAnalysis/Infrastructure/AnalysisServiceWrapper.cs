@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,15 +30,11 @@ namespace DanTup.DartAnalysis
 
 		static AnalysisServiceWrapper()
 		{
-			var types = new Dictionary<string, Type>
-			{
-				{ "server.connected", typeof(Event) },
-				{ "server.status", typeof(Event<ServerStatusEvent>) },
-				{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
-				{ "analysis.highlights", typeof(Event<AnalysisHighlightsEvent>) },
-				{ "analysis.navigation", typeof(Event<AnalysisNavigationEvent>) },
-				{ "analysis.outline", typeof(Event<AnalysisOutlineEvent>) },
-			};
+			var types = Assembly.GetAssembly(typeof(ServerGetVersion))
+				.GetExportedTypes()
+				.Select(t => new { Type = t, NotificationName = t.GetCustomAttribute<AnalysisNotificationAttribute>() })
+				.Where(t => t.NotificationName != null)
+				.ToDictionary(t => t.NotificationName.Name, t => t.Type);
 
 			KnownEventTypes = new ReadOnlyDictionary<string, Type>(types);
 		}
