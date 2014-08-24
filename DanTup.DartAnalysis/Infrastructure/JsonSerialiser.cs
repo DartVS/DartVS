@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
@@ -12,9 +8,15 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class JsonSerialiser
 	{
-		JsonConverter[] converters = new JsonConverter[] {
+		static JsonConverter[] converters = new JsonConverter[] {
 			new GoogleEnumJsonConverter(),
 			new GoogleEnumDictionaryJsonConverter()
+		};
+
+		static JsonSerializerSettings settings = new JsonSerializerSettings
+		{
+			NullValueHandling = NullValueHandling.Ignore,
+			Converters = converters
 		};
 
 		/// <summary>
@@ -24,7 +26,7 @@ namespace DanTup.DartAnalysis
 		/// <returns>String of JSON representing the provided object.</returns>
 		public string Serialise(object obj)
 		{
-			return JsonConvert.SerializeObject(obj, converters);
+			return JsonConvert.SerializeObject(obj, settings);
 		}
 
 		/// <summary>
