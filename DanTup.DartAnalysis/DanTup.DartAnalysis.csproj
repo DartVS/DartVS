@@ -62,6 +62,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Attributes\AnalysisMethodAttribute.cs" />
+    <Compile Include="Commands\CompletionGetSuggestions.cs" />
     <Compile Include="Commands\AnalysisGetHover.cs" />
     <Compile Include="Commands\AnalysisUpdateContent.cs" />
     <Compile Include="Commands\AnalysisSetAnalysisRoots.cs" />
