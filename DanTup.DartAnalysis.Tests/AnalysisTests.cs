@@ -294,7 +294,7 @@ void my_function(String a) {
 					Assert.Equal(1, hovers.Length);
 					Assert.Equal(17, hovers[0].Offset);
 					Assert.Equal(5, hovers[0].Length);
-					Assert.Equal(SdkFolder + "\\lib\\core/core.dart", hovers[0].ContainingLibraryPath, StringComparer.OrdinalIgnoreCase);
+					Assert.Equal(SdkFolder + "\\lib\\core\\core.dart", hovers[0].ContainingLibraryPath, StringComparer.OrdinalIgnoreCase);
 					Assert.Equal("dart.core", hovers[0].ContainingLibraryName);
 					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].Dartdoc);
 					Assert.Equal("function", hovers[0].ElementKind);

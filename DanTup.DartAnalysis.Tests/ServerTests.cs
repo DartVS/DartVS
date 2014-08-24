@@ -53,7 +53,7 @@ namespace DanTup.DartAnalysis.Tests
 				Assert.IsType<ErrorResponseException>(ex.GetBaseException());
 				var err = ex.GetBaseException() as ErrorResponseException;
 				Assert.Equal("INVALID_PARAMETER", err.Code);
-				Assert.Equal("Expected parameter subscriptions to be a list of names from the list [STATUS]", err.ErrorMessage);
+				Assert.Equal("Expected parameter params.subscriptions[0] to be ServerService", err.ErrorMessage);
 			}
 		}
 	}
