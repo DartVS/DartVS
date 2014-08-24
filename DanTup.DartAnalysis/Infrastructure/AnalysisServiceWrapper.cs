@@ -168,7 +168,10 @@ namespace DanTup.DartAnalysis
 				return;
 
 			if (KnownEventTypes.ContainsKey(eventType))
-				eventHandler((Event)serialiser.Deserialise(message, KnownEventTypes[eventType]));
+			{
+				var requiredEventType = typeof(Event<>).MakeGenericType(KnownEventTypes[eventType]);
+				eventHandler((Event)serialiser.Deserialise(message, requiredEventType));
+			}
 			else
 				HandleError(message);
 		}
