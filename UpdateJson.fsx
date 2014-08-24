@@ -115,20 +115,18 @@ let getRequest (typeNode : XElement) =
     match typeNode.Element(!!"params") with
         | null -> ""
         | _ ->
-            sprintf "\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\tpublic class %s%sRequest\r\n\t{\r\n%s\t}\r\n\r\n"
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
                 (typeNode.Attribute(!!"method").Value |> formatName)
-                "Request"
                 (typeNode.Element(!!"params").Descendants(!!"field") |> collect getField)
 
 let getResponse (typeNode : XElement) =
     match typeNode.Element(!!"result") with
         | null -> ""
         | _ ->
-            sprintf "\tpublic class %s%s%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\tpublic class %s%sResponse\r\n\t{\r\n%s\t}\r\n\r\n"
                 (typeNode.Parent.Attribute(!!"name").Value |> formatName)
                 (typeNode.Attribute(!!"method").Value |> formatName)
-                "Response"
                 (typeNode.Element(!!"result").Descendants(!!"field") |> collect getField)
 
 let getNotification (notificationNode : XElement) =
