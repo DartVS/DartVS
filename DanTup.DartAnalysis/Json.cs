@@ -1627,4 +1627,247 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
+	public class EventError
+	{
+		/// <summary>
+		/// True if the error is a fatal error, meaning that the
+		/// server will shutdown automatically after sending this
+		/// notification.
+		/// </summary>
+		[JsonProperty("fatal")]
+		public bool Fatal;
+		/// <summary>
+		/// The error message indicating what kind of error was
+		/// encountered.
+		/// </summary>
+		[JsonProperty("message")]
+		public string Message;
+		/// <summary>
+		/// The stack trace associated with the generation of the
+		/// error, used for debugging the server.
+		/// </summary>
+		[JsonProperty("stackTrace")]
+		public string StackTrace;
+	}
+
+	public class EventStatus
+	{
+		/// <summary>
+		/// The current status of analysis, including whether
+		/// analysis is being performed and if so what is being
+		/// analyzed.
+		/// </summary>
+		[JsonProperty("analysis")]
+		public AnalysisStatus Analysis;
+	}
+
+	public class EventErrors
+	{
+		/// <summary>
+		/// The file containing the errors.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The errors contained in the file.
+		/// </summary>
+		[JsonProperty("errors")]
+		public AnalysisError[] Errors;
+	}
+
+	public class EventFlushResults
+	{
+		/// <summary>
+		/// The files that are no longer being analyzed.
+		/// </summary>
+		[JsonProperty("files")]
+		public string[] Files;
+	}
+
+	public class EventFolding
+	{
+		/// <summary>
+		/// The file containing the folding regions.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The folding regions contained in the file.
+		/// </summary>
+		[JsonProperty("regions")]
+		public FoldingRegion[] Regions;
+	}
+
+	public class EventHighlights
+	{
+		/// <summary>
+		/// The file containing the highlight regions.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The highlight regions contained in the file. Each
+		/// highlight region represents a particular syntactic or
+		/// semantic meaning associated with some range. Note that
+		/// the highlight regions that are returned can overlap
+		/// other highlight regions if there is more than one
+		/// meaning associated with a particular region.
+		/// </summary>
+		[JsonProperty("regions")]
+		public HighlightRegion[] Regions;
+	}
+
+	public class EventNavigation
+	{
+		/// <summary>
+		/// The file containing the navigation regions.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The navigation regions contained in the file. Each
+		/// navigation region represents a list of targets
+		/// associated with some range. The lists will usually
+		/// contain a single target, but can contain more in the
+		/// case of a part that is included in multiple libraries
+		/// or in Dart code that is compiled against multiple
+		/// versions of a package. Note that the navigation
+		/// regions that are returned do not overlap other
+		/// navigation regions.
+		/// </summary>
+		[JsonProperty("regions")]
+		public NavigationRegion[] Regions;
+	}
+
+	public class EventOccurrences
+	{
+		/// <summary>
+		/// The file in which the references occur.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The occurrences of references to elements within the
+		/// file.
+		/// </summary>
+		[JsonProperty("occurrences")]
+		public Occurrences[] Occurrences;
+	}
+
+	public class EventOutline
+	{
+		/// <summary>
+		/// The file with which the outline is associated.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The outline associated with the file.
+		/// </summary>
+		[JsonProperty("outline")]
+		public Outline Outline;
+	}
+
+	public class EventOverrides
+	{
+		/// <summary>
+		/// The file with which the overrides are associated.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File;
+		/// <summary>
+		/// The overrides associated with the file.
+		/// </summary>
+		[JsonProperty("overrides")]
+		public Override[] Overrides;
+	}
+
+	public class EventResults
+	{
+		/// <summary>
+		/// The id associated with the completion.
+		/// </summary>
+		[JsonProperty("id")]
+		public string Id;
+		/// <summary>
+		/// The offset of the start of the text to be
+		/// replaced. This will be different than the offset used
+		/// to request the completion suggestions if there was a
+		/// portion of an identifier before the original
+		/// offset. In particular, the replacementOffset will be
+		/// the offset of the beginning of said identifier.
+		/// </summary>
+		[JsonProperty("replacementOffset")]
+		public int ReplacementOffset;
+		/// <summary>
+		/// The length of the text to be replaced if the remainder
+		/// of the identifier containing the cursor is to be
+		/// replaced when the suggestion is applied (that is, the
+		/// number of characters in the existing identifier).
+		/// </summary>
+		[JsonProperty("replacementLength")]
+		public int ReplacementLength;
+		/// <summary>
+		/// The completion suggestions being reported.  The
+		/// notification contains all possible completions at the
+		/// requested cursor position, even those that do not match
+		/// the characters the user has already typed.  This allows
+		/// the client to respond to further keystrokes from the
+		/// user without having to make additional requests.
+		/// </summary>
+		[JsonProperty("results")]
+		public CompletionSuggestion[] Results;
+		/// <summary>
+		/// True if this is that last set of results that will be
+		/// returned for the indicated completion.
+		/// </summary>
+		[JsonProperty("last")]
+		public bool Last;
+	}
+
+	public class EventResults
+	{
+		/// <summary>
+		/// The id associated with the search.
+		/// </summary>
+		[JsonProperty("id")]
+		public string Id;
+		/// <summary>
+		/// The search results being reported.
+		/// </summary>
+		[JsonProperty("results")]
+		public SearchResult[] Results;
+		/// <summary>
+		/// True if this is that last set of results that will be
+		/// returned for the indicated search.
+		/// </summary>
+		[JsonProperty("last")]
+		public bool Last;
+	}
+
+	public class EventLaunchData
+	{
+		/// <summary>
+		/// A list of the files that are executable in the given
+		/// context. This list replaces any previous list provided
+		/// for the given context.
+		/// </summary>
+		[JsonProperty("executables")]
+		public ExecutableFile[] Executables;
+		/// <summary>
+		/// A mapping from the paths of Dart files that are
+		/// referenced by HTML files to a list of the HTML files
+		/// that reference the Dart files.
+		/// </summary>
+		[JsonProperty("dartToHtml")]
+		public Dictionary<string, string[]> DartToHtml;
+		/// <summary>
+		/// A mapping from the paths of HTML files that reference
+		/// Dart files to a list of the Dart files they reference.
+		/// </summary>
+		[JsonProperty("htmlToDart")]
+		public Dictionary<string, string[]> HtmlToDart;
+	}
+
+
 }
