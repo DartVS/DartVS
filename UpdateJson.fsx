@@ -17,7 +17,7 @@ let outputJsonFilename = """DanTup.DartAnalysis\Json.cs"""
 let outputRequestFilename = """DanTup.DartAnalysis\Requests.cs"""
 
 let doc = XDocument.Load(apiDocFilename)
-let ( !! ) : string -> XName = XName.op_Implicit;;
+let ( !! ) : string -> XName = XName.op_Implicit
 
 let mutable mappedTypes =
     Map.empty
@@ -77,7 +77,7 @@ let populateUnionMapping (unionNode : XElement) =
     unionNode.Descendants(!!"ref") |> Seq.iter (fun i -> unionTypes <- unionTypes.Add(i.Value, unionInterface))
 
 let getField (fieldNode : XElement) =
-    sprintf "%s\t\t[JsonProperty(\"%s\")]\r\n\t\tpublic %s %s;\r\n"
+    sprintf "%s\t\t[JsonProperty(\"%s\")]\r\n\t\tpublic %s %s { get; set; }\r\n"
         (fieldNode |> extractDoc 2)
         (fieldNode.Attribute(!!"name").Value)
         (fieldNode |> extractCSharpType)
