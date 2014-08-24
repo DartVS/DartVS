@@ -12,6 +12,8 @@ namespace DanTup.DartAnalysis.Tests
 {
 	public class AnalysisTests : Tests
 	{
+		// TODO: Clean up tests; map over to FluentAssertions
+
 		[Fact]
 		public async Task SetAnalysisRoots()
 		{

@@ -4,6 +4,8 @@ namespace DanTup.DartAnalysis.Tests
 {
 	public class FormattingTests : Tests
 	{
+		// TODO: Clean up tests; map over to FluentAssertions
+
 		[Fact]
 		public void FormatText()
 		{

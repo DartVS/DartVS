@@ -7,6 +7,8 @@ namespace DanTup.DartAnalysis.Tests
 {
 	public class ServerTests : Tests
 	{
+		// TODO: Clean up tests; map over to FluentAssertions
+
 		[Fact]
 		public async Task ServerVersion()
 		{
