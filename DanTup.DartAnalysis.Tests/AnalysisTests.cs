@@ -70,14 +70,10 @@ namespace DanTup.DartAnalysis.Tests
 					// Build a "fix" for this, which is to change the 1 to a string '1'.
 					await service.UpdateContent(
 						SingleTypeErrorFile,
-						new ChangeContentOverlay
+						new AddContentOverlay
 						{
-							Type = "change",
-							Edits = new[]
-							{
-								new SourceEdit
-								{
-									Replacement = @"
+							Type = "add",
+							Content = @"
 void main() {
 	my_function('1');
 }
@@ -85,8 +81,6 @@ void main() {
 void my_function(String a) {
 }
 "
-								}
-							}
 						}
 					);
 
