@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace DanTup.DartAnalysis
@@ -70,9 +71,18 @@ namespace DanTup.DartAnalysis
 			return Enum.Parse(objectType, matchingEnumValue);
 		}
 
+		static Regex uppercaseCharactersExcludingFirst = new Regex("([A-Z])", RegexOptions.Compiled);
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			var enumValue = value.ToString();
+
+			// Prefix any caps with underscores (except first).
+			enumValue = enumValue[0] + uppercaseCharactersExcludingFirst.Replace(enumValue.Substring(1), "_$1");
+
+			// Uppercase the whole string.
+			enumValue = enumValue.ToUpper();
+
+			writer.WriteValue(enumValue);
 		}
 	}
 }
