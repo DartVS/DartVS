@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,26 @@ namespace DanTup.DartAnalysis
 		readonly Action<Event> eventHandler;
 		readonly JsonSerialiser serialiser = new JsonSerialiser();
 		readonly ConcurrentDictionary<string, TaskCompletionSource<string>> pendingTasks = new ConcurrentDictionary<string, TaskCompletionSource<string>>();
+
+		/// <summary>
+		/// A mapping of event types into the types that we have to represent them.
+		/// </summary>
+		static readonly ReadOnlyDictionary<string, Type> KnownEventTypes;
+
+		static AnalysisServiceWrapper()
+		{
+			var types = new Dictionary<string, Type>
+			{
+				{ "server.connected", typeof(Event) },
+				{ "server.status", typeof(Event<ServerStatusEvent>) },
+				{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
+				{ "analysis.highlights", typeof(Event<AnalysisHighlightsEvent>) },
+				{ "analysis.navigation", typeof(Event<AnalysisNavigationEvent>) },
+				{ "analysis.outline", typeof(Event<AnalysisOutlineEvent>) },
+			};
+
+			KnownEventTypes = new ReadOnlyDictionary<string, Type>(types);
+		}
 
 		/// <summary>
 		/// Launches the Google Dart Analysis Service using the provided SDK and script.
@@ -137,18 +158,6 @@ namespace DanTup.DartAnalysis
 			else
 				HandleError(message);
 		}
-
-		/// <summary>
-		/// A mapping of event types into the types that we have to represent them.
-		/// </summary>
-		static readonly Dictionary<string, Type> KnownEventTypes = new Dictionary<string, Type> {
-			{ "server.connected", typeof(Event) },
-			{ "server.status", typeof(Event<ServerStatusEvent>) },
-			{ "analysis.errors", typeof(Event<AnalysisErrorsEvent>) },
-			{ "analysis.highlights", typeof(Event<AnalysisHighlightsEvent>) },
-			{ "analysis.navigation", typeof(Event<AnalysisNavigationEvent>) },
-			{ "analysis.outline", typeof(Event<AnalysisOutlineEvent>) },
-		};
 
 		/// <summary>
 		/// Handles a notification from the service that is not related to a particular request.
