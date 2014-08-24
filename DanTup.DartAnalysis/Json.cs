@@ -1627,6 +1627,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
+	[AnalysisNotification("server.error")]
 	public class ServerErrorNotification
 	{
 		/// <summary>
@@ -1650,6 +1651,7 @@ namespace DanTup.DartAnalysis.Json
 		public string StackTrace;
 	}
 
+	[AnalysisNotification("server.status")]
 	public class ServerStatusNotification
 	{
 		/// <summary>
@@ -1661,6 +1663,7 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisStatus Analysis;
 	}
 
+	[AnalysisNotification("analysis.errors")]
 	public class AnalysisErrorsNotification
 	{
 		/// <summary>
@@ -1675,6 +1678,7 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisError[] Errors;
 	}
 
+	[AnalysisNotification("analysis.flushResults")]
 	public class AnalysisFlushResultsNotification
 	{
 		/// <summary>
@@ -1684,6 +1688,7 @@ namespace DanTup.DartAnalysis.Json
 		public string[] Files;
 	}
 
+	[AnalysisNotification("analysis.folding")]
 	public class AnalysisFoldingNotification
 	{
 		/// <summary>
@@ -1698,6 +1703,7 @@ namespace DanTup.DartAnalysis.Json
 		public FoldingRegion[] Regions;
 	}
 
+	[AnalysisNotification("analysis.highlights")]
 	public class AnalysisHighlightsNotification
 	{
 		/// <summary>
@@ -1717,6 +1723,7 @@ namespace DanTup.DartAnalysis.Json
 		public HighlightRegion[] Regions;
 	}
 
+	[AnalysisNotification("analysis.navigation")]
 	public class AnalysisNavigationNotification
 	{
 		/// <summary>
@@ -1739,6 +1746,7 @@ namespace DanTup.DartAnalysis.Json
 		public NavigationRegion[] Regions;
 	}
 
+	[AnalysisNotification("analysis.occurrences")]
 	public class AnalysisOccurrencesNotification
 	{
 		/// <summary>
@@ -1754,6 +1762,7 @@ namespace DanTup.DartAnalysis.Json
 		public Occurrences[] Occurrences;
 	}
 
+	[AnalysisNotification("analysis.outline")]
 	public class AnalysisOutlineNotification
 	{
 		/// <summary>
@@ -1768,6 +1777,7 @@ namespace DanTup.DartAnalysis.Json
 		public Outline Outline;
 	}
 
+	[AnalysisNotification("analysis.overrides")]
 	public class AnalysisOverridesNotification
 	{
 		/// <summary>
@@ -1782,6 +1792,7 @@ namespace DanTup.DartAnalysis.Json
 		public Override[] Overrides;
 	}
 
+	[AnalysisNotification("completion.results")]
 	public class CompletionResultsNotification
 	{
 		/// <summary>
@@ -1825,6 +1836,7 @@ namespace DanTup.DartAnalysis.Json
 		public bool Last;
 	}
 
+	[AnalysisNotification("search.results")]
 	public class SearchResultsNotification
 	{
 		/// <summary>
@@ -1845,6 +1857,7 @@ namespace DanTup.DartAnalysis.Json
 		public bool Last;
 	}
 
+	[AnalysisNotification("debug.launchData")]
 	public class DebugLaunchDataNotification
 	{
 		/// <summary>
