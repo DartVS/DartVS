@@ -131,7 +131,12 @@ let getResponse (typeNode : XElement) =
 
 let getNotification (notificationNode : XElement) =
     match notificationNode.Element(!!"params") with
-        | null -> ""
+        | null ->
+            sprintf "\t[AnalysisNotification(\"%s.%s\")]\r\n\tpublic class %s%sNotification\r\n\t{\r\n\t}\r\n\r\n"
+                (notificationNode.Parent.Attribute(!!"name").Value)
+                (notificationNode.Attribute(!!"event").Value)
+                (notificationNode.Parent.Attribute(!!"name").Value |> formatName)
+                (notificationNode.Attribute(!!"event").Value |> formatName)
         | _ ->
             sprintf "\t[AnalysisNotification(\"%s.%s\")]\r\n\tpublic class %s%sNotification\r\n\t{\r\n%s\t}\r\n\r\n"
                 (notificationNode.Parent.Attribute(!!"name").Value)
