@@ -59,16 +59,12 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = CreateTestService())
 			{
-				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
-				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
-
 				var errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
-				using (firstAnalysisCompleteEvent.Connect())
 				{
 					// Set the roots to our known project and wait for analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await firstAnalysisCompleteEvent;
+					service.WaitForAnalysis();
 				}
 
 				// Ensure we got the expected error in single_type_error.
@@ -80,7 +76,6 @@ namespace DanTup.DartAnalysis.Tests
 				await Task.Delay(10000); // HACK: Allow the buffer to clear; since we're using ReplaySubjects now :/
 
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
-				using (secondAnalysisCompleteEvent.Connect())
 				{
 					// Build a "fix" for this, which is to change the 1 to a string '1'.
 					await service.UpdateContent(
@@ -100,7 +95,7 @@ void my_function(String a) {
 					);
 
 					// Wait for a server status message (which should be that the analysis complete)
-					await secondAnalysisCompleteEvent;
+					service.WaitForAnalysis();
 				}
 
 				// Ensure the error has gone away.
