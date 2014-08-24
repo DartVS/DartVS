@@ -33,11 +33,23 @@ namespace DanTup.DartAnalysis.Tests
 					errors.Where(e => e.Location.File == HelloWorldFile).Should().HaveCount(0);
 
 					// Ensure the single-error file got the expected error.
-					errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Should().HaveCount(1);
-					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
-					error.Severity.Should().Be(ErrorSeverity.Warning);
-					error.Type.Should().Be(ErrorType.StaticWarning);
-					error.Message.Should().Be("The argument type 'int' cannot be assigned to the parameter type 'String'");
+					var expectedError = new AnalysisError
+					{
+						Location = new Location
+						{
+							File = @"M:\Coding\Applications\DanTup.DartVS\DanTup.DartAnalysis.Tests.SampleDartProject\single_type_error.dart",
+							Length = 1,
+							Offset = 29,
+							StartColumn = 15,
+							StartLine = 2
+						},
+						Severity = ErrorSeverity.Warning,
+						Type = ErrorType.StaticWarning,
+						Message = "The argument type 'int' cannot be assigned to the parameter type 'String'"
+					};
+
+					// At least one error (we may have dupes due to multiple analysis passes).
+					errors.First(e => e.Location.File == SingleTypeErrorFile).ShouldBeEquivalentTo(expectedError);
 				}
 			}
 		}
