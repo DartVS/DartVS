@@ -266,12 +266,8 @@ void my_function(String a) {
 			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
-				//var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
-				//var = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
-				//using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
 				using (analysisCompleteEvent.Connect())
-				//using (analysisHighlightEvent.Connect())
 				{
 					// Set the roots to our known project and wait for the analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
