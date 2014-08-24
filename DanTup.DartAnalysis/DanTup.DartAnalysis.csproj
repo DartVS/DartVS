@@ -87,6 +87,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\JsonSerialiser.cs" />
+    <Compile Include="Infrastructure\JsonSerialiser.DictionaryConverter.cs" />
+    <Compile Include="Infrastructure\JsonSerialiser.EnumConverter.cs" />
+    <Compile Include="Infrastructure\JsonSerialiser.Helpers.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Request.cs">
