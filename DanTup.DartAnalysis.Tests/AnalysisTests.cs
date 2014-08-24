@@ -14,7 +14,7 @@ namespace DanTup.DartAnalysis.Tests
 		[Fact]
 		public async Task SetAnalysisRoots()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
@@ -42,7 +42,7 @@ namespace DanTup.DartAnalysis.Tests
 		[Fact]
 		public async Task TestAnalysisUpdateContent()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
@@ -102,7 +102,7 @@ void my_function(String a) {
 		[Fact]
 		public async Task AnalysisSetSubscriptionsHighlights()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
@@ -141,7 +141,7 @@ void my_function(String a) {
 		[Fact]
 		public async Task AnalysisSetSubscriptionsNavigation()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
@@ -198,7 +198,7 @@ void my_function(String a) {
 		[Fact]
 		public async Task AnalysisSetSubscriptionsOutline()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisOutlineEvent = service.AnalysisOutlineNotification.FirstAsync().PublishLast();
@@ -274,7 +274,7 @@ void my_function(String a) {
 		[Fact]
 		public async Task AnalysisGetHover()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				//var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();

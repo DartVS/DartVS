@@ -10,7 +10,7 @@ namespace DanTup.DartAnalysis.Tests
 		[Fact]
 		public async Task ServerVersion()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				var version = await service.GetServerVersion();
 
@@ -21,7 +21,7 @@ namespace DanTup.DartAnalysis.Tests
 		[Fact]
 		public async Task ServerShutdown()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
 				await service.ServerShutdown();
 
@@ -35,9 +35,9 @@ namespace DanTup.DartAnalysis.Tests
 		[Fact]
 		public async Task ServerSetSubscriptions()
 		{
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
-				await service.SetServerSubscriptions(new [] { ServerService.Status });
+				await service.SetServerSubscriptions(new[] { ServerService.Status });
 			}
 		}
 
@@ -46,9 +46,9 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			// Send a bad request (Server SetSubscription with bad subscription value) and check we
 			// get the correct type of response.
-			using (var service = new DartAnalysisService(SdkFolder, ServerScript))
+			using (var service = CreateTestService())
 			{
-				var ex = Assert.Throws<AggregateException>(() => service.SetServerSubscriptions(new [] { (ServerService)1234 }).Wait());
+				var ex = Assert.Throws<AggregateException>(() => service.SetServerSubscriptions(new[] { (ServerService)1234 }).Wait());
 				Assert.Equal(1, ex.InnerExceptions.Count);
 				Assert.IsType<ErrorResponseException>(ex.GetBaseException());
 				var err = ex.GetBaseException() as ErrorResponseException;
