@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reactive.Linq;
 using System.Reflection;
 using DanTup.DartAnalysis.Json;
 namespace DanTup.DartAnalysis.Tests
@@ -26,6 +27,17 @@ namespace DanTup.DartAnalysis.Tests
 			service.SetServerSubscriptions(new[] { ServerService.Status }).Wait();
 
 			return service;
+		}
+	}
+
+	public static class TestExtensions
+	{
+		public static void WaitForAnalysis(this DartAnalysisService service)
+		{
+			service
+				.ServerStatusNotification
+				.FirstAsync(n => n.Analysis.Analyzing == false)
+				.Wait();
 		}
 	}
 }
