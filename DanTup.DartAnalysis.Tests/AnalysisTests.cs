@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis.Json;
+using FluentAssertions;
 using Xunit;
 
 namespace DanTup.DartAnalysis.Tests
@@ -252,13 +253,9 @@ void my_function(String a) {
 						}
 					};
 
-					Assert.Equal(1, outlines.Count);
-					Assert.Equal(expectedOutline.Children[0], outlines[0].Children[0]);
-					// HACK: Arrays are references, and not considered equal. xUnit doesn't appear to have a way to assert
-					// two structs are equal if they contain an array. Since we've already checked children, just fudge it
-					// for now... :-/
-					expectedOutline.Children = outlines[0].Children;
-					Assert.Equal(expectedOutline, outlines[0]);
+					outlines.Should().HaveCount(1);
+					var actualOutline = outlines[0];
+					actualOutline.ShouldBeEquivalentTo(expectedOutline);
 				}
 			}
 		}
