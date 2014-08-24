@@ -133,7 +133,8 @@ let getNotification (notificationNode : XElement) =
     match notificationNode.Element(!!"params") with
         | null -> ""
         | _ ->
-            sprintf "\tpublic class Event%s\r\n\t{\r\n%s\t}\r\n\r\n"
+            sprintf "\tpublic class %s%sNotification\r\n\t{\r\n%s\t}\r\n\r\n"
+                (notificationNode.Parent.Attribute(!!"name").Value |> formatName)
                 (notificationNode.Attribute(!!"event").Value |> formatName)
                 (notificationNode.Element(!!"params").Descendants(!!"field") |> collect getField)
 
