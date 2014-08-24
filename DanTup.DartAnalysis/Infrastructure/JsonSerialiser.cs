@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -10,8 +12,9 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class JsonSerialiser
 	{
-		JsonConverter[] converters = new[] {
-			new GoogleEnumJsonConverter()
+		JsonConverter[] converters = new JsonConverter[] {
+			new GoogleEnumJsonConverter(),
+			new GoogleEnumDictionaryJsonConverter()
 		};
 
 		/// <summary>
@@ -44,45 +47,6 @@ namespace DanTup.DartAnalysis
 		public object Deserialise(string json, Type t)
 		{
 			return JsonConvert.DeserializeObject(json, t, converters);
-		}
-	}
-
-	class GoogleEnumJsonConverter : JsonConverter
-	{
-		public override bool CanConvert(Type objectType)
-		{
-			return objectType.IsEnum && !objectType.GetCustomAttributes(typeof(FlagsAttribute), false).Any();
-		}
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			if (reader.TokenType != JsonToken.String)
-				throw new JsonSerializationException(string.Format("Cannot convert non-string value to {0}.", objectType));
-
-			var wantedEnumValue = reader.Value.ToString().Replace("_", "");
-
-			var matchingEnumValue = Enum
-				.GetNames(objectType)
-				.FirstOrDefault(ht => string.Equals(ht, wantedEnumValue, StringComparison.OrdinalIgnoreCase));
-
-			if (matchingEnumValue == null)
-				throw new JsonSerializationException(string.Format("Cannot convert value {0} to {1}.", reader.Value, objectType));
-
-			return Enum.Parse(objectType, matchingEnumValue);
-		}
-
-		static Regex uppercaseCharactersExcludingFirst = new Regex("([A-Z])", RegexOptions.Compiled);
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-			var enumValue = value.ToString();
-
-			// Prefix any caps with underscores (except first).
-			enumValue = enumValue[0] + uppercaseCharactersExcludingFirst.Replace(enumValue.Substring(1), "_$1");
-
-			// Uppercase the whole string.
-			enumValue = enumValue.ToUpper();
-
-			writer.WriteValue(enumValue);
 		}
 	}
 }
