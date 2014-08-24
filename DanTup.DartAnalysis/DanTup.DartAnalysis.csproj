@@ -72,11 +72,6 @@
     <Compile Include="Commands\ServerShutdown.cs" />
     <Compile Include="DartAnalysisService.cs" />
     <Compile Include="DartFormatter.cs" />
-    <Compile Include="Events\AnalysisOutlineEvent.cs" />
-    <Compile Include="Events\AnalysisNavigationEvent.cs" />
-    <Compile Include="Events\AnalysisHighlightsEvent.cs" />
-    <Compile Include="Events\AnalysisErrorsEvent.cs" />
-    <Compile Include="Events\ServerStatusEvent.cs" />
     <Compile Include="Events\Shared.cs" />
     <Compile Include="Infrastructure\AnalysisServiceWrapper.cs">
       <SubType>Code</SubType>
