@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using DanTup.DartAnalysis.Json;
 namespace DanTup.DartAnalysis.Tests
 {
 	public abstract class Tests
@@ -21,6 +22,8 @@ namespace DanTup.DartAnalysis.Tests
 		protected DartAnalysisService CreateTestService()
 		{
 			var service = new DartAnalysisService(SdkFolder, ServerScript);
+
+			service.SetServerSubscriptions(new[] { ServerService.Status }).Wait();
 
 			return service;
 		}
