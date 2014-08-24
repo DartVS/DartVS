@@ -17,12 +17,12 @@ namespace DanTup.DartAnalysis.Json
 	public class AddContentOverlay : IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay
 	{
 		[JsonProperty("type")]
-		public string Type;
+		public string Type { get; set; }
 		/// <summary>
 		/// The new content of the file.
 		/// </summary>
 		[JsonProperty("content")]
-		public string Content;
+		public string Content { get; set; }
 	}
 
 	/// <summary>
@@ -35,24 +35,24 @@ namespace DanTup.DartAnalysis.Json
 		/// The severity of the error.
 		/// </summary>
 		[JsonProperty("severity")]
-		public ErrorSeverity Severity;
+		public ErrorSeverity Severity { get; set; }
 		/// <summary>
 		/// The type of the error.
 		/// </summary>
 		[JsonProperty("type")]
-		public ErrorType Type;
+		public ErrorType Type { get; set; }
 		/// <summary>
 		/// The location associated with the error.
 		/// </summary>
 		[JsonProperty("location")]
-		public Location Location;
+		public Location Location { get; set; }
 		/// <summary>
 		/// The message to be displayed for this error. The message
 		/// should indicate what is wrong with the code and why it is
 		/// wrong.
 		/// </summary>
 		[JsonProperty("message")]
-		public string Message;
+		public string Message { get; set; }
 		/// <summary>
 		/// The correction message to be displayed for this error. The
 		/// correction message should indicate how the user can fix
@@ -60,7 +60,7 @@ namespace DanTup.DartAnalysis.Json
 		/// message associated with the error code.
 		/// </summary>
 		[JsonProperty("correction")]
-		public string Correction;
+		public string Correction { get; set; }
 	}
 
 	/// <summary>
@@ -75,31 +75,31 @@ namespace DanTup.DartAnalysis.Json
 		/// proposed async feature.
 		/// </summary>
 		[JsonProperty("enableAsync")]
-		public bool EnableAsync;
+		public bool EnableAsync { get; set; }
 		/// <summary>
 		/// True if the client wants to enable support for the
 		/// proposed deferred loading feature.
 		/// </summary>
 		[JsonProperty("enableDeferredLoading")]
-		public bool EnableDeferredLoading;
+		public bool EnableDeferredLoading { get; set; }
 		/// <summary>
 		/// True if the client wants to enable support for the
 		/// proposed enum feature.
 		/// </summary>
 		[JsonProperty("enableEnums")]
-		public bool EnableEnums;
+		public bool EnableEnums { get; set; }
 		/// <summary>
 		/// True if hints that are specific to dart2js should be
 		/// generated. This option is ignored if generateHints is false.
 		/// </summary>
 		[JsonProperty("generateDart2jsHints")]
-		public bool GenerateDart2jsHints;
+		public bool GenerateDart2jsHints { get; set; }
 		/// <summary>
 		/// True is hints should be generated as part of generating
 		/// errors and warnings.
 		/// </summary>
 		[JsonProperty("generateHints")]
-		public bool GenerateHints;
+		public bool GenerateHints { get; set; }
 	}
 
 	/// <summary>
@@ -120,13 +120,13 @@ namespace DanTup.DartAnalysis.Json
 		/// True if analysis is currently being performed.
 		/// </summary>
 		[JsonProperty("analyzing")]
-		public bool Analyzing;
+		public bool Analyzing { get; set; }
 		/// <summary>
 		/// The name of the current target of analysis. This field is
 		/// omitted if analyzing is false.
 		/// </summary>
 		[JsonProperty("analysisTarget")]
-		public string AnalysisTarget;
+		public string AnalysisTarget { get; set; }
 	}
 
 	/// <summary>
@@ -137,12 +137,12 @@ namespace DanTup.DartAnalysis.Json
 	public class ChangeContentOverlay : IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay
 	{
 		[JsonProperty("type")]
-		public string Type;
+		public string Type { get; set; }
 		/// <summary>
 		/// The edits to be applied to the file.
 		/// </summary>
 		[JsonProperty("edits")]
-		public SourceEdit[] Edits;
+		public SourceEdit[] Edits { get; set; }
 	}
 
 	/// <summary>
@@ -165,12 +165,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The kind of element being suggested.
 		/// </summary>
 		[JsonProperty("kind")]
-		public CompletionSuggestionKind Kind;
+		public CompletionSuggestionKind Kind { get; set; }
 		/// <summary>
 		/// The relevance of this completion suggestion.
 		/// </summary>
 		[JsonProperty("relevance")]
-		public CompletionRelevance Relevance;
+		public CompletionRelevance Relevance { get; set; }
 		/// <summary>
 		/// The identifier to be inserted if the suggestion is
 		/// selected. If the suggestion is for a method or function,
@@ -179,99 +179,99 @@ namespace DanTup.DartAnalysis.Json
 		/// do so is contained in other fields.
 		/// </summary>
 		[JsonProperty("completion")]
-		public string Completion;
+		public string Completion { get; set; }
 		/// <summary>
 		/// The offset, relative to the beginning of the completion,
 		/// of where the selection should be placed after insertion.
 		/// </summary>
 		[JsonProperty("selectionOffset")]
-		public int SelectionOffset;
+		public int SelectionOffset { get; set; }
 		/// <summary>
 		/// The number of characters that should be selected after
 		/// insertion.
 		/// </summary>
 		[JsonProperty("selectionLength")]
-		public int SelectionLength;
+		public int SelectionLength { get; set; }
 		/// <summary>
 		/// True if the suggested element is deprecated.
 		/// </summary>
 		[JsonProperty("isDeprecated")]
-		public bool IsDeprecated;
+		public bool IsDeprecated { get; set; }
 		/// <summary>
 		/// True if the element is not known to be valid for the
 		/// target. This happens if the type of the target is dynamic.
 		/// </summary>
 		[JsonProperty("isPotential")]
-		public bool IsPotential;
+		public bool IsPotential { get; set; }
 		/// <summary>
 		/// An abbreviated version of the Dartdoc associated with the
 		/// element being suggested, This field is omitted if there is
 		/// no Dartdoc associated with the element.
 		/// </summary>
 		[JsonProperty("docSummary")]
-		public string DocSummary;
+		public string DocSummary { get; set; }
 		/// <summary>
 		/// The Dartdoc associated with the element being suggested,
 		/// This field is omitted if there is no Dartdoc associated
 		/// with the element.
 		/// </summary>
 		[JsonProperty("docComplete")]
-		public string DocComplete;
+		public string DocComplete { get; set; }
 		/// <summary>
 		/// The class that declares the element being suggested. This
 		/// field is omitted if the suggested element is not a member
 		/// of a class.
 		/// </summary>
 		[JsonProperty("declaringType")]
-		public string DeclaringType;
+		public string DeclaringType { get; set; }
 		/// <summary>
 		/// The return type of the getter, function or method being
 		/// suggested. This field is omitted if the suggested element
 		/// is not a getter, function or method.
 		/// </summary>
 		[JsonProperty("returnType")]
-		public string ReturnType;
+		public string ReturnType { get; set; }
 		/// <summary>
 		/// The names of the parameters of the function or method
 		/// being suggested. This field is omitted if the suggested
 		/// element is not a setter, function or method.
 		/// </summary>
 		[JsonProperty("parameterNames")]
-		public string[] ParameterNames;
+		public string[] ParameterNames { get; set; }
 		/// <summary>
 		/// The types of the parameters of the function or method
 		/// being suggested. This field is omitted if the
 		/// parameterNames field is omitted.
 		/// </summary>
 		[JsonProperty("parameterTypes")]
-		public string[] ParameterTypes;
+		public string[] ParameterTypes { get; set; }
 		/// <summary>
 		/// The number of required parameters for the function or
 		/// method being suggested. This field is omitted if the
 		/// parameterNames field is omitted.
 		/// </summary>
 		[JsonProperty("requiredParameterCount")]
-		public int RequiredParameterCount;
+		public int RequiredParameterCount { get; set; }
 		/// <summary>
 		/// The number of positional parameters for the function or
 		/// method being suggested. This field is omitted if the
 		/// parameterNames field is omitted.
 		/// </summary>
 		[JsonProperty("positionalParameterCount")]
-		public int PositionalParameterCount;
+		public int PositionalParameterCount { get; set; }
 		/// <summary>
 		/// The name of the optional parameter being suggested. This
 		/// field is omitted if the suggestion is not the addition of
 		/// an optional argument within an argument list.
 		/// </summary>
 		[JsonProperty("parameterName")]
-		public string ParameterName;
+		public string ParameterName { get; set; }
 		/// <summary>
 		/// The type of the options parameter being suggested. This
 		/// field is omitted if the parameterName field is omitted.
 		/// </summary>
 		[JsonProperty("parameterType")]
-		public string ParameterType;
+		public string ParameterType { get; set; }
 	}
 
 	/// <summary>
@@ -302,24 +302,24 @@ namespace DanTup.DartAnalysis.Json
 		/// The kind of the element.
 		/// </summary>
 		[JsonProperty("kind")]
-		public ElementKind Kind;
+		public ElementKind Kind { get; set; }
 		/// <summary>
 		/// The name of the element. This is typically used as the
 		/// label in the outline.
 		/// </summary>
 		[JsonProperty("name")]
-		public string Name;
+		public string Name { get; set; }
 		/// <summary>
 		/// The location of the name in the declaration of the
 		/// element.
 		/// </summary>
 		[JsonProperty("location")]
-		public Location Location;
+		public Location Location { get; set; }
 		/// <summary>
 		/// A bit-map containing the following flags:
 		/// </summary>
 		[JsonProperty("flags")]
-		public int Flags;
+		public int Flags { get; set; }
 		/// <summary>
 		/// The parameter list for the element. If the element is not
 		/// a method or function this field will not be defined. If
@@ -327,7 +327,7 @@ namespace DanTup.DartAnalysis.Json
 		/// value of "()".
 		/// </summary>
 		[JsonProperty("parameters")]
-		public string Parameters;
+		public string Parameters { get; set; }
 		/// <summary>
 		/// The return type of the element. If the element is not a
 		/// method or function this field will not be defined. If the
@@ -335,7 +335,7 @@ namespace DanTup.DartAnalysis.Json
 		/// will contain an empty string.
 		/// </summary>
 		[JsonProperty("returnType")]
-		public string ReturnType;
+		public string ReturnType { get; set; }
 	}
 
 	/// <summary>
@@ -357,18 +357,18 @@ namespace DanTup.DartAnalysis.Json
 		/// A code that uniquely identifies the error that occurred.
 		/// </summary>
 		[JsonProperty("code")]
-		public string Code;
+		public string Code { get; set; }
 		/// <summary>
 		/// A short description of the error.
 		/// </summary>
 		[JsonProperty("message")]
-		public string Message;
+		public string Message { get; set; }
 		/// <summary>
 		/// Additional data related to the error. This field is
 		/// omitted if there is no additional data available.
 		/// </summary>
 		[JsonProperty("data")]
-		public object Data;
+		public object Data { get; set; }
 	}
 
 	/// <summary>
@@ -380,12 +380,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The error with which the fixes are associated.
 		/// </summary>
 		[JsonProperty("error")]
-		public AnalysisError Error;
+		public AnalysisError Error { get; set; }
 		/// <summary>
 		/// The fixes associated with the error.
 		/// </summary>
 		[JsonProperty("fixes")]
-		public SourceChange[] Fixes;
+		public SourceChange[] Fixes { get; set; }
 	}
 
 	/// <summary>
@@ -414,12 +414,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The path of the executable file.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the region to be highlighted.
 		/// </summary>
 		[JsonProperty("offset")]
-		public ExecutableKind Offset;
+		public ExecutableKind Offset { get; set; }
 	}
 
 	/// <summary>
@@ -447,17 +447,17 @@ namespace DanTup.DartAnalysis.Json
 		/// The kind of the region.
 		/// </summary>
 		[JsonProperty("kind")]
-		public FoldingKind Kind;
+		public FoldingKind Kind { get; set; }
 		/// <summary>
 		/// The offset of the region to be folded.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the region to be folded.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 	}
 
 	/// <summary>
@@ -470,17 +470,17 @@ namespace DanTup.DartAnalysis.Json
 		/// The type of highlight associated with the region.
 		/// </summary>
 		[JsonProperty("type")]
-		public HighlightRegionType Type;
+		public HighlightRegionType Type { get; set; }
 		/// <summary>
 		/// The offset of the region to be highlighted.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the region to be highlighted.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 	}
 
 	/// <summary>
@@ -503,28 +503,28 @@ namespace DanTup.DartAnalysis.Json
 		/// cursor position.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the range of characters that encompases the
 		/// cursor position and has the same hover information as the
 		/// cursor position.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The path to the defining compilation unit of the library
 		/// in which the referenced element is declared. This data is
 		/// omitted if there is no referenced element.
 		/// </summary>
 		[JsonProperty("containingLibraryPath")]
-		public string ContainingLibraryPath;
+		public string ContainingLibraryPath { get; set; }
 		/// <summary>
 		/// The name of the library in which the referenced element is
 		/// declared. This data is omitted if there is no referenced
 		/// element.
 		/// </summary>
 		[JsonProperty("containingLibraryName")]
-		public string ContainingLibraryName;
+		public string ContainingLibraryName { get; set; }
 		/// <summary>
 		/// The dartdoc associated with the referenced element. Other
 		/// than the removal of the comment delimiters, including
@@ -533,14 +533,14 @@ namespace DanTup.DartAnalysis.Json
 		/// there is no referenced element.
 		/// </summary>
 		[JsonProperty("dartdoc")]
-		public string Dartdoc;
+		public string Dartdoc { get; set; }
 		/// <summary>
 		/// A human-readable description of the element being
 		/// referenced. This data is omitted if there is no referenced
 		/// element.
 		/// </summary>
 		[JsonProperty("elementDescription")]
-		public string ElementDescription;
+		public string ElementDescription { get; set; }
 		/// <summary>
 		/// A human-readable description of the kind of element being
 		/// referenced (such as “class” or “function type
@@ -548,7 +548,7 @@ namespace DanTup.DartAnalysis.Json
 		/// element.
 		/// </summary>
 		[JsonProperty("elementKind")]
-		public string ElementKind;
+		public string ElementKind { get; set; }
 		/// <summary>
 		/// A human-readable description of the parameter
 		/// corresponding to the expression being hovered over. This
@@ -556,21 +556,21 @@ namespace DanTup.DartAnalysis.Json
 		/// function.
 		/// </summary>
 		[JsonProperty("parameter")]
-		public string Parameter;
+		public string Parameter { get; set; }
 		/// <summary>
 		/// The name of the propagated type of the expression. This
 		/// data is omitted if the location does not correspond to an
 		/// expression or if there is no propagated type information.
 		/// </summary>
 		[JsonProperty("propagatedType")]
-		public string PropagatedType;
+		public string PropagatedType { get; set; }
 		/// <summary>
 		/// The name of the static type of the expression. This data
 		/// is omitted if the location does not correspond to an
 		/// expression.
 		/// </summary>
 		[JsonProperty("staticType")]
-		public string StaticType;
+		public string StaticType { get; set; }
 	}
 
 	/// <summary>
@@ -589,19 +589,19 @@ namespace DanTup.DartAnalysis.Json
 		/// simultaneously.
 		/// </summary>
 		[JsonProperty("positions")]
-		public Position[] Positions;
+		public Position[] Positions { get; set; }
 		/// <summary>
 		/// The length of the regions that should be edited
 		/// simultaneously.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// Pre-computed suggestions for what every region might
 		/// want to be changed to.
 		/// </summary>
 		[JsonProperty("suggestions")]
-		public LinkedEditSuggestion[] Suggestions;
+		public LinkedEditSuggestion[] Suggestions { get; set; }
 	}
 
 	/// <summary>
@@ -615,12 +615,12 @@ namespace DanTup.DartAnalysis.Json
 		/// edit regions.
 		/// </summary>
 		[JsonProperty("value")]
-		public string Value;
+		public string Value { get; set; }
 		/// <summary>
 		/// The kind of value being proposed.
 		/// </summary>
 		[JsonProperty("kind")]
-		public LinkedEditSuggestionKind Kind;
+		public LinkedEditSuggestionKind Kind { get; set; }
 	}
 
 	/// <summary>
@@ -641,29 +641,29 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the range.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the range.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the range.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The one-based index of the line containing the first
 		/// character of the range.
 		/// </summary>
 		[JsonProperty("startLine")]
-		public int StartLine;
+		public int StartLine { get; set; }
 		/// <summary>
 		/// The one-based index of the column containing the first
 		/// character of the range.
 		/// </summary>
 		[JsonProperty("startColumn")]
-		public int StartColumn;
+		public int StartColumn { get; set; }
 	}
 
 	/// <summary>
@@ -676,19 +676,19 @@ namespace DanTup.DartAnalysis.Json
 		/// The offset of the region from which the user can navigate.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the region from which the user can navigate.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The elements to which the given region is bound. By
 		/// opening the declaration of the elements, clients can
 		/// implement one form of navigation.
 		/// </summary>
 		[JsonProperty("targets")]
-		public Element[] Targets;
+		public Element[] Targets { get; set; }
 	}
 
 	/// <summary>
@@ -701,18 +701,18 @@ namespace DanTup.DartAnalysis.Json
 		/// The element that was referenced.
 		/// </summary>
 		[JsonProperty("element")]
-		public Element Element;
+		public Element Element { get; set; }
 		/// <summary>
 		/// The offsets of the name of the referenced element within
 		/// the file.
 		/// </summary>
 		[JsonProperty("offsets")]
-		public int[] Offsets;
+		public int[] Offsets { get; set; }
 		/// <summary>
 		/// The length of the name of the referenced element.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 	}
 
 	/// <summary>
@@ -724,7 +724,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A description of the element represented by this node.
 		/// </summary>
 		[JsonProperty("element")]
-		public Element Element;
+		public Element Element { get; set; }
 		/// <summary>
 		/// The offset of the first character of the element. This is
 		/// different than the offset in the Element, which if the
@@ -732,18 +732,18 @@ namespace DanTup.DartAnalysis.Json
 		/// example, to map locations in the file back to an outline.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the element.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The children of the node. The field will be omitted if the
 		/// node has no children.
 		/// </summary>
 		[JsonProperty("children")]
-		public Outline[] Children;
+		public Outline[] Children { get; set; }
 	}
 
 	/// <summary>
@@ -755,12 +755,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The offset of the name of the overriding member.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the name of the overriding member.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The member inherited from a superclass that is overridden
 		/// by the overriding member. The field is omitted if there is
@@ -768,7 +768,7 @@ namespace DanTup.DartAnalysis.Json
 		/// one interface member.
 		/// </summary>
 		[JsonProperty("superclassMember")]
-		public OverriddenMember SuperclassMember;
+		public OverriddenMember SuperclassMember { get; set; }
 		/// <summary>
 		/// The members inherited from interfaces that are overridden
 		/// by the overriding member. The field is omitted if there
@@ -776,7 +776,7 @@ namespace DanTup.DartAnalysis.Json
 		/// superclass member.
 		/// </summary>
 		[JsonProperty("interfaceMembers")]
-		public OverriddenMember[] InterfaceMembers;
+		public OverriddenMember[] InterfaceMembers { get; set; }
 	}
 
 	/// <summary>
@@ -788,12 +788,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The element that is being overridden.
 		/// </summary>
 		[JsonProperty("element")]
-		public Element Element;
+		public Element Element { get; set; }
 		/// <summary>
 		/// The name of the class in which the member is defined.
 		/// </summary>
 		[JsonProperty("className")]
-		public string ClassName;
+		public string ClassName { get; set; }
 	}
 
 	/// <summary>
@@ -805,12 +805,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the position.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the position.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 	}
 
 	/// <summary>
@@ -832,23 +832,23 @@ namespace DanTup.DartAnalysis.Json
 		/// Clients may omit this field for the parameters they want to add.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 		/// <summary>
 		/// The kind of the parameter.
 		/// </summary>
 		[JsonProperty("kind")]
-		public RefactoringMethodParameterKind Kind;
+		public RefactoringMethodParameterKind Kind { get; set; }
 		/// <summary>
 		/// The type that should be given to the parameter, or the return type
 		/// of the parameter's function type.
 		/// </summary>
 		[JsonProperty("type")]
-		public string Type;
+		public string Type { get; set; }
 		/// <summary>
 		/// The name that should be given to the parameter.
 		/// </summary>
 		[JsonProperty("name")]
-		public string Name;
+		public string Name { get; set; }
 		/// <summary>
 		/// The parameter list of the parameter's function type.
 		/// If the parameter is not of a function type, this field will
@@ -856,7 +856,7 @@ namespace DanTup.DartAnalysis.Json
 		/// field will have a value of "()".
 		/// </summary>
 		[JsonProperty("parameters")]
-		public string Parameters;
+		public string Parameters { get; set; }
 	}
 
 	/// <summary>
@@ -876,13 +876,13 @@ namespace DanTup.DartAnalysis.Json
 		/// The severity of the problem being represented.
 		/// </summary>
 		[JsonProperty("severity")]
-		public RefactoringProblemSeverity Severity;
+		public RefactoringProblemSeverity Severity { get; set; }
 		/// <summary>
 		/// A human-readable description of the problem being
 		/// represented.
 		/// </summary>
 		[JsonProperty("message")]
-		public string Message;
+		public string Message { get; set; }
 		/// <summary>
 		/// The location of the problem being represented.
 		/// This field is omitted unless there is a specific location
@@ -890,7 +890,7 @@ namespace DanTup.DartAnalysis.Json
 		/// being renamed will be shadowed).
 		/// </summary>
 		[JsonProperty("location")]
-		public Location Location;
+		public Location Location { get; set; }
 	}
 
 	/// <summary>
@@ -910,7 +910,7 @@ namespace DanTup.DartAnalysis.Json
 	public class RemoveContentOverlay : IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay
 	{
 		[JsonProperty("type")]
-		public string Type;
+		public string Type { get; set; }
 	}
 
 	/// <summary>
@@ -922,13 +922,13 @@ namespace DanTup.DartAnalysis.Json
 		/// The location of the code that matched the search criteria.
 		/// </summary>
 		[JsonProperty("location")]
-		public Location Location;
+		public Location Location { get; set; }
 		/// <summary>
 		/// The kind of element that was found or the kind of
 		/// reference that was found.
 		/// </summary>
 		[JsonProperty("kind")]
-		public SearchResultKind Kind;
+		public SearchResultKind Kind { get; set; }
 		/// <summary>
 		/// True if the result is a potential match but cannot be
 		/// confirmed to be a match. For example, if all references to
@@ -937,14 +937,14 @@ namespace DanTup.DartAnalysis.Json
 		/// it would be marked as being a potential match.
 		/// </summary>
 		[JsonProperty("isPotential")]
-		public bool IsPotential;
+		public bool IsPotential { get; set; }
 		/// <summary>
 		/// The elements that contain the result, starting with the
 		/// most immediately enclosing ancestor and ending with the
 		/// library.
 		/// </summary>
 		[JsonProperty("path")]
-		public Element[] Path;
+		public Element[] Path { get; set; }
 	}
 
 	/// <summary>
@@ -974,25 +974,25 @@ namespace DanTup.DartAnalysis.Json
 		/// A human-readable description of the change to be applied.
 		/// </summary>
 		[JsonProperty("message")]
-		public string Message;
+		public string Message { get; set; }
 		/// <summary>
 		/// A list of the edits used to effect the change, grouped by
 		/// file.
 		/// </summary>
 		[JsonProperty("edits")]
-		public SourceFileEdit[] Edits;
+		public SourceFileEdit[] Edits { get; set; }
 		/// <summary>
 		/// A list of the linked editing groups used to customize
 		/// the changes that were made.
 		/// </summary>
 		[JsonProperty("linkedEditGroups")]
-		public LinkedEditGroup[] LinkedEditGroups;
+		public LinkedEditGroup[] LinkedEditGroups { get; set; }
 		/// <summary>
 		/// The position that should be selected after the edits
 		/// have been applied.
 		/// </summary>
 		[JsonProperty("selection")]
-		public Position Selection;
+		public Position Selection { get; set; }
 	}
 
 	/// <summary>
@@ -1004,18 +1004,18 @@ namespace DanTup.DartAnalysis.Json
 		/// The offset of the region to be modified.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the region to be modified.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// The code that is to replace the specified region in the
 		/// original code.
 		/// </summary>
 		[JsonProperty("replacement")]
-		public string Replacement;
+		public string Replacement { get; set; }
 		/// <summary>
 		/// An identifier that uniquely identifies this source edit from other
 		/// edits in the same response. This field is omitted unless a
@@ -1023,7 +1023,7 @@ namespace DanTup.DartAnalysis.Json
 		/// some reason.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	/// <summary>
@@ -1035,12 +1035,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the code to be modified.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// A list of the edits used to effect the change.
 		/// </summary>
 		[JsonProperty("edits")]
-		public SourceEdit[] Edits;
+		public SourceEdit[] Edits { get; set; }
 	}
 
 	/// <summary>
@@ -1052,7 +1052,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The class element represented by this item.
 		/// </summary>
 		[JsonProperty("classElement")]
-		public Element ClassElement;
+		public Element ClassElement { get; set; }
 		/// <summary>
 		/// The name to be displayed for the class. This field will be
 		/// omitted if the display name is the same as the name of the
@@ -1061,7 +1061,7 @@ namespace DanTup.DartAnalysis.Json
 		/// arguments.
 		/// </summary>
 		[JsonProperty("displayName")]
-		public string DisplayName;
+		public string DisplayName { get; set; }
 		/// <summary>
 		/// The member in the class corresponding to the member on
 		/// which the hierarchy was requested. This field will be
@@ -1069,28 +1069,28 @@ namespace DanTup.DartAnalysis.Json
 		/// if the class does not have a corresponding member.
 		/// </summary>
 		[JsonProperty("memberElement")]
-		public Element MemberElement;
+		public Element MemberElement { get; set; }
 		/// <summary>
 		/// The index of the item representing the superclass of
 		/// this class. This field will be omitted if this item
 		/// represents the class Object.
 		/// </summary>
 		[JsonProperty("superclass")]
-		public int Superclass;
+		public int Superclass { get; set; }
 		/// <summary>
 		/// The indexes of the items representing the interfaces
 		/// implemented by this class. The list will be empty if
 		/// there are no implemented interfaces.
 		/// </summary>
 		[JsonProperty("interfaces")]
-		public int[] Interfaces;
+		public int[] Interfaces { get; set; }
 		/// <summary>
 		/// The indexes of the items representing the mixins
 		/// referenced by this class. The list will be empty if
 		/// there are no classes mixed in to this class.
 		/// </summary>
 		[JsonProperty("mixins")]
-		public int[] Mixins;
+		public int[] Mixins { get; set; }
 		/// <summary>
 		/// The indexes of the items representing the subtypes of
 		/// this class. The list will be empty if there are no
@@ -1098,7 +1098,7 @@ namespace DanTup.DartAnalysis.Json
 		/// pivot type.
 		/// </summary>
 		[JsonProperty("subclasses")]
-		public int[] Subclasses;
+		public int[] Subclasses { get; set; }
 	}
 
 
@@ -1108,7 +1108,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A list of the services being subscribed to.
 		/// </summary>
 		[JsonProperty("subscriptions")]
-		public ServerService[] Subscriptions;
+		public ServerService[] Subscriptions { get; set; }
 	}
 
 	public class AnalysisGetErrorsRequest
@@ -1117,7 +1117,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file for which errors are being requested.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 	}
 
 	public class AnalysisGetHoverRequest
@@ -1127,13 +1127,13 @@ namespace DanTup.DartAnalysis.Json
 		/// requested.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset for which hover information is being
 		/// requested.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 	}
 
 	public class AnalysisSetAnalysisRootsRequest
@@ -1143,13 +1143,13 @@ namespace DanTup.DartAnalysis.Json
 		/// analyzed.
 		/// </summary>
 		[JsonProperty("included")]
-		public string[] Included;
+		public string[] Included { get; set; }
 		/// <summary>
 		/// A list of the files and directories within the
 		/// included directories that should not be analyzed.
 		/// </summary>
 		[JsonProperty("excluded")]
-		public string[] Excluded;
+		public string[] Excluded { get; set; }
 	}
 
 	public class AnalysisSetPriorityFilesRequest
@@ -1158,7 +1158,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The files that are to be a priority for analysis.
 		/// </summary>
 		[JsonProperty("files")]
-		public string[] Files;
+		public string[] Files { get; set; }
 	}
 
 	public class AnalysisSetSubscriptionsRequest
@@ -1168,7 +1168,7 @@ namespace DanTup.DartAnalysis.Json
 		/// subscribed to the service.
 		/// </summary>
 		[JsonProperty("subscriptions")]
-		public Dictionary<AnalysisService, string[]> Subscriptions;
+		public Dictionary<AnalysisService, string[]> Subscriptions { get; set; }
 	}
 
 	public class AnalysisUpdateContentRequest
@@ -1178,7 +1178,7 @@ namespace DanTup.DartAnalysis.Json
 		/// description of the content change.
 		/// </summary>
 		[JsonProperty("files")]
-		public Dictionary<string, IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay> Files;
+		public Dictionary<string, IAddContentOverlayOrChangeContentOverlayOrRemoveContentOverlay> Files { get; set; }
 	}
 
 	public class AnalysisUpdateOptionsRequest
@@ -1187,7 +1187,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The options that are to be used to control analysis.
 		/// </summary>
 		[JsonProperty("options")]
-		public AnalysisOptions Options;
+		public AnalysisOptions Options { get; set; }
 	}
 
 	public class CompletionGetSuggestionsRequest
@@ -1197,13 +1197,13 @@ namespace DanTup.DartAnalysis.Json
 		/// to be made.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset within the file at which suggestions are to
 		/// be made.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 	}
 
 	public class SearchFindElementReferencesRequest
@@ -1213,19 +1213,19 @@ namespace DanTup.DartAnalysis.Json
 		/// the element used to define the search.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset within the file of the declaration of or
 		/// reference to the element.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// True if potential matches are to be included in the
 		/// results.
 		/// </summary>
 		[JsonProperty("includePotential")]
-		public bool IncludePotential;
+		public bool IncludePotential { get; set; }
 	}
 
 	public class SearchFindMemberDeclarationsRequest
@@ -1234,7 +1234,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The name of the declarations to be found.
 		/// </summary>
 		[JsonProperty("name")]
-		public string Name;
+		public string Name { get; set; }
 	}
 
 	public class SearchFindMemberReferencesRequest
@@ -1243,7 +1243,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The name of the references to be found.
 		/// </summary>
 		[JsonProperty("name")]
-		public string Name;
+		public string Name { get; set; }
 	}
 
 	public class SearchFindTopLevelDeclarationsRequest
@@ -1253,7 +1253,7 @@ namespace DanTup.DartAnalysis.Json
 		/// declarations to be found.
 		/// </summary>
 		[JsonProperty("pattern")]
-		public string Pattern;
+		public string Pattern { get; set; }
 	}
 
 	public class SearchGetTypeHierarchyRequest
@@ -1263,12 +1263,12 @@ namespace DanTup.DartAnalysis.Json
 		/// type for which a hierarchy is being requested.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the name of the type within the file.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 	}
 
 	public class EditGetAssistsRequest
@@ -1278,19 +1278,19 @@ namespace DanTup.DartAnalysis.Json
 		/// requested.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the code for which assists are being
 		/// requested.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the code for which assists are being
 		/// requested.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 	}
 
 	public class EditGetAvailableRefactoringsRequest
@@ -1300,19 +1300,19 @@ namespace DanTup.DartAnalysis.Json
 		/// would be based.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the code on which the refactoring would be
 		/// based.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the code on which the refactoring would be
 		/// based.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 	}
 
 	public class EditGetFixesRequest
@@ -1322,13 +1322,13 @@ namespace DanTup.DartAnalysis.Json
 		/// requested.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset used to select the errors for which fixes
 		/// will be returned.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 	}
 
 	public class EditGetRefactoringRequest
@@ -1337,29 +1337,29 @@ namespace DanTup.DartAnalysis.Json
 		/// The kind of refactoring to be performed.
 		/// </summary>
 		[JsonProperty("kind")]
-		public RefactoringKind Kind;
+		public RefactoringKind Kind { get; set; }
 		/// <summary>
 		/// The file containing the code involved in the
 		/// refactoring.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The offset of the region involved in the refactoring.
 		/// </summary>
 		[JsonProperty("offset")]
-		public int Offset;
+		public int Offset { get; set; }
 		/// <summary>
 		/// The length of the region involved in the refactoring.
 		/// </summary>
 		[JsonProperty("length")]
-		public int Length;
+		public int Length { get; set; }
 		/// <summary>
 		/// True if the client is only requesting that the values of
 		/// the options be validated and no change be generated.
 		/// </summary>
 		[JsonProperty("validateOnly")]
-		public bool ValidateOnly;
+		public bool ValidateOnly { get; set; }
 		/// <summary>
 		/// Data used to provide values provided by the user. The
 		/// structure of the data is dependent on the kind of
@@ -1370,7 +1370,7 @@ namespace DanTup.DartAnalysis.Json
 		/// options are not known.
 		/// </summary>
 		[JsonProperty("options")]
-		public object Options;
+		public object Options { get; set; }
 	}
 
 	public class DebugCreateContextRequest
@@ -1379,7 +1379,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The path of the Dart or HTML file that will be launched.
 		/// </summary>
 		[JsonProperty("contextRoot")]
-		public string ContextRoot;
+		public string ContextRoot { get; set; }
 	}
 
 	public class DebugDeleteContextRequest
@@ -1389,7 +1389,7 @@ namespace DanTup.DartAnalysis.Json
 		/// deleted.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class DebugMapUriRequest
@@ -1399,17 +1399,17 @@ namespace DanTup.DartAnalysis.Json
 		/// is to be mapped.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 		/// <summary>
 		/// The path of the file to be mapped into a URI.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The URI to be mapped into a file path.
 		/// </summary>
 		[JsonProperty("uri")]
-		public string Uri;
+		public string Uri { get; set; }
 	}
 
 	public class DebugSetSubscriptionsRequest
@@ -1418,7 +1418,7 @@ namespace DanTup.DartAnalysis.Json
 		/// A list of the services being subscribed to.
 		/// </summary>
 		[JsonProperty("subscriptions")]
-		public DebugService[] Subscriptions;
+		public DebugService[] Subscriptions { get; set; }
 	}
 
 
@@ -1428,7 +1428,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The version number of the analysis server.
 		/// </summary>
 		[JsonProperty("version")]
-		public string Version;
+		public string Version { get; set; }
 	}
 
 	public class AnalysisGetErrorsResponse
@@ -1437,7 +1437,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The errors associated with the file.
 		/// </summary>
 		[JsonProperty("errors")]
-		public AnalysisError[] Errors;
+		public AnalysisError[] Errors { get; set; }
 	}
 
 	public class AnalysisGetHoverResponse
@@ -1451,7 +1451,7 @@ namespace DanTup.DartAnalysis.Json
 		/// part that is included in multiple libraries).
 		/// </summary>
 		[JsonProperty("hovers")]
-		public HoverInformation[] Hovers;
+		public HoverInformation[] Hovers { get; set; }
 	}
 
 	public class CompletionGetSuggestionsResponse
@@ -1461,7 +1461,7 @@ namespace DanTup.DartAnalysis.Json
 		/// completion request.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class SearchFindElementReferencesResponse
@@ -1471,14 +1471,14 @@ namespace DanTup.DartAnalysis.Json
 		/// search request.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 		/// <summary>
 		/// The element referenced or defined at the given offset
 		/// and whose references will be returned in the search
 		/// results.
 		/// </summary>
 		[JsonProperty("element")]
-		public Element Element;
+		public Element Element { get; set; }
 	}
 
 	public class SearchFindMemberDeclarationsResponse
@@ -1488,7 +1488,7 @@ namespace DanTup.DartAnalysis.Json
 		/// search request.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class SearchFindMemberReferencesResponse
@@ -1498,7 +1498,7 @@ namespace DanTup.DartAnalysis.Json
 		/// search request.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class SearchFindTopLevelDeclarationsResponse
@@ -1508,7 +1508,7 @@ namespace DanTup.DartAnalysis.Json
 		/// search request.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class SearchGetTypeHierarchyResponse
@@ -1522,7 +1522,7 @@ namespace DanTup.DartAnalysis.Json
 		/// and subtype items within the items.
 		/// </summary>
 		[JsonProperty("hierarchyItems")]
-		public TypeHierarchyItem[] HierarchyItems;
+		public TypeHierarchyItem[] HierarchyItems { get; set; }
 	}
 
 	public class EditGetAssistsResponse
@@ -1531,7 +1531,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The assists that are available at the given location.
 		/// </summary>
 		[JsonProperty("assists")]
-		public SourceChange[] Assists;
+		public SourceChange[] Assists { get; set; }
 	}
 
 	public class EditGetAvailableRefactoringsResponse
@@ -1541,7 +1541,7 @@ namespace DanTup.DartAnalysis.Json
 		/// selection.
 		/// </summary>
 		[JsonProperty("kinds")]
-		public RefactoringKind[] Kinds;
+		public RefactoringKind[] Kinds { get; set; }
 	}
 
 	public class EditGetFixesResponse
@@ -1557,7 +1557,7 @@ namespace DanTup.DartAnalysis.Json
 		/// there are no fixes available for that error.
 		/// </summary>
 		[JsonProperty("fixes")]
-		public ErrorFixes[] Fixes;
+		public ErrorFixes[] Fixes { get; set; }
 	}
 
 	public class EditGetRefactoringResponse
@@ -1567,7 +1567,7 @@ namespace DanTup.DartAnalysis.Json
 		/// if there are no known problems.
 		/// </summary>
 		[JsonProperty("problems")]
-		public RefactoringProblem[] Problems;
+		public RefactoringProblem[] Problems { get; set; }
 		/// <summary>
 		/// Data used to provide feedback to the user. The structure
 		/// of the data is dependent on the kind of refactoring
@@ -1576,7 +1576,7 @@ namespace DanTup.DartAnalysis.Json
 		/// “Feedback”.
 		/// </summary>
 		[JsonProperty("feedback")]
-		public object Feedback;
+		public object Feedback { get; set; }
 		/// <summary>
 		/// The changes that are to be applied to affect the
 		/// refactoring. This field will be omitted if there are
@@ -1586,7 +1586,7 @@ namespace DanTup.DartAnalysis.Json
 		/// was requested.
 		/// </summary>
 		[JsonProperty("change")]
-		public SourceChange Change;
+		public SourceChange Change { get; set; }
 		/// <summary>
 		/// The ids of source edits that are not known to be valid. An edit is
 		/// not known to be valid if there was insufficient type information
@@ -1597,7 +1597,7 @@ namespace DanTup.DartAnalysis.Json
 		/// potential edits for the refactoring.
 		/// </summary>
 		[JsonProperty("potentialEdits")]
-		public string[] PotentialEdits;
+		public string[] PotentialEdits { get; set; }
 	}
 
 	public class DebugCreateContextResponse
@@ -1607,7 +1607,7 @@ namespace DanTup.DartAnalysis.Json
 		/// that was created.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 	}
 
 	public class DebugMapUriResponse
@@ -1617,13 +1617,13 @@ namespace DanTup.DartAnalysis.Json
 		/// omitted if the uri field was not given in the request.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The URI to which the file path was mapped. This field is
 		/// omitted if the file field was not given in the request.
 		/// </summary>
 		[JsonProperty("uri")]
-		public string Uri;
+		public string Uri { get; set; }
 	}
 
 
@@ -1641,19 +1641,19 @@ namespace DanTup.DartAnalysis.Json
 		/// notification.
 		/// </summary>
 		[JsonProperty("fatal")]
-		public bool Fatal;
+		public bool Fatal { get; set; }
 		/// <summary>
 		/// The error message indicating what kind of error was
 		/// encountered.
 		/// </summary>
 		[JsonProperty("message")]
-		public string Message;
+		public string Message { get; set; }
 		/// <summary>
 		/// The stack trace associated with the generation of the
 		/// error, used for debugging the server.
 		/// </summary>
 		[JsonProperty("stackTrace")]
-		public string StackTrace;
+		public string StackTrace { get; set; }
 	}
 
 	[AnalysisNotification("server.status")]
@@ -1665,7 +1665,7 @@ namespace DanTup.DartAnalysis.Json
 		/// analyzed.
 		/// </summary>
 		[JsonProperty("analysis")]
-		public AnalysisStatus Analysis;
+		public AnalysisStatus Analysis { get; set; }
 	}
 
 	[AnalysisNotification("analysis.errors")]
@@ -1675,12 +1675,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the errors.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The errors contained in the file.
 		/// </summary>
 		[JsonProperty("errors")]
-		public AnalysisError[] Errors;
+		public AnalysisError[] Errors { get; set; }
 	}
 
 	[AnalysisNotification("analysis.flushResults")]
@@ -1690,7 +1690,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The files that are no longer being analyzed.
 		/// </summary>
 		[JsonProperty("files")]
-		public string[] Files;
+		public string[] Files { get; set; }
 	}
 
 	[AnalysisNotification("analysis.folding")]
@@ -1700,12 +1700,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the folding regions.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The folding regions contained in the file.
 		/// </summary>
 		[JsonProperty("regions")]
-		public FoldingRegion[] Regions;
+		public FoldingRegion[] Regions { get; set; }
 	}
 
 	[AnalysisNotification("analysis.highlights")]
@@ -1715,7 +1715,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the highlight regions.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The highlight regions contained in the file. Each
 		/// highlight region represents a particular syntactic or
@@ -1725,7 +1725,7 @@ namespace DanTup.DartAnalysis.Json
 		/// meaning associated with a particular region.
 		/// </summary>
 		[JsonProperty("regions")]
-		public HighlightRegion[] Regions;
+		public HighlightRegion[] Regions { get; set; }
 	}
 
 	[AnalysisNotification("analysis.navigation")]
@@ -1735,7 +1735,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The file containing the navigation regions.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The navigation regions contained in the file. Each
 		/// navigation region represents a list of targets
@@ -1748,7 +1748,7 @@ namespace DanTup.DartAnalysis.Json
 		/// navigation regions.
 		/// </summary>
 		[JsonProperty("regions")]
-		public NavigationRegion[] Regions;
+		public NavigationRegion[] Regions { get; set; }
 	}
 
 	[AnalysisNotification("analysis.occurrences")]
@@ -1758,13 +1758,13 @@ namespace DanTup.DartAnalysis.Json
 		/// The file in which the references occur.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The occurrences of references to elements within the
 		/// file.
 		/// </summary>
 		[JsonProperty("occurrences")]
-		public Occurrences[] Occurrences;
+		public Occurrences[] Occurrences { get; set; }
 	}
 
 	[AnalysisNotification("analysis.outline")]
@@ -1774,12 +1774,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file with which the outline is associated.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The outline associated with the file.
 		/// </summary>
 		[JsonProperty("outline")]
-		public Outline Outline;
+		public Outline Outline { get; set; }
 	}
 
 	[AnalysisNotification("analysis.overrides")]
@@ -1789,12 +1789,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The file with which the overrides are associated.
 		/// </summary>
 		[JsonProperty("file")]
-		public string File;
+		public string File { get; set; }
 		/// <summary>
 		/// The overrides associated with the file.
 		/// </summary>
 		[JsonProperty("overrides")]
-		public Override[] Overrides;
+		public Override[] Overrides { get; set; }
 	}
 
 	[AnalysisNotification("completion.results")]
@@ -1804,7 +1804,7 @@ namespace DanTup.DartAnalysis.Json
 		/// The id associated with the completion.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 		/// <summary>
 		/// The offset of the start of the text to be
 		/// replaced. This will be different than the offset used
@@ -1814,7 +1814,7 @@ namespace DanTup.DartAnalysis.Json
 		/// the offset of the beginning of said identifier.
 		/// </summary>
 		[JsonProperty("replacementOffset")]
-		public int ReplacementOffset;
+		public int ReplacementOffset { get; set; }
 		/// <summary>
 		/// The length of the text to be replaced if the remainder
 		/// of the identifier containing the cursor is to be
@@ -1822,7 +1822,7 @@ namespace DanTup.DartAnalysis.Json
 		/// number of characters in the existing identifier).
 		/// </summary>
 		[JsonProperty("replacementLength")]
-		public int ReplacementLength;
+		public int ReplacementLength { get; set; }
 		/// <summary>
 		/// The completion suggestions being reported.  The
 		/// notification contains all possible completions at the
@@ -1832,13 +1832,13 @@ namespace DanTup.DartAnalysis.Json
 		/// user without having to make additional requests.
 		/// </summary>
 		[JsonProperty("results")]
-		public CompletionSuggestion[] Results;
+		public CompletionSuggestion[] Results { get; set; }
 		/// <summary>
 		/// True if this is that last set of results that will be
 		/// returned for the indicated completion.
 		/// </summary>
 		[JsonProperty("last")]
-		public bool Last;
+		public bool Last { get; set; }
 	}
 
 	[AnalysisNotification("search.results")]
@@ -1848,18 +1848,18 @@ namespace DanTup.DartAnalysis.Json
 		/// The id associated with the search.
 		/// </summary>
 		[JsonProperty("id")]
-		public string Id;
+		public string Id { get; set; }
 		/// <summary>
 		/// The search results being reported.
 		/// </summary>
 		[JsonProperty("results")]
-		public SearchResult[] Results;
+		public SearchResult[] Results { get; set; }
 		/// <summary>
 		/// True if this is that last set of results that will be
 		/// returned for the indicated search.
 		/// </summary>
 		[JsonProperty("last")]
-		public bool Last;
+		public bool Last { get; set; }
 	}
 
 	[AnalysisNotification("debug.launchData")]
@@ -1871,20 +1871,20 @@ namespace DanTup.DartAnalysis.Json
 		/// for the given context.
 		/// </summary>
 		[JsonProperty("executables")]
-		public ExecutableFile[] Executables;
+		public ExecutableFile[] Executables { get; set; }
 		/// <summary>
 		/// A mapping from the paths of Dart files that are
 		/// referenced by HTML files to a list of the HTML files
 		/// that reference the Dart files.
 		/// </summary>
 		[JsonProperty("dartToHtml")]
-		public Dictionary<string, string[]> DartToHtml;
+		public Dictionary<string, string[]> DartToHtml { get; set; }
 		/// <summary>
 		/// A mapping from the paths of HTML files that reference
 		/// Dart files to a list of the Dart files they reference.
 		/// </summary>
 		[JsonProperty("htmlToDart")]
-		public Dictionary<string, string[]> HtmlToDart;
+		public Dictionary<string, string[]> HtmlToDart { get; set; }
 	}
 
 
