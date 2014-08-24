@@ -30,14 +30,14 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Ensure the error-free file got no errors.
-					Assert.Equal(0, errors.Where(e => e.Location.File == HelloWorldFile).Count());
+					errors.Where(e => e.Location.File == HelloWorldFile).Should().HaveCount(0);
 
 					// Ensure the single-error file got the expected error.
-					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
+					errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Should().HaveCount(1);
 					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
-					Assert.Equal(ErrorSeverity.Warning, error.Severity);
-					Assert.Equal(ErrorType.StaticWarning, error.Type);
-					Assert.Equal("The argument type 'int' cannot be assigned to the parameter type 'String'", error.Message);
+					error.Severity.Should().Be(ErrorSeverity.Warning);
+					error.Type.Should().Be(ErrorType.StaticWarning);
+					error.Message.Should().Be("The argument type 'int' cannot be assigned to the parameter type 'String'");
 				}
 			}
 		}
