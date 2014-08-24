@@ -1627,7 +1627,7 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
-	public class EventError
+	public class ServerErrorNotification
 	{
 		/// <summary>
 		/// True if the error is a fatal error, meaning that the
@@ -1650,7 +1650,7 @@ namespace DanTup.DartAnalysis.Json
 		public string StackTrace;
 	}
 
-	public class EventStatus
+	public class ServerStatusNotification
 	{
 		/// <summary>
 		/// The current status of analysis, including whether
@@ -1661,7 +1661,7 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisStatus Analysis;
 	}
 
-	public class EventErrors
+	public class AnalysisErrorsNotification
 	{
 		/// <summary>
 		/// The file containing the errors.
@@ -1675,7 +1675,7 @@ namespace DanTup.DartAnalysis.Json
 		public AnalysisError[] Errors;
 	}
 
-	public class EventFlushResults
+	public class AnalysisFlushResultsNotification
 	{
 		/// <summary>
 		/// The files that are no longer being analyzed.
@@ -1684,7 +1684,7 @@ namespace DanTup.DartAnalysis.Json
 		public string[] Files;
 	}
 
-	public class EventFolding
+	public class AnalysisFoldingNotification
 	{
 		/// <summary>
 		/// The file containing the folding regions.
@@ -1698,7 +1698,7 @@ namespace DanTup.DartAnalysis.Json
 		public FoldingRegion[] Regions;
 	}
 
-	public class EventHighlights
+	public class AnalysisHighlightsNotification
 	{
 		/// <summary>
 		/// The file containing the highlight regions.
@@ -1717,7 +1717,7 @@ namespace DanTup.DartAnalysis.Json
 		public HighlightRegion[] Regions;
 	}
 
-	public class EventNavigation
+	public class AnalysisNavigationNotification
 	{
 		/// <summary>
 		/// The file containing the navigation regions.
@@ -1739,7 +1739,7 @@ namespace DanTup.DartAnalysis.Json
 		public NavigationRegion[] Regions;
 	}
 
-	public class EventOccurrences
+	public class AnalysisOccurrencesNotification
 	{
 		/// <summary>
 		/// The file in which the references occur.
@@ -1754,7 +1754,7 @@ namespace DanTup.DartAnalysis.Json
 		public Occurrences[] Occurrences;
 	}
 
-	public class EventOutline
+	public class AnalysisOutlineNotification
 	{
 		/// <summary>
 		/// The file with which the outline is associated.
@@ -1768,7 +1768,7 @@ namespace DanTup.DartAnalysis.Json
 		public Outline Outline;
 	}
 
-	public class EventOverrides
+	public class AnalysisOverridesNotification
 	{
 		/// <summary>
 		/// The file with which the overrides are associated.
@@ -1782,7 +1782,7 @@ namespace DanTup.DartAnalysis.Json
 		public Override[] Overrides;
 	}
 
-	public class EventResults
+	public class CompletionResultsNotification
 	{
 		/// <summary>
 		/// The id associated with the completion.
@@ -1825,7 +1825,7 @@ namespace DanTup.DartAnalysis.Json
 		public bool Last;
 	}
 
-	public class EventResults
+	public class SearchResultsNotification
 	{
 		/// <summary>
 		/// The id associated with the search.
@@ -1845,7 +1845,7 @@ namespace DanTup.DartAnalysis.Json
 		public bool Last;
 	}
 
-	public class EventLaunchData
+	public class DebugLaunchDataNotification
 	{
 		/// <summary>
 		/// A list of the files that are executable in the given
