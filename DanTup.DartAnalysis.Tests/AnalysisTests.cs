@@ -30,7 +30,7 @@ namespace DanTup.DartAnalysis.Tests
 					await analysisCompleteEvent;
 
 					// Ensure the error-free file got no errors.
-					errors.Where(e => e.Location.File == HelloWorldFile).Should().HaveCount(0);
+					errors.Where(e => e.Location.File == HelloWorldFile).Should().BeEmpty();
 
 					// Ensure the single-error file got the expected error.
 					var expectedError = new AnalysisError
@@ -72,7 +72,7 @@ namespace DanTup.DartAnalysis.Tests
 				}
 
 				// Ensure we got the expected error in single_type_error.
-				Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
+				errors.Where(e => e.Location.File == SingleTypeErrorFile).Should().NotBeEmpty();
 
 				// Clear the error list ready for next time.
 				errors.Clear();
@@ -104,7 +104,7 @@ void my_function(String a) {
 				}
 
 				// Ensure the error has gone away.
-				Assert.Equal(0, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
+				errors.Where(e => e.Location.File == SingleTypeErrorFile).Should().BeEmpty();
 			}
 		}
 
