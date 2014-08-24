@@ -19,15 +19,12 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			using (var service = CreateTestService())
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
-
 				var errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
-				using (analysisCompleteEvent.Connect())
 				{
 					// Send a request to do some analysis.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
+					await service.WaitForAnalysis();
 
 					// Ensure the error-free file got no errors.
 					errors.Where(e => e.Location.File == HelloWorldFile).Should().BeEmpty();
@@ -64,7 +61,7 @@ namespace DanTup.DartAnalysis.Tests
 				{
 					// Set the roots to our known project and wait for analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					service.WaitForAnalysis();
+					await service.WaitForAnalysis();
 				}
 
 				// Ensure we got the expected error in single_type_error.
@@ -95,7 +92,7 @@ void my_function(String a) {
 					);
 
 					// Wait for a server status message (which should be that the analysis complete)
-					service.WaitForAnalysis();
+					await service.WaitForAnalysis();
 				}
 
 				// Ensure the error has gone away.
@@ -108,17 +105,15 @@ void my_function(String a) {
 		{
 			using (var service = CreateTestService())
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
 				var regions = new List<HighlightRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
-				using (analysisCompleteEvent.Connect())
 				using (analysisHighlightEvent.Connect())
 				{
 					// Set the roots to our known project and wait for the analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
+					await service.WaitForAnalysis();
 
 					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
 					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Highlights }, HelloWorldFile);
@@ -147,17 +142,15 @@ void my_function(String a) {
 		{
 			using (var service = CreateTestService())
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
 
 				var regions = new List<NavigationRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisNavigationNotification.Subscribe(e => regions.AddRange(e.Regions)))
-				using (analysisCompleteEvent.Connect())
 				using (analysisNavigationEvent.Connect())
 				{
 					// Set the roots to our known project and wait for the analysis to complete.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
+					await service.WaitForAnalysis();
 
 					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
 					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Navigation }, HelloWorldFile);
@@ -202,17 +195,15 @@ void my_function(String a) {
 		{
 			using (var service = CreateTestService())
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisOutlineEvent = service.AnalysisOutlineNotification.FirstAsync().PublishLast();
 
 				var outlines = new List<Outline>(); // Keep track of errors that are reported
 				using (service.AnalysisOutlineNotification.Subscribe(e => outlines.Add(e.Outline)))
-				using (analysisCompleteEvent.Connect())
 				using (analysisOutlineEvent.Connect())
 				{
 					// Set the roots to our known project.
 					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
+					await service.WaitForAnalysis();
 
 					// Request all the other stuff
 					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Outline }, HelloWorldFile);
@@ -274,29 +265,24 @@ void my_function(String a) {
 		{
 			using (var service = CreateTestService())
 			{
-				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
+				// Set the roots to our known project and wait for the analysis to complete.
+				await service.SetAnalysisRoots(new[] { SampleDartProject });
+				await service.WaitForAnalysis();
 
-				using (analysisCompleteEvent.Connect())
-				{
-					// Set the roots to our known project and wait for the analysis to complete.
-					await service.SetAnalysisRoots(new[] { SampleDartProject });
-					await analysisCompleteEvent;
+				// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
+				var hovers = await service.GetHover(HelloWorldFile, 19);
 
-					// Request Highlights and wait for it to complete (note: assuming first event back means it's complete).
-					var hovers = await service.GetHover(HelloWorldFile, 19);
-
-					Assert.Equal(1, hovers.Length);
-					Assert.Equal(17, hovers[0].Offset);
-					Assert.Equal(5, hovers[0].Length);
-					Assert.Equal(SdkFolder + "\\lib\\core\\core.dart", hovers[0].ContainingLibraryPath, StringComparer.OrdinalIgnoreCase);
-					Assert.Equal("dart.core", hovers[0].ContainingLibraryName);
-					Assert.Equal("Prints a string representation of the object to the console.", hovers[0].Dartdoc);
-					Assert.Equal("function", hovers[0].ElementKind);
-					Assert.Equal("print(Object object) → void", hovers[0].ElementDescription);
-					Assert.Null(hovers[0].PropagatedType);
-					Assert.Null(hovers[0].StaticType);
-					Assert.Null(hovers[0].Parameter);
-				}
+				Assert.Equal(1, hovers.Length);
+				Assert.Equal(17, hovers[0].Offset);
+				Assert.Equal(5, hovers[0].Length);
+				Assert.Equal(SdkFolder + "\\lib\\core\\core.dart", hovers[0].ContainingLibraryPath, StringComparer.OrdinalIgnoreCase);
+				Assert.Equal("dart.core", hovers[0].ContainingLibraryName);
+				Assert.Equal("Prints a string representation of the object to the console.", hovers[0].Dartdoc);
+				Assert.Equal("function", hovers[0].ElementKind);
+				Assert.Equal("print(Object object) → void", hovers[0].ElementDescription);
+				Assert.Null(hovers[0].PropagatedType);
+				Assert.Null(hovers[0].StaticType);
+				Assert.Null(hovers[0].Parameter);
 			}
 		}
 	}
