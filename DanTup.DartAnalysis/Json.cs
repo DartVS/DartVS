@@ -280,7 +280,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum CompletionSuggestionKind
 	{
-		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
+		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, Keyword, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
 	}
 
 	/// <summary>
@@ -343,7 +343,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum ElementKind
 	{
-		Class, ClassTypeAlias, CompilationUnit, Constructor, Getter, Field, Function, FunctionTypeAlias, Library, LocalVariable, Method, Setter, TopLevelVariable, TypeParameter, Unknown, UnitTestGroup, UnitTestTest
+		Class, ClassTypeAlias, CompilationUnit, Constructor, Field, Function, FunctionTypeAlias, Getter, Library, LocalVariable, Method, Parameter, Setter, TopLevelVariable, TypeParameter, UnitTestGroup, UnitTestTest, Unknown
 	}
 
 	/// <summary>
@@ -797,23 +797,6 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	/// <summary>
-	/// A description of a parameter.
-	/// </summary>
-	public class Parameter
-	{
-		/// <summary>
-		/// The type that should be given to the parameter.
-		/// </summary>
-		[JsonProperty("type")]
-		public string Type;
-		/// <summary>
-		/// The name that should be given to the parameter.
-		/// </summary>
-		[JsonProperty("name")]
-		public string Name;
-	}
-
-	/// <summary>
 	/// A position within a file.
 	/// </summary>
 	public class Position
@@ -840,6 +823,51 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 	/// <summary>
+	/// A description of a parameter in a method refactoring.
+	/// </summary>
+	public class RefactoringMethodParameter
+	{
+		/// <summary>
+		/// The unique identifier of the parameter.
+		/// Clients may omit this field for the parameters they want to add.
+		/// </summary>
+		[JsonProperty("id")]
+		public string Id;
+		/// <summary>
+		/// The kind of the parameter.
+		/// </summary>
+		[JsonProperty("kind")]
+		public RefactoringMethodParameterKind Kind;
+		/// <summary>
+		/// The type that should be given to the parameter, or the return type
+		/// of the parameter's function type.
+		/// </summary>
+		[JsonProperty("type")]
+		public string Type;
+		/// <summary>
+		/// The name that should be given to the parameter.
+		/// </summary>
+		[JsonProperty("name")]
+		public string Name;
+		/// <summary>
+		/// The parameter list of the parameter's function type.
+		/// If the parameter is not of a function type, this field will
+		/// not be defined. If the function type has zero parameters, this
+		/// field will have a value of "()".
+		/// </summary>
+		[JsonProperty("parameters")]
+		public string Parameters;
+	}
+
+	/// <summary>
+	/// An enumeration of the kinds of parameters.
+	/// </summary>
+	public enum RefactoringMethodParameterKind
+	{
+		Required, Positional, Named
+	}
+
+	/// <summary>
 	/// A description of a problem related to a refactoring.
 	/// </summary>
 	public class RefactoringProblem
@@ -857,6 +885,9 @@ namespace DanTup.DartAnalysis.Json
 		public string Message;
 		/// <summary>
 		/// The location of the problem being represented.
+		/// This field is omitted unless there is a specific location
+		/// associated with the problem (such as a location where an element
+		/// being renamed will be shadowed).
 		/// </summary>
 		[JsonProperty("location")]
 		public Location Location;
@@ -922,7 +953,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum SearchResultKind
 	{
-		Declaration, Invocation, Read, ReadWrite, Reference, Write
+		Declaration, Invocation, Read, ReadWrite, Reference, Unknown, Write
 	}
 
 	/// <summary>
@@ -985,6 +1016,14 @@ namespace DanTup.DartAnalysis.Json
 		/// </summary>
 		[JsonProperty("replacement")]
 		public string Replacement;
+		/// <summary>
+		/// An identifier that uniquely identifies this source edit from other
+		/// edits in the same response. This field is omitted unless a
+		/// containing structure needs to be able to identify the edit for
+		/// some reason.
+		/// </summary>
+		[JsonProperty("id")]
+		public string Id;
 	}
 
 	/// <summary>
@@ -1295,11 +1334,10 @@ namespace DanTup.DartAnalysis.Json
 	public class EditGetRefactoringRequest
 	{
 		/// <summary>
-		/// The identifier of the kind of refactoring to be
-		/// performed.
+		/// The kind of refactoring to be performed.
 		/// </summary>
-		[JsonProperty("kindId")]
-		public RefactoringKind KindId;
+		[JsonProperty("kind")]
+		public RefactoringKind Kind;
 		/// <summary>
 		/// The file containing the code involved in the
 		/// refactoring.
@@ -1528,8 +1566,8 @@ namespace DanTup.DartAnalysis.Json
 		/// The status of the refactoring. The array will be empty
 		/// if there are no known problems.
 		/// </summary>
-		[JsonProperty("status")]
-		public RefactoringProblem[] Status;
+		[JsonProperty("problems")]
+		public RefactoringProblem[] Problems;
 		/// <summary>
 		/// Data used to provide feedback to the user. The structure
 		/// of the data is dependent on the kind of refactoring
@@ -1542,13 +1580,24 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The changes that are to be applied to affect the
 		/// refactoring. This field will be omitted if there are
-		/// problems that prevent a set of changed from being
+		/// problems that prevent a set of changes from being
 		/// computed, such as having no options specified for a
 		/// refactoring that requires them, or if only validation
 		/// was requested.
 		/// </summary>
 		[JsonProperty("change")]
 		public SourceChange Change;
+		/// <summary>
+		/// The ids of source edits that are not known to be valid. An edit is
+		/// not known to be valid if there was insufficient type information
+		/// for the server to be able to determine whether or not the code
+		/// needs to be modified, such as when a member is being renamed and
+		/// there is a reference to a member from an unknown type. This field
+		/// will be omitted if the change field is omitted or if there are no
+		/// potential edits for the refactoring.
+		/// </summary>
+		[JsonProperty("potentialEdits")]
+		public string[] PotentialEdits;
 	}
 
 	public class DebugCreateContextResponse
