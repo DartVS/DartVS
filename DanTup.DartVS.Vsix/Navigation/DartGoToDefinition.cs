@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Text;
@@ -15,7 +16,7 @@ namespace DanTup.DartVS
 	class DartGoToDefinition : DartOleCommandTarget<VSConstants.VSStd97CmdID>
 	{
 		IDisposable subscription;
-		AnalysisNavigationRegion[] navigationRegions = new AnalysisNavigationRegion[0];
+		NavigationRegion[] navigationRegions = new NavigationRegion[0];
 
 		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd97CmdID.GotoDefn)
@@ -24,7 +25,7 @@ namespace DanTup.DartVS
 			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
 
-		void UpdateNavigationData(AnalysisNavigationEvent notification)
+		void UpdateNavigationData(AnalysisNavigationNotification notification)
 		{
 			navigationRegions = notification.Regions.ToArray();
 		}

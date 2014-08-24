@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using DanTup.DartAnalysis.Json;
 
 namespace DanTup.DartAnalysis
 {
@@ -25,20 +26,20 @@ namespace DanTup.DartAnalysis
 		// (eg. Open Document, which adds a file to Subscriptions, fires before the taggers are created).
 		// This is certainly a big hack; but I think it's better than trying to coordinate setting subscriptions from taggers for now.
 
-		readonly ISubject<ServerStatusEvent> serverStatus = new ReplaySubject<ServerStatusEvent>(TimeSpan.FromSeconds(10));
-		public IObservable<ServerStatusEvent> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
+		readonly ISubject<ServerStatusNotification> serverStatus = new ReplaySubject<ServerStatusNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<ServerStatusNotification> ServerStatusNotification { get { return serverStatus.AsObservable(); } }
 
-		readonly ISubject<AnalysisErrorsEvent> analysisErrors = new ReplaySubject<AnalysisErrorsEvent>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisErrorsEvent> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
+		readonly ISubject<AnalysisErrorsNotification> analysisErrors = new ReplaySubject<AnalysisErrorsNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisErrorsNotification> AnalysisErrorsNotification { get { return analysisErrors.AsObservable(); } }
 
-		readonly ISubject<AnalysisHighlightsEvent> analysisHighlights = new ReplaySubject<AnalysisHighlightsEvent>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisHighlightsEvent> AnalysisHighlightsNotification { get { return analysisHighlights.AsObservable(); } }
+		readonly ISubject<AnalysisHighlightsNotification> analysisHighlights = new ReplaySubject<AnalysisHighlightsNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisHighlightsNotification> AnalysisHighlightsNotification { get { return analysisHighlights.AsObservable(); } }
 
-		readonly ISubject<AnalysisNavigationEvent> analysisNavigation = new ReplaySubject<AnalysisNavigationEvent>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisNavigationEvent> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
+		readonly ISubject<AnalysisNavigationNotification> analysisNavigation = new ReplaySubject<AnalysisNavigationNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisNavigationNotification> AnalysisNavigationNotification { get { return analysisNavigation.AsObservable(); } }
 
-		readonly ISubject<AnalysisOutlineEvent> analysisOutline = new ReplaySubject<AnalysisOutlineEvent>(TimeSpan.FromSeconds(10));
-		public IObservable<AnalysisOutlineEvent> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
+		readonly ISubject<AnalysisOutlineNotification> analysisOutline = new ReplaySubject<AnalysisOutlineNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<AnalysisOutlineNotification> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
 
 		#endregion
 
@@ -55,16 +56,16 @@ namespace DanTup.DartAnalysis
 
 		void HandleEvent(Event notification)
 		{
-			if (notification is Event<ServerStatusEvent>)
-				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusEvent>)notification).@params);
-			else if (notification is Event<AnalysisErrorsEvent>)
-				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsEvent>)notification).@params);
-			else if (notification is Event<AnalysisHighlightsEvent>)
-				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsEvent>)notification).@params);
-			else if (notification is Event<AnalysisNavigationEvent>)
-				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationEvent>)notification).@params);
-			else if (notification is Event<AnalysisOutlineEvent>)
-				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineEvent>)notification).@params);
+			if (notification is Event<ServerStatusNotification>)
+				TryRaiseEvent(serverStatus, () => ((Event<ServerStatusNotification>)notification).@params);
+			else if (notification is Event<AnalysisErrorsNotification>)
+				TryRaiseEvent(analysisErrors, () => ((Event<AnalysisErrorsNotification>)notification).@params);
+			else if (notification is Event<AnalysisHighlightsNotification>)
+				TryRaiseEvent(analysisHighlights, () => ((Event<AnalysisHighlightsNotification>)notification).@params);
+			else if (notification is Event<AnalysisNavigationNotification>)
+				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationNotification>)notification).@params);
+			else if (notification is Event<AnalysisOutlineNotification>)
+				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineNotification>)notification).@params);
 		}
 
 		void TryRaiseEvent<T>(ISubject<T> subject, Func<T> createNotification)

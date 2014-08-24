@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 
@@ -17,7 +18,7 @@ namespace DanTup.DartVS
 			errorProvider = new ErrorListProvider(package);
 		}
 
-		internal void UpdateErrors(AnalysisErrorsEvent errorNotification)
+		internal void UpdateErrors(AnalysisErrorsNotification errorNotification)
 		{
 			errorProvider.SuspendRefresh();
 			RemoveErrorsForFile(errorNotification.File);
@@ -51,8 +52,8 @@ namespace DanTup.DartVS
 			return new ErrorTask
 			{
 				ErrorCategory =
-					analysisError.Severity == AnalysisErrorSeverity.Error ? TaskErrorCategory.Error
-					: analysisError.Severity == AnalysisErrorSeverity.Warning ? TaskErrorCategory.Warning
+					analysisError.Severity == ErrorSeverity.Error ? TaskErrorCategory.Error
+					: analysisError.Severity == ErrorSeverity.Warning ? TaskErrorCategory.Warning
 					: TaskErrorCategory.Message,
 				Text = analysisError.Message,
 				Document = analysisError.Location.File,

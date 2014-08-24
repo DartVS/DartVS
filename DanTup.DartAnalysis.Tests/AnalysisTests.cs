@@ -18,7 +18,7 @@ namespace DanTup.DartAnalysis.Tests
 			{
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
-				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
+				var errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
 				using (analysisCompleteEvent.Connect())
 				{
@@ -32,8 +32,8 @@ namespace DanTup.DartAnalysis.Tests
 					// Ensure the single-error file got the expected error.
 					Assert.Equal(1, errors.Where(e => e.Location.File == SingleTypeErrorFile).Distinct().Count());
 					var error = errors.First(e => e.Location.File == SingleTypeErrorFile);
-					Assert.Equal(AnalysisErrorSeverity.Warning, error.Severity);
-					Assert.Equal(AnalysisErrorType.StaticWarning, error.Type);
+					Assert.Equal(ErrorSeverity.Warning, error.Severity);
+					Assert.Equal(ErrorType.StaticWarning, error.Type);
 					Assert.Equal("The argument type 'int' cannot be assigned to the parameter type 'String'", error.Message);
 				}
 			}
@@ -47,7 +47,7 @@ namespace DanTup.DartAnalysis.Tests
 				var firstAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var secondAnalysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 
-				List<AnalysisError> errors = new List<AnalysisError>(); // Keep track of errors that are reported
+				var errors = new List<AnalysisError>(); // Keep track of errors that are reported
 				using (service.AnalysisErrorsNotification.Subscribe(e => errors.AddRange(e.Errors)))
 				using (firstAnalysisCompleteEvent.Connect())
 				{
@@ -101,7 +101,7 @@ void my_function(String a) {
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
-				List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
+				var regions = new List<HighlightRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
 				using (analysisCompleteEvent.Connect())
 				using (analysisHighlightEvent.Connect())
@@ -118,16 +118,16 @@ void my_function(String a) {
 					Assert.Equal(4, regions.Count);
 					Assert.Equal(0, regions[0].Offset);
 					Assert.Equal(4, regions[0].Length);
-					Assert.Equal(HighlightType.Keyword, regions[0].Type);
+					Assert.Equal(HighlightRegionType.Keyword, regions[0].Type);
 					Assert.Equal(5, regions[1].Offset);
 					Assert.Equal(4, regions[1].Length);
-					Assert.Equal(HighlightType.FunctionDeclaration, regions[1].Type);
+					Assert.Equal(HighlightRegionType.FunctionDeclaration, regions[1].Type);
 					Assert.Equal(17, regions[2].Offset);
 					Assert.Equal(5, regions[2].Length);
-					Assert.Equal(HighlightType.Function, regions[2].Type);
+					Assert.Equal(HighlightRegionType.Function, regions[2].Type);
 					Assert.Equal(23, regions[3].Offset);
 					Assert.Equal(15, regions[3].Length);
-					Assert.Equal(HighlightType.LiteralString, regions[3].Type);
+					Assert.Equal(HighlightRegionType.LiteralString, regions[3].Type);
 				}
 			}
 		}
@@ -140,7 +140,7 @@ void my_function(String a) {
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
 
-				List<AnalysisNavigationRegion> regions = new List<AnalysisNavigationRegion>(); // Keep track of errors that are reported
+				var regions = new List<NavigationRegion>(); // Keep track of errors that are reported
 				using (service.AnalysisNavigationNotification.Subscribe(e => regions.AddRange(e.Regions)))
 				using (analysisCompleteEvent.Connect())
 				using (analysisNavigationEvent.Connect())
@@ -166,10 +166,9 @@ void my_function(String a) {
 					Assert.Equal(6, regions[0].Targets[0].Location.StartColumn);
 					Assert.Equal(ElementKind.Function, regions[0].Targets[0].Kind);
 					Assert.Equal("main", regions[0].Targets[0].Name);
-					Assert.Equal(AnalysisElementFlags.Static, regions[0].Targets[0].Flags);
+					Assert.Equal(AnalysisElementFlags.Static, (AnalysisElementFlags)regions[0].Targets[0].Flags);
 					Assert.Equal("()", regions[0].Targets[0].Parameters);
 					Assert.Equal("void", regions[0].Targets[0].ReturnType);
-					Assert.Null(regions[0].Targets[0].Children);
 
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
@@ -181,10 +180,9 @@ void my_function(String a) {
 					Assert.Equal(6, regions[1].Targets[0].Location.StartColumn);
 					Assert.Equal(ElementKind.Function, regions[1].Targets[0].Kind);
 					Assert.Equal("print", regions[1].Targets[0].Name);
-					Assert.Equal(AnalysisElementFlags.Static, regions[1].Targets[0].Flags);
+					Assert.Equal(AnalysisElementFlags.Static, (AnalysisElementFlags)regions[1].Targets[0].Flags);
 					Assert.Equal("(Object object)", regions[1].Targets[0].Parameters);
 					Assert.Equal("void", regions[1].Targets[0].ReturnType);
-					Assert.Null(regions[1].Targets[0].Children);
 				}
 			}
 		}
@@ -197,7 +195,7 @@ void my_function(String a) {
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				var analysisOutlineEvent = service.AnalysisOutlineNotification.FirstAsync().PublishLast();
 
-				List<AnalysisOutline> outlines = new List<AnalysisOutline>(); // Keep track of errors that are reported
+				var outlines = new List<Outline>(); // Keep track of errors that are reported
 				using (service.AnalysisOutlineNotification.Subscribe(e => outlines.Add(e.Outline)))
 				using (analysisCompleteEvent.Connect())
 				using (analysisOutlineEvent.Connect())
@@ -211,13 +209,13 @@ void my_function(String a) {
 					await analysisOutlineEvent;
 
 					// Ensure it's what we expect
-					var expectedOutline = new AnalysisOutline
+					var expectedOutline = new Outline
 					{
-						Element = new AnalysisElement
+						Element = new Element
 						{
 							Kind = ElementKind.CompilationUnit,
 							Name = "<unit>",
-							Location = new AnalysisLocation
+							Location = new Location
 							{
 								File = HelloWorldFile,
 								Offset = 0,
@@ -225,18 +223,18 @@ void my_function(String a) {
 								StartLine = 1,
 								StartColumn = 1,
 							},
-							Flags = AnalysisElementFlags.None,
+							Flags = (int)AnalysisElementFlags.None, // TODO: Change this if/when Flags is properly typed.
 						},
 						Offset = 0,
 						Length = 45,
 						Children = new[] {
-							new AnalysisOutline
+							new Outline
 							{
-								Element = new AnalysisElement
+								Element = new Element
 								{
 									Kind = ElementKind.Function,
 									Name = "main",
-									Location = new AnalysisLocation
+									Location = new Location
 									{
 										File = HelloWorldFile,
 										Offset = 5,
@@ -244,7 +242,7 @@ void my_function(String a) {
 										StartLine = 1,
 										StartColumn = 6,
 									},
-									Flags = AnalysisElementFlags.Static,
+									Flags = (int)AnalysisElementFlags.Static, // TODO: Change this if/when Flags is properly typed.
 									Parameters = "()",
 									ReturnType = "void"
 								},
@@ -273,7 +271,7 @@ void my_function(String a) {
 				var analysisCompleteEvent = service.ServerStatusNotification.FirstAsync(n => n.Analysis.Analyzing == false).PublishLast();
 				//var analysisHighlightEvent = service.AnalysisHighlightsNotification.FirstAsync().PublishLast();
 
-				//List<AnalysisHighlightRegion> regions = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
+				//var = new List<AnalysisHighlightRegion>(); // Keep track of errors that are reported
 				//using (service.AnalysisHighlightsNotification.Subscribe(e => regions.AddRange(e.Regions)))
 				using (analysisCompleteEvent.Connect())
 				//using (analysisHighlightEvent.Connect())

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -45,8 +46,8 @@ namespace DanTup.DartVS
 		Dispatcher dispatcher;
 
 		IDisposable subscription;
-		AnalysisOutline[] topLevelItems = new AnalysisOutline[0];
-		AnalysisOutline[] secondLevelItems = new AnalysisOutline[0];
+		Outline[] topLevelItems = new Outline[0];
+		Outline[] secondLevelItems = new Outline[0];
 
 		public NavigationDropdown(DartAnalysisService analysisService, string file, IWpfTextView wpfTextView)
 		{
@@ -69,9 +70,9 @@ namespace DanTup.DartVS
 			subscription.Dispose();
 		}
 
-		void UpdateSourceData(AnalysisOutlineEvent notification)
+		void UpdateSourceData(AnalysisOutlineNotification notification)
 		{
-			topLevelItems = (notification.Outline.Children ?? new AnalysisOutline[0]).ToArray();
+			topLevelItems = (notification.Outline.Children ?? new Outline[0]).ToArray();
 
 			SelectTopLevelItemForPosition(wpfTextView.Caret.Position.BufferPosition.Position);
 		}
@@ -103,7 +104,7 @@ namespace DanTup.DartVS
 				if (itemToSelect.Item.Children != null)
 					secondLevelItems = itemToSelect.Item.Children.ToArray();
 				else
-					secondLevelItems = new AnalysisOutline[0];
+					secondLevelItems = new Outline[0];
 				SelectSecondLevelItemForPosition(caretPosition);
 			}
 			else
@@ -131,12 +132,12 @@ namespace DanTup.DartVS
 			((System.Windows.Controls.Control)wpfTextView).Focus();
 		}
 
-		string BuildName(AnalysisOutline outline)
+		string BuildName(Outline outline)
 		{
 			return outline.Element.Parameters == null ? outline.Element.Name : outline.Element.Name + outline.Element.Parameters;
 		}
 
-		int GetImageIndex(AnalysisElement element)
+		int GetImageIndex(Element element)
 		{
 			var index = -1;
 			switch (element.Kind)

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
@@ -26,7 +27,7 @@ namespace DanTup.DartVS
 		}
 	}
 
-	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrorsEvent>
+	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrorsNotification>
 	{
 		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
 			: base(buffer, textDocumentFactory, analysisService)
@@ -40,19 +41,19 @@ namespace DanTup.DartVS
 			// compiler error: blue
 			// other error: purple
 			// warning: red
-			var squiggleType = error.Severity == AnalysisErrorSeverity.Error ? "syntax error"
-				: error.Severity == AnalysisErrorSeverity.Warning ? "compiler error"
+			var squiggleType = error.Severity == ErrorSeverity.Error ? "syntax error"
+				: error.Severity == ErrorSeverity.Warning ? "compiler error"
 				: "other error";
 
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
 
-		protected override IDisposable Subscribe(Action<AnalysisErrorsEvent> updateSourceData)
+		protected override IDisposable Subscribe(Action<AnalysisErrorsNotification> updateSourceData)
 		{
 			return this.analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
-		protected override AnalysisError[] GetDataToTag(AnalysisErrorsEvent notification)
+		protected override AnalysisError[] GetDataToTag(AnalysisErrorsNotification notification)
 		{
 			return notification.Errors.Where(e => e.Location.File == textDocument.FilePath).ToArray();
 		}
