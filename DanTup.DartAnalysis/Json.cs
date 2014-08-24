@@ -1627,6 +1627,11 @@ namespace DanTup.DartAnalysis.Json
 	}
 
 
+	[AnalysisNotification("server.connected")]
+	public class ServerConnectedNotification
+	{
+	}
+
 	[AnalysisNotification("server.error")]
 	public class ServerErrorNotification
 	{
