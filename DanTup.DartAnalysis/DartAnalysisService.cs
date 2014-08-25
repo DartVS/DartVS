@@ -41,6 +41,9 @@ namespace DanTup.DartAnalysis
 		readonly ISubject<AnalysisOutlineNotification> analysisOutline = new ReplaySubject<AnalysisOutlineNotification>(TimeSpan.FromSeconds(10));
 		public IObservable<AnalysisOutlineNotification> AnalysisOutlineNotification { get { return analysisOutline.AsObservable(); } }
 
+		readonly ISubject<CompletionResultsNotification> completionResults = new ReplaySubject<CompletionResultsNotification>(TimeSpan.FromSeconds(10));
+		public IObservable<CompletionResultsNotification> CompletionResultsNotification { get { return completionResults.AsObservable(); } }
+
 		#endregion
 
 		/// <summary>
@@ -66,6 +69,8 @@ namespace DanTup.DartAnalysis
 				TryRaiseEvent(analysisNavigation, () => ((Event<AnalysisNavigationNotification>)notification).@params);
 			else if (notification is Event<AnalysisOutlineNotification>)
 				TryRaiseEvent(analysisOutline, () => ((Event<AnalysisOutlineNotification>)notification).@params);
+			else if (notification is Event<CompletionResultsNotification>)
+				TryRaiseEvent(completionResults, () => ((Event<CompletionResultsNotification>)notification).@params);
 		}
 
 		void TryRaiseEvent<T>(ISubject<T> subject, Func<T> createNotification)
