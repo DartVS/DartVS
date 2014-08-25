@@ -91,23 +91,24 @@ namespace DanTup.DartVS
 			quickInfoContent.Add("Loading...");
 
 			// Fire off a request to the service to get the data.
-			var hoverTask = analysisService.GetHover(filePath, triggerPoint.Value.Position); // Can't await, not-async method :(
-			hoverTask.ContinueWith(hovers =>
-			{
-				// Build the tooltip info if the response was valid.
-				var tooltipData = BuildTooltip(hovers.Result);
-
-				if (!string.IsNullOrWhiteSpace(tooltipData))
+			analysisService
+				.GetHover(filePath, triggerPoint.Value.Position)
+				.ContinueWith(hovers =>
 				{
-					// Stash the data for the next call, and tell VS to reclaculate now that we have the good info.
-					inProgressTooltipData = tooltipData;
-					inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers.Result[0].Offset, hovers.Result[0].Length, SpanTrackingMode.EdgeInclusive);
-					session.Recalculate();
-				}
-				else
-					// Otherwise, no valid response, means no tooltip.
-					session.Dismiss();
-			}, TaskScheduler.FromCurrentSynchronizationContext()); // TODO: Without this, Dismiss doesn't work; but is this a good way to do it?
+					// Build the tooltip info if the response was valid.
+					var tooltipData = BuildTooltip(hovers.Result);
+
+					if (!string.IsNullOrWhiteSpace(tooltipData))
+					{
+						// Stash the data for the next call, and tell VS to reclaculate now that we have the good info.
+						inProgressTooltipData = tooltipData;
+						inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers.Result[0].Offset, hovers.Result[0].Length, SpanTrackingMode.EdgeInclusive);
+						session.Recalculate();
+					}
+					else
+						// Otherwise, no valid response, means no tooltip.
+						session.Dismiss();
+				}, TaskScheduler.FromCurrentSynchronizationContext()); // TODO: Without this, Dismiss doesn't work; but is this a good way to do it?
 		}
 
 		ITrackingSpan GetApplicableToSpan(SnapshotPoint? triggerPoint)
