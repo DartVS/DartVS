@@ -42,16 +42,11 @@ namespace DanTup.DartVS
 			var textDoc = document.Object("") as TextDocument;
 			var fileContents = textDoc.CreateEditPoint().GetText(textDoc.EndPoint);
 
-			var change = new ChangeContentOverlay
+			// TODO: Optimise this to use ChangeContentOverlay on subsequent updates.
+			var change = new AddContentOverlay
 			{
-				Type = "change",
-				Edits = new[] { 
-					new SourceEdit {
-						Offset = 0,
-						Length = int.MaxValue,
-						Replacement = fileContents
-					}
-				}
+				Type = "add",
+				Content = fileContents
 			};
 
 			analysisService.UpdateContent(path, change);
