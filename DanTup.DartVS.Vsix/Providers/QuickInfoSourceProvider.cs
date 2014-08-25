@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
 namespace DanTup.DartVS
@@ -19,11 +21,14 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
+		IBufferTagAggregatorFactoryService tagAggregatorService = null;
+
+		[Import]
 		DartAnalysisService analysisService = null;
 
 		public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer buffer)
 		{
-			return new QuickInfoSource(this, buffer, textDocumentFactory, analysisService);
+			return new QuickInfoSource(this, buffer, textDocumentFactory, tagAggregatorService.CreateTagAggregator<ClassificationTag>(buffer), analysisService);
 		}
 	}
 
@@ -32,13 +37,15 @@ namespace DanTup.DartVS
 		QuickInfoSourceProvider provider;
 		ITextBuffer buffer;
 		ITextDocumentFactoryService textDocumentFactory;
+		ITagAggregator<ClassificationTag> tagAggregator;
 		DartAnalysisService analysisService;
 
-		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
+		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartAnalysisService analysisService)
 		{
 			this.provider = provider;
 			this.buffer = buffer;
 			this.textDocumentFactory = textDocumentFactory;
+			this.tagAggregator = tagAggregator;
 			this.analysisService = analysisService;
 		}
 
@@ -68,6 +75,13 @@ namespace DanTup.DartVS
 
 		void StartTooltipRequest(IQuickInfoSession session, IList<object> quickInfoContent, out ITrackingSpan applicableToSpan, SnapshotPoint? triggerPoint, string filePath)
 		{
+			// Get the span from the Classification data.
+			applicableToSpan = GetApplicableToSpan(triggerPoint);
+
+			// If this position didn't have a classification, then it's uninteresting, and won't have tooltips.
+			if (applicableToSpan == null)
+				return;
+
 			// Set the position so we know what request is in process.
 			inProgressPosition = triggerPoint.Value.Position;
 			inProgressTooltipData = null;
@@ -75,10 +89,6 @@ namespace DanTup.DartVS
 
 			// Put dummy content in tooltip while the request in in-flight.
 			quickInfoContent.Add("Loading...");
-			// Attempt to create a span 1 char left and 1 char right; but within bounds of buffer (otherwise crashes).
-			var start = Math.Max(triggerPoint.Value.Position - 1, 0);
-			var length = Math.Min(triggerPoint.Value.Position + 1, buffer.CurrentSnapshot.Length) - start;
-			applicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(start, length, SpanTrackingMode.EdgeInclusive);
 
 			// Fire off a request to the service to get the data.
 			var hoverTask = analysisService.GetHover(filePath, triggerPoint.Value.Position); // Can't await, not-async method :(
@@ -98,6 +108,18 @@ namespace DanTup.DartVS
 					// Otherwise, no valid response, means no tooltip.
 					session.Dismiss();
 			}, TaskScheduler.FromCurrentSynchronizationContext()); // TODO: Without this, Dismiss doesn't work; but is this a good way to do it?
+		}
+
+		ITrackingSpan GetApplicableToSpan(SnapshotPoint? triggerPoint)
+		{
+			// Attempt to use the Classicification data to get the span
+			var classificationTags = tagAggregator.GetTags(new SnapshotSpan(triggerPoint.Value, 0));
+			var classificationTag = classificationTags.FirstOrDefault();
+
+			if (classificationTag != null)
+				return buffer.CurrentSnapshot.CreateTrackingSpan(classificationTag.Span.GetSpans(this.buffer).First().Span, SpanTrackingMode.EdgeInclusive);
+			else
+				return null; // If something wasn't in the Classifications, then it's not interesting.
 		}
 
 		void UpdateTooltip(IQuickInfoSession session, IList<object> quickInfoContent, out ITrackingSpan applicableToSpan)
