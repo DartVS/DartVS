@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
-using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
@@ -43,42 +42,43 @@ namespace DanTup.DartVS
 			// Mapping of Analysis Server's HighlightRegionTypes to the VS Classifications we wish to give them.
 			classificationMapping = new Dictionary<HighlightRegionType, IClassificationType>
 			{
-				// TODO: Fill all this in!
+				// TODO: Replace any 'Other' with something more appropriate (eg. NaturalLanguage/FormatLanguage or more specific).
+				// NOTE: We must map *everything* here, because Tooltips rely on these tags to calculate applicableTo spans immediately.
 				{ HighlightRegionType.Annotation, typeService.GetClassificationType(PredefinedClassificationTypeNames.SymbolReference) },
 				{ HighlightRegionType.BuiltIn, typeService.GetClassificationType(PredefinedClassificationTypeNames.Keyword) },
 				{ HighlightRegionType.Class, typeService.GetClassificationType(PredefinedClassificationTypeNames.SymbolReference) },
 				{ HighlightRegionType.CommentBlock, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
 				{ HighlightRegionType.CommentDocumentation, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
 				{ HighlightRegionType.CommentEndOfLine, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Constructor, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Directive, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.DynamicType, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Field, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.FieldStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Function, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.FunctionDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.FunctionTypeAlias, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.GetterDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.IdentifierDefault, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.ImportPrefix, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
+				{ HighlightRegionType.Constructor, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.Directive, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.DynamicType, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.Field, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.FieldStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.Function, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.FunctionDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.FunctionTypeAlias, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.GetterDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.IdentifierDefault, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.ImportPrefix, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
 				{ HighlightRegionType.Keyword, typeService.GetClassificationType(PredefinedClassificationTypeNames.Keyword) },
 				{ HighlightRegionType.LiteralBoolean, typeService.GetClassificationType(PredefinedClassificationTypeNames.Keyword) },
 				{ HighlightRegionType.LiteralDouble, typeService.GetClassificationType(PredefinedClassificationTypeNames.Number) },
 				{ HighlightRegionType.LiteralInteger, typeService.GetClassificationType(PredefinedClassificationTypeNames.Number) },
-				//{ HighlightRegionType.LiteralList, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.LiteralMap, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.LiteralString, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.LocalVariable, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.LocalVariableDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Method, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.MethodDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.MethodDeclarationStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.MethodStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.Parameter, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.SetterDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.TopLevelVariable, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.TypeNameDynamic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
-				//{ HighlightRegionType.TypeParameter, typeService.GetClassificationType(PredefinedClassificationTypeNames.Comment) },
+				{ HighlightRegionType.LiteralList, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.LiteralMap, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.LiteralString, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.LocalVariable, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.LocalVariableDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.Method, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.MethodDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.MethodDeclarationStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.MethodStatic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.Parameter, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.SetterDeclaration, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.TopLevelVariable, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.TypeNameDynamic, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
+				{ HighlightRegionType.TypeParameter, typeService.GetClassificationType(PredefinedClassificationTypeNames.Other) },
 			};
 
 			this.Subscribe();
