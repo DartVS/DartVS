@@ -35,12 +35,12 @@ namespace DanTup.DartAnalysis.Json
 		/// The severity of the error.
 		/// </summary>
 		[JsonProperty("severity")]
-		public ErrorSeverity Severity { get; set; }
+		public AnalysisErrorSeverity Severity { get; set; }
 		/// <summary>
 		/// The type of the error.
 		/// </summary>
 		[JsonProperty("type")]
-		public ErrorType Type { get; set; }
+		public AnalysisErrorType Type { get; set; }
 		/// <summary>
 		/// The location associated with the error.
 		/// </summary>
@@ -61,6 +61,40 @@ namespace DanTup.DartAnalysis.Json
 		/// </summary>
 		[JsonProperty("correction")]
 		public string Correction { get; set; }
+	}
+
+	/// <summary>
+	/// A list of fixes associated with a specific error
+	/// </summary>
+	public class AnalysisErrorFixes
+	{
+		/// <summary>
+		/// The error with which the fixes are associated.
+		/// </summary>
+		[JsonProperty("error")]
+		public AnalysisError Error { get; set; }
+		/// <summary>
+		/// The fixes associated with the error.
+		/// </summary>
+		[JsonProperty("fixes")]
+		public SourceChange[] Fixes { get; set; }
+	}
+
+	/// <summary>
+	/// An enumeration of the possible severities of analysis
+	/// errors.
+	/// </summary>
+	public enum AnalysisErrorSeverity
+	{
+		Info, Warning, Error
+	}
+
+	/// <summary>
+	/// An enumeration of the possible types of analysis errors.
+	/// </summary>
+	public enum AnalysisErrorType
+	{
+		Angular, CheckedModeCompileTimeError, CompileTimeError, Hint, Polymer, StaticTypeWarning, StaticWarning, SyntacticError, Todo
 	}
 
 	/// <summary>
@@ -119,8 +153,8 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// True if analysis is currently being performed.
 		/// </summary>
-		[JsonProperty("analyzing")]
-		public bool Analyzing { get; set; }
+		[JsonProperty("isAnalyzing")]
+		public bool IsAnalyzing { get; set; }
 		/// <summary>
 		/// The name of the current target of analysis. This field is
 		/// omitted if analyzing is false.
@@ -225,6 +259,11 @@ namespace DanTup.DartAnalysis.Json
 		[JsonProperty("declaringType")]
 		public string DeclaringType { get; set; }
 		/// <summary>
+		/// Information about the element reference being suggested.
+		/// </summary>
+		[JsonProperty("element")]
+		public Element Element { get; set; }
+		/// <summary>
 		/// The return type of the getter, function or method being
 		/// suggested. This field is omitted if the suggested element
 		/// is not a getter, function or method.
@@ -280,16 +319,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum CompletionSuggestionKind
 	{
-		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, Keyword, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
-	}
-
-	/// <summary>
-	/// An enumeration of the services provided by the debug
-	/// domain.
-	/// </summary>
-	public enum DebugService
-	{
-		LaunchData
+		ArgumentList, Class, ClassAlias, Constructor, Field, Function, FunctionTypeAlias, Getter, Import, Keyword, Label, LibraryPrefix, LocalVariable, Method, MethodName, NamedArgument, OptionalArgument, Parameter, Setter, TopLevelVariable, TypeParameter
 	}
 
 	/// <summary>
@@ -343,66 +373,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum ElementKind
 	{
-		Class, ClassTypeAlias, CompilationUnit, Constructor, Field, Function, FunctionTypeAlias, Getter, Library, LocalVariable, Method, Parameter, Setter, TopLevelVariable, TypeParameter, UnitTestGroup, UnitTestTest, Unknown
-	}
-
-	/// <summary>
-	/// An indication of a problem with the execution of the server,
-	/// typically in response to a request. The error codes that can
-	/// be returned are documented in the section titled Errors.
-	/// </summary>
-	public class Error
-	{
-		/// <summary>
-		/// A code that uniquely identifies the error that occurred.
-		/// </summary>
-		[JsonProperty("code")]
-		public string Code { get; set; }
-		/// <summary>
-		/// A short description of the error.
-		/// </summary>
-		[JsonProperty("message")]
-		public string Message { get; set; }
-		/// <summary>
-		/// Additional data related to the error. This field is
-		/// omitted if there is no additional data available.
-		/// </summary>
-		[JsonProperty("data")]
-		public object Data { get; set; }
-	}
-
-	/// <summary>
-	/// A list of fixes associated with a specific error
-	/// </summary>
-	public class ErrorFixes
-	{
-		/// <summary>
-		/// The error with which the fixes are associated.
-		/// </summary>
-		[JsonProperty("error")]
-		public AnalysisError Error { get; set; }
-		/// <summary>
-		/// The fixes associated with the error.
-		/// </summary>
-		[JsonProperty("fixes")]
-		public SourceChange[] Fixes { get; set; }
-	}
-
-	/// <summary>
-	/// An enumeration of the possible severities of analysis
-	/// errors.
-	/// </summary>
-	public enum ErrorSeverity
-	{
-		Info, Warning, Error
-	}
-
-	/// <summary>
-	/// An enumeration of the possible types of analysis errors.
-	/// </summary>
-	public enum ErrorType
-	{
-		CompileTimeError, Hint, StaticTypeWarning, StaticWarning, SyntacticError, Todo
+		Class, ClassTypeAlias, CompilationUnit, Constructor, Field, Function, FunctionTypeAlias, Getter, Label, Library, LocalVariable, Method, Parameter, Prefix, Setter, TopLevelVariable, TypeParameter, UnitTestGroup, UnitTestTest, Unknown
 	}
 
 	/// <summary>
@@ -416,10 +387,10 @@ namespace DanTup.DartAnalysis.Json
 		[JsonProperty("file")]
 		public string File { get; set; }
 		/// <summary>
-		/// The offset of the region to be highlighted.
+		/// The kind of the executable file.
 		/// </summary>
-		[JsonProperty("offset")]
-		public ExecutableKind Offset { get; set; }
+		[JsonProperty("kind")]
+		public ExecutableKind Kind { get; set; }
 	}
 
 	/// <summary>
@@ -427,7 +398,16 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum ExecutableKind
 	{
-		Client, Either, Server
+		Client, Either, NotExecutable, Server
+	}
+
+	/// <summary>
+	/// An enumeration of the services provided by the execution
+	/// domain.
+	/// </summary>
+	public enum ExecutionService
+	{
+		LaunchData
 	}
 
 	/// <summary>
@@ -489,7 +469,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum HighlightRegionType
 	{
-		Annotation, BuiltIn, Class, CommentBlock, CommentDocumentation, CommentEndOfLine, Constructor, Directive, DynamicType, Field, FieldStatic, Function, FunctionDeclaration, FunctionTypeAlias, GetterDeclaration, IdentifierDefault, ImportPrefix, Keyword, LiteralBoolean, LiteralDouble, LiteralInteger, LiteralList, LiteralMap, LiteralString, LocalVariable, LocalVariableDeclaration, Method, MethodDeclaration, MethodDeclarationStatic, MethodStatic, Parameter, SetterDeclaration, TopLevelVariable, TypeNameDynamic, TypeParameter
+		Annotation, BuiltIn, Class, CommentBlock, CommentDocumentation, CommentEndOfLine, Constructor, Directive, DynamicType, Field, FieldStatic, Function, FunctionDeclaration, FunctionTypeAlias, GetterDeclaration, IdentifierDefault, ImportPrefix, Keyword, Label, LiteralBoolean, LiteralDouble, LiteralInteger, LiteralList, LiteralMap, LiteralString, LocalVariable, LocalVariableDeclaration, Method, MethodDeclaration, MethodDeclarationStatic, MethodStatic, Parameter, SetterDeclaration, TopLevelVariable, TypeNameDynamic, TypeParameter
 	}
 
 	/// <summary>
@@ -514,14 +494,16 @@ namespace DanTup.DartAnalysis.Json
 		/// <summary>
 		/// The path to the defining compilation unit of the library
 		/// in which the referenced element is declared. This data is
-		/// omitted if there is no referenced element.
+		/// omitted if there is no referenced element, or if the
+		/// element is declared inside an HTML file.
 		/// </summary>
 		[JsonProperty("containingLibraryPath")]
 		public string ContainingLibraryPath { get; set; }
 		/// <summary>
 		/// The name of the library in which the referenced element is
 		/// declared. This data is omitted if there is no referenced
-		/// element.
+		/// element, or if the element is declared inside an HTML
+		/// file.
 		/// </summary>
 		[JsonProperty("containingLibraryName")]
 		public string ContainingLibraryName { get; set; }
@@ -530,7 +512,8 @@ namespace DanTup.DartAnalysis.Json
 		/// than the removal of the comment delimiters, including
 		/// leading asterisks in the case of a block comment, the
 		/// dartdoc is unprocessed markdown. This data is omitted if
-		/// there is no referenced element.
+		/// there is no referenced element, or if the element has no
+		/// dartdoc.
 		/// </summary>
 		[JsonProperty("dartdoc")]
 		public string Dartdoc { get; set; }
@@ -819,7 +802,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum RefactoringKind
 	{
-		ConvertGetterToMethod, ConvertMethodToGetter, ExtractLocalVariable, ExtractMethod, InlineLocalVariable, InlineMethod, Rename
+		ConvertGetterToMethod, ConvertMethodToGetter, ExtractLocalVariable, ExtractMethod, InlineLocalVariable, InlineMethod, MoveFile, Rename, SortMembers
 	}
 
 	/// <summary>
@@ -857,6 +840,20 @@ namespace DanTup.DartAnalysis.Json
 		/// </summary>
 		[JsonProperty("parameters")]
 		public string Parameters { get; set; }
+	}
+
+	/// <summary>
+	/// An abstract superclass of all refactoring feedbacks.
+	/// </summary>
+	public class RefactoringFeedback
+	{
+	}
+
+	/// <summary>
+	/// An abstract superclass of all refactoring options.
+	/// </summary>
+	public class RefactoringOptions
+	{
 	}
 
 	/// <summary>
@@ -911,6 +908,39 @@ namespace DanTup.DartAnalysis.Json
 	{
 		[JsonProperty("type")]
 		public string Type { get; set; }
+	}
+
+	/// <summary>
+	/// An indication of a problem with the execution of the server,
+	/// typically in response to a request.
+	/// </summary>
+	public class RequestError
+	{
+		/// <summary>
+		/// A code that uniquely identifies the error that occurred.
+		/// </summary>
+		[JsonProperty("code")]
+		public RequestErrorCode Code { get; set; }
+		/// <summary>
+		/// A short description of the error.
+		/// </summary>
+		[JsonProperty("message")]
+		public string Message { get; set; }
+		/// <summary>
+		/// The stack trace associated with processing the request,
+		/// used for debugging the server.
+		/// </summary>
+		[JsonProperty("stackTrace")]
+		public string StackTrace { get; set; }
+	}
+
+	/// <summary>
+	/// An enumeration of the types of errors that can occur in the
+	/// execution of the server.
+	/// </summary>
+	public enum RequestErrorCode
+	{
+		GetErrorsInvalidFile, InvalidOverlayChange, InvalidParameter, InvalidRequest, ServerAlreadyStarted, ServerError, SortMembersInvalidFile, SortMembersParseErrors, UnanalyzedPriorityFiles, UnknownRequest, UnsupportedFeature
 	}
 
 	/// <summary>
@@ -1036,6 +1066,15 @@ namespace DanTup.DartAnalysis.Json
 		/// </summary>
 		[JsonProperty("file")]
 		public string File { get; set; }
+		/// <summary>
+		/// The modification stamp of the file at the moment when the change
+		/// was created, in milliseconds since the "Unix epoch". Will be -1 if
+		/// the file did not exist and should be created. The client may use
+		/// this field to make sure that the file was not changed since then,
+		/// so it is safe to apply the change.
+		/// </summary>
+		[JsonProperty("fileStamp")]
+		public long FileStamp { get; set; }
 		/// <summary>
 		/// A list of the edits used to effect the change.
 		/// </summary>
@@ -1370,10 +1409,19 @@ namespace DanTup.DartAnalysis.Json
 		/// options are not known.
 		/// </summary>
 		[JsonProperty("options")]
-		public object Options { get; set; }
+		public RefactoringOptions Options { get; set; }
 	}
 
-	public class DebugCreateContextRequest
+	public class EditSortMembersRequest
+	{
+		/// <summary>
+		/// The Dart file to sort.
+		/// </summary>
+		[JsonProperty("file")]
+		public string File { get; set; }
+	}
+
+	public class ExecutionCreateContextRequest
 	{
 		/// <summary>
 		/// The path of the Dart or HTML file that will be launched.
@@ -1382,21 +1430,20 @@ namespace DanTup.DartAnalysis.Json
 		public string ContextRoot { get; set; }
 	}
 
-	public class DebugDeleteContextRequest
+	public class ExecutionDeleteContextRequest
 	{
 		/// <summary>
-		/// The identifier of the debugging context that is to be
-		/// deleted.
+		/// The identifier of the execution context that is to be deleted.
 		/// </summary>
 		[JsonProperty("id")]
 		public string Id { get; set; }
 	}
 
-	public class DebugMapUriRequest
+	public class ExecutionMapUriRequest
 	{
 		/// <summary>
-		/// The identifier of the debugging context in which the URI
-		/// is to be mapped.
+		/// The identifier of the execution context in which the URI is to be
+		/// mapped.
 		/// </summary>
 		[JsonProperty("id")]
 		public string Id { get; set; }
@@ -1412,13 +1459,13 @@ namespace DanTup.DartAnalysis.Json
 		public string Uri { get; set; }
 	}
 
-	public class DebugSetSubscriptionsRequest
+	public class ExecutionSetSubscriptionsRequest
 	{
 		/// <summary>
 		/// A list of the services being subscribed to.
 		/// </summary>
 		[JsonProperty("subscriptions")]
-		public DebugService[] Subscriptions { get; set; }
+		public ExecutionService[] Subscriptions { get; set; }
 	}
 
 
@@ -1547,27 +1594,37 @@ namespace DanTup.DartAnalysis.Json
 	public class EditGetFixesResponse
 	{
 		/// <summary>
-		/// The fixes that are available for each of the analysis
-		/// errors. There is a one-to-one correspondence between the
-		/// analysis errors in the request and the lists of changes
-		/// in the response. In particular, it is always the case
-		/// that errors.length == fixes.length and that fixes[i] is
-		/// the list of fixes for the error in errors[i]. The list
-		/// of changes corresponding to an error can be empty if
-		/// there are no fixes available for that error.
+		/// The fixes that are available for the errors at the given offset.
 		/// </summary>
 		[JsonProperty("fixes")]
-		public ErrorFixes[] Fixes { get; set; }
+		public AnalysisErrorFixes[] Fixes { get; set; }
 	}
 
 	public class EditGetRefactoringResponse
 	{
 		/// <summary>
-		/// The status of the refactoring. The array will be empty
-		/// if there are no known problems.
+		/// The initial status of the refactoring, i.e. problems related to
+		/// the context in which the refactoring is requested.
+		/// The array will be empty if there are no known problems.
 		/// </summary>
-		[JsonProperty("problems")]
-		public RefactoringProblem[] Problems { get; set; }
+		[JsonProperty("initialProblems")]
+		public RefactoringProblem[] InitialProblems { get; set; }
+		/// <summary>
+		/// The options validation status, i.e. problems in the given options,
+		/// such as light-weight validation of a new name, flags
+		/// compatibility, etc.
+		/// The array will be empty if there are no known problems.
+		/// </summary>
+		[JsonProperty("optionsProblems")]
+		public RefactoringProblem[] OptionsProblems { get; set; }
+		/// <summary>
+		/// The final status of the refactoring, i.e. problems identified in
+		/// the result of a full, potentially expensive validation and / or
+		/// change creation.
+		/// The array will be empty if there are no known problems.
+		/// </summary>
+		[JsonProperty("finalProblems")]
+		public RefactoringProblem[] FinalProblems { get; set; }
 		/// <summary>
 		/// Data used to provide feedback to the user. The structure
 		/// of the data is dependent on the kind of refactoring
@@ -1576,7 +1633,7 @@ namespace DanTup.DartAnalysis.Json
 		/// “Feedback”.
 		/// </summary>
 		[JsonProperty("feedback")]
-		public object Feedback { get; set; }
+		public RefactoringFeedback Feedback { get; set; }
 		/// <summary>
 		/// The changes that are to be applied to affect the
 		/// refactoring. This field will be omitted if there are
@@ -1600,27 +1657,37 @@ namespace DanTup.DartAnalysis.Json
 		public string[] PotentialEdits { get; set; }
 	}
 
-	public class DebugCreateContextResponse
+	public class EditSortMembersResponse
 	{
 		/// <summary>
-		/// The identifier used to refer to the debugging context
-		/// that was created.
+		/// The file edit that is to be applied to the given file to effect
+		/// the sorting.
+		/// </summary>
+		[JsonProperty("edit")]
+		public SourceFileEdit Edit { get; set; }
+	}
+
+	public class ExecutionCreateContextResponse
+	{
+		/// <summary>
+		/// The identifier used to refer to the execution context that was
+		/// created.
 		/// </summary>
 		[JsonProperty("id")]
 		public string Id { get; set; }
 	}
 
-	public class DebugMapUriResponse
+	public class ExecutionMapUriResponse
 	{
 		/// <summary>
-		/// The file to which the URI was mapped. This field is
-		/// omitted if the uri field was not given in the request.
+		/// The file to which the URI was mapped. This field is omitted if the
+		/// uri field was not given in the request.
 		/// </summary>
 		[JsonProperty("file")]
 		public string File { get; set; }
 		/// <summary>
-		/// The URI to which the file path was mapped. This field is
-		/// omitted if the file field was not given in the request.
+		/// The URI to which the file path was mapped. This field is omitted
+		/// if the file field was not given in the request.
 		/// </summary>
 		[JsonProperty("uri")]
 		public string Uri { get; set; }
@@ -1640,8 +1707,8 @@ namespace DanTup.DartAnalysis.Json
 		/// server will shutdown automatically after sending this
 		/// notification.
 		/// </summary>
-		[JsonProperty("fatal")]
-		public bool Fatal { get; set; }
+		[JsonProperty("isFatal")]
+		public bool IsFatal { get; set; }
 		/// <summary>
 		/// The error message indicating what kind of error was
 		/// encountered.
@@ -1837,8 +1904,8 @@ namespace DanTup.DartAnalysis.Json
 		/// True if this is that last set of results that will be
 		/// returned for the indicated completion.
 		/// </summary>
-		[JsonProperty("last")]
-		public bool Last { get; set; }
+		[JsonProperty("isLast")]
+		public bool IsLast { get; set; }
 	}
 
 	[AnalysisNotification("search.results")]
@@ -1858,33 +1925,31 @@ namespace DanTup.DartAnalysis.Json
 		/// True if this is that last set of results that will be
 		/// returned for the indicated search.
 		/// </summary>
-		[JsonProperty("last")]
-		public bool Last { get; set; }
+		[JsonProperty("isLast")]
+		public bool IsLast { get; set; }
 	}
 
-	[AnalysisNotification("debug.launchData")]
-	public class DebugLaunchDataNotification
+	[AnalysisNotification("execution.launchData")]
+	public class ExecutionLaunchDataNotification
 	{
 		/// <summary>
-		/// A list of the files that are executable in the given
-		/// context. This list replaces any previous list provided
-		/// for the given context.
+		/// The file for which launch data is being provided. This will either
+		/// be a Dart library or an HTML file.
 		/// </summary>
-		[JsonProperty("executables")]
-		public ExecutableFile[] Executables { get; set; }
+		[JsonProperty("file")]
+		public string File { get; set; }
 		/// <summary>
-		/// A mapping from the paths of Dart files that are
-		/// referenced by HTML files to a list of the HTML files
-		/// that reference the Dart files.
+		/// The kind of the executable file. This field is omitted if the file
+		/// is not a Dart file.
 		/// </summary>
-		[JsonProperty("dartToHtml")]
-		public Dictionary<string, string[]> DartToHtml { get; set; }
+		[JsonProperty("kind")]
+		public ExecutableKind Kind { get; set; }
 		/// <summary>
-		/// A mapping from the paths of HTML files that reference
-		/// Dart files to a list of the Dart files they reference.
+		/// A list of the Dart files that are referenced by the file. This
+		/// field is omitted if the file is not an HTML file.
 		/// </summary>
-		[JsonProperty("htmlToDart")]
-		public Dictionary<string, string[]> HtmlToDart { get; set; }
+		[JsonProperty("referencedFiles")]
+		public string[] ReferencedFiles { get; set; }
 	}
 
 

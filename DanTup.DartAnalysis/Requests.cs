@@ -184,37 +184,46 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	[AnalysisMethod("debug.createContext")]
-	public class DebugCreateContext : Request<DebugCreateContextRequest, Response<DebugCreateContextResponse>>
+	[AnalysisMethod("edit.sortMembers")]
+	public class EditSortMembers : Request<EditSortMembersRequest, Response<EditSortMembersResponse>>
 	{
-		public DebugCreateContext(DebugCreateContextRequest @params)
+		public EditSortMembers(EditSortMembersRequest @params)
 			: base(@params)
 		{
 		}
 	}
 
-	[AnalysisMethod("debug.deleteContext")]
-	public class DebugDeleteContext : Request<DebugDeleteContextRequest, Response>
+	[AnalysisMethod("execution.createContext")]
+	public class ExecutionCreateContext : Request<ExecutionCreateContextRequest, Response<ExecutionCreateContextResponse>>
 	{
-		public DebugDeleteContext(DebugDeleteContextRequest @params)
+		public ExecutionCreateContext(ExecutionCreateContextRequest @params)
 			: base(@params)
 		{
 		}
 	}
 
-	[AnalysisMethod("debug.mapUri")]
-	public class DebugMapUri : Request<DebugMapUriRequest, Response<DebugMapUriResponse>>
+	[AnalysisMethod("execution.deleteContext")]
+	public class ExecutionDeleteContext : Request<ExecutionDeleteContextRequest, Response>
 	{
-		public DebugMapUri(DebugMapUriRequest @params)
+		public ExecutionDeleteContext(ExecutionDeleteContextRequest @params)
 			: base(@params)
 		{
 		}
 	}
 
-	[AnalysisMethod("debug.setSubscriptions")]
-	public class DebugSetSubscriptions : Request<DebugSetSubscriptionsRequest, Response>
+	[AnalysisMethod("execution.mapUri")]
+	public class ExecutionMapUri : Request<ExecutionMapUriRequest, Response<ExecutionMapUriResponse>>
 	{
-		public DebugSetSubscriptions(DebugSetSubscriptionsRequest @params)
+		public ExecutionMapUri(ExecutionMapUriRequest @params)
+			: base(@params)
+		{
+		}
+	}
+
+	[AnalysisMethod("execution.setSubscriptions")]
+	public class ExecutionSetSubscriptions : Request<ExecutionSetSubscriptionsRequest, Response>
+	{
+		public ExecutionSetSubscriptions(ExecutionSetSubscriptionsRequest @params)
 			: base(@params)
 		{
 		}
