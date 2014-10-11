@@ -52,8 +52,8 @@ namespace DanTup.DartVS
 			return new ErrorTask
 			{
 				ErrorCategory =
-					analysisError.Severity == ErrorSeverity.Error ? TaskErrorCategory.Error
-					: analysisError.Severity == ErrorSeverity.Warning ? TaskErrorCategory.Warning
+					analysisError.Severity == AnalysisErrorSeverity.Error ? TaskErrorCategory.Error
+					: analysisError.Severity == AnalysisErrorSeverity.Warning ? TaskErrorCategory.Warning
 					: TaskErrorCategory.Message,
 				Text = analysisError.Message,
 				Document = analysisError.Location.File,

@@ -89,7 +89,7 @@ namespace DanTup.DartVS
 			}
 
 			// If we were notified that this was the last set of results; remove the subscription.
-			if (results.Last)
+			if (results.IsLast)
 				subscription.Dispose();
 		}
 

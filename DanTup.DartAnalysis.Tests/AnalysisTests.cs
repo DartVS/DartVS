@@ -40,8 +40,8 @@ namespace DanTup.DartAnalysis.Tests
 							StartColumn = 15,
 							StartLine = 2
 						},
-						Severity = ErrorSeverity.Warning,
-						Type = ErrorType.StaticWarning,
+						Severity = AnalysisErrorSeverity.Warning,
+						Type = AnalysisErrorType.StaticWarning,
 						Message = "The argument type 'int' cannot be assigned to the parameter type 'String'"
 					};
 

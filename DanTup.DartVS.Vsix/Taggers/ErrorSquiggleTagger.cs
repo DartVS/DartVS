@@ -41,8 +41,8 @@ namespace DanTup.DartVS
 			// compiler error: blue
 			// other error: purple
 			// warning: red
-			var squiggleType = error.Severity == ErrorSeverity.Error ? "syntax error"
-				: error.Severity == ErrorSeverity.Warning ? "compiler error"
+			var squiggleType = error.Severity == AnalysisErrorSeverity.Error ? "syntax error"
+				: error.Severity == AnalysisErrorSeverity.Warning ? "compiler error"
 				: "other error";
 
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
