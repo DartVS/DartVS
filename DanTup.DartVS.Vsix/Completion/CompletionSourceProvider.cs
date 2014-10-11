@@ -63,9 +63,8 @@ namespace DanTup.DartVS
 
 			Task.Run(async () =>
 			{
-				await Task.Delay(1000);
+				await Task.Delay(1000); // Wait 1s
 				completions.Add(new Completion("Danny"));
-				session.Start();
 			});
 
 			//// Kick of async request to update the results.
