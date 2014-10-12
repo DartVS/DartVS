@@ -55,7 +55,7 @@ Feedback
 ===
 Please send your feedback/issues/feature requests! :-)
 
-- GitHub Issues: [DartVS/issues](https://github.com/DanTup/DartVS/issues)
+- GitHub Issues: [DartVS/issues](https://github.com/DartVS/DartVS/issues)
 - Twitter: [@DanTup](https://twitter.com/DanTup)
 - Google+: [Danny Tuppeny](http://profile.dantup.com/)
 - Email: [danny+dartvs@tuppeny.com](mailto:danny+dartvs@tuppeny.com)
