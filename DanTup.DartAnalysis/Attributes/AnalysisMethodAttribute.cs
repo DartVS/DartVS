@@ -2,9 +2,10 @@
 
 namespace DanTup.DartAnalysis
 {
-	class AnalysisMethodAttribute : Attribute
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+	internal class AnalysisMethodAttribute : Attribute
 	{
-		public string Name { get; set; }
+		public string Name { get; private set; }
 
 		public AnalysisMethodAttribute(string name)
 		{
