@@ -15,7 +15,7 @@ namespace DanTup.DartVS
 				if (classes == null)
 					return;
 
-				AddIcon(classes, "Package.ico", ".dart");
+				AddIcon(classes, "Dart.ico", ".dart");
 			}
 		}
 
