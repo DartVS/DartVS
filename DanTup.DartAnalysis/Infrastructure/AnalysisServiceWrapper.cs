@@ -17,6 +17,8 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	class AnalysisServiceWrapper : IDisposable
 	{
+		static readonly ConcurrentDictionary<Type, string> AnalysisMethodNames = new ConcurrentDictionary<Type, string>();
+
 		static long id = 0;
 		readonly StdIOService service;
 		readonly Action<Event> eventHandler;
@@ -37,6 +39,11 @@ namespace DanTup.DartAnalysis
 				.ToDictionary(t => t.NotificationName.Name, t => t.Type);
 
 			KnownEventTypes = new ReadOnlyDictionary<string, Type>(types);
+		}
+
+		static string GetAnalysisMethodName(Type type)
+		{
+			return type.GetCustomAttribute<AnalysisMethodAttribute>(false).Name;
 		}
 
 		/// <summary>
@@ -62,7 +69,7 @@ namespace DanTup.DartAnalysis
 			// Create a unique ID for this request.
 			var requestID = Interlocked.Increment(ref id).ToString();
 			request.ID = requestID;
-			request.Method = request.GetType().GetCustomAttributes(typeof(AnalysisMethodAttribute), false).Cast<AnalysisMethodAttribute>().Single().Name;
+			request.Method = AnalysisMethodNames.GetOrAdd(request.GetType(), GetAnalysisMethodName);
 
 			// Create a TCS and stash it so it can be completed when the response comes through.
 			var task = new TaskCompletionSource<string>();
