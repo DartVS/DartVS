@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
-using EnvDTE;
-using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
@@ -26,8 +24,6 @@ namespace DanTup.DartVS
 		[Import]
 		IVsEditorAdaptersFactoryService editorAdapterFactory = null;
 
-		static DTE2 dte;
-
 		DartErrorListProvider errorProvider;
 
 		// TODO: Handle file renames properly (errors stick around)
@@ -37,14 +33,12 @@ namespace DanTup.DartVS
 		{
 			base.Initialize();
 
-			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
-
 			// Force initialisation of [Imports] on this class.
 			var componentModel = GetService(typeof(SComponentModel)) as IComponentModel;
 			componentModel.DefaultCompositionService.SatisfyImportsOnce(this);
 
 			// Wire up the Error Provider to the notifications from the service.
-			errorProvider = new DartErrorListProvider(dte, this);
+			errorProvider = new DartErrorListProvider(this);
 			analysisService.AnalysisErrorsNotification.Subscribe(errorProvider.UpdateErrors);
 
 			// Register icons so they show in the solution explorer nicely.
@@ -56,17 +50,6 @@ namespace DanTup.DartVS
 		protected override void Dispose(bool disposing)
 		{
 			analysisService.Dispose();
-		}
-
-		internal static DTE2 DTE
-		{
-			get
-			{
-				if (dte == null)
-					dte = ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE2;
-
-				return dte;
-			}
 		}
 
 		public static T GetGlobalService<T>(Type type = null) where T : class

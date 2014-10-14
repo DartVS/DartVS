@@ -2,19 +2,16 @@
 using System.Linq;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
-using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 
 namespace DanTup.DartVS
 {
 	internal class DartErrorListProvider
 	{
-		DTE dte;
 		ErrorListProvider errorProvider;
 
-		internal DartErrorListProvider(DTE dte, DartPackage package)
+		internal DartErrorListProvider(DartPackage package)
 		{
-			this.dte = dte;
 			errorProvider = new ErrorListProvider(package);
 		}
 

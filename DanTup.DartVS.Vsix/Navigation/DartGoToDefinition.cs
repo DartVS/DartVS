@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Threading;
-using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -15,12 +13,15 @@ namespace DanTup.DartVS
 {
 	class DartGoToDefinition : DartOleCommandTarget<VSConstants.VSStd97CmdID>
 	{
+		SVsServiceProvider serviceProvider;
 		IDisposable subscription;
 		NavigationRegion[] navigationRegions = new NavigationRegion[0];
 
-		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
+		public DartGoToDefinition(SVsServiceProvider serviceProvider, ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd97CmdID.GotoDefn)
 		{
+			this.serviceProvider = serviceProvider;
+
 			// Subscribe to outline updates for this file.
 			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
@@ -42,7 +43,7 @@ namespace DanTup.DartVS
 				var file = target.Location.File;
 				var position = target.Location.Offset;
 
-				Helpers.OpenFileInPreviewTab(file);
+				Helpers.OpenFileInPreviewTab(serviceProvider, file);
 				Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
 				{
 					try
