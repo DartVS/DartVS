@@ -11,10 +11,10 @@ using Microsoft.VisualStudio.Text;
 
 namespace DanTup.DartVS
 {
-	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", "0.5")]
+	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", DartConstants.InstalledProductVersion)]
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-	[ProvideLanguageService(typeof(DartLanguageInfo), "Dart", 100)]
-	[ProvideLanguageExtension(typeof(DartLanguageInfo), ".dart")]
+	[ProvideLanguageService(typeof(DartLanguageInfo), DartConstants.LanguageName, 100)]
+	[ProvideLanguageExtension(typeof(DartLanguageInfo), DartConstants.FileExtension)]
 	public sealed class DartPackage : Package
 	{
 		[Import]

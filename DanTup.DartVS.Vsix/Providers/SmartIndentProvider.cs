@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(ISmartIndentProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	class SmartIndentProvider : ISmartIndentProvider
 	{
 		public ISmartIndent CreateSmartIndent(ITextView textView)

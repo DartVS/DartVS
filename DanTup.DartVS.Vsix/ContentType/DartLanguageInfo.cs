@@ -32,13 +32,13 @@ namespace DanTup.DartVS
 
 		public int GetFileExtensions(out string pbstrExtensions)
 		{
-			pbstrExtensions = ".dart";
+			pbstrExtensions = DartConstants.FileExtension;
 			return VSConstants.S_OK;
 		}
 
 		public int GetLanguageName(out string bstrName)
 		{
-			bstrName = "Dart";
+			bstrName = DartConstants.LanguageName;
 			return VSConstants.S_OK;
 		}
 	}

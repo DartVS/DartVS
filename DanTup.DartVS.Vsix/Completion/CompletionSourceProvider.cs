@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(ICompletionSourceProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[Name("Dart Completion")]
 	class CompletionSourceProvider : ICompletionSourceProvider
 	{

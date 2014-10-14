@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(ITaggerProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[TagType(typeof(ClassificationTag))]
 	internal sealed class ClassificationTagProvider : ITaggerProvider
 	{

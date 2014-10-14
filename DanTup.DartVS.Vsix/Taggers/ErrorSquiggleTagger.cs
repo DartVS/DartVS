@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(ITaggerProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[TagType(typeof(ErrorTag))]
 	internal sealed class ErrorSquiggleTagProvider : ITaggerProvider
 	{

@@ -14,7 +14,7 @@ using File = System.IO.File;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IVsTextViewCreationListener))]
-	[ContentType("Dart")]
+	[ContentType(DartConstants.ContentType)]
 	[TextViewRole(PredefinedTextViewRoles.Editable)]
 	internal class DartFileChangeTracker : IVsTextViewCreationListener, IObserver<ITextSnapshot>
 	{
@@ -35,7 +35,7 @@ namespace DanTup.DartVS
 				return;
 
 			ITextBuffer documentBuffer = textView.TextDataModel.DocumentBuffer;
-			if (!documentBuffer.ContentType.IsOfType("Dart"))
+			if (!documentBuffer.ContentType.IsOfType(DartConstants.ContentType))
 				return;
 
 			documentBuffer.Properties.GetOrCreateSingletonProperty(typeof(DartFileChangeTracker), () => CreateBufferChangeListener(documentBuffer));

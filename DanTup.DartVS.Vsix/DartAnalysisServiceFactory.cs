@@ -38,9 +38,8 @@ namespace DanTup.DartVS
 			string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
 			if (!Directory.Exists(result))
 			{
-				// TODO: These should be updated to reference shared constants
 				string extensionName = "DartVS";
-				string extensionVersion = "0.5";
+				string extensionVersion = AssemblyInfo.AssemblyInformationalVersion;
 				string tempDir = Path.Combine(Path.GetTempPath(), string.Format("{0}-{1}-sdk", extensionName, extensionVersion));
 				result = Path.Combine(tempDir, "dart-sdk");
 				if (!Directory.Exists(result))

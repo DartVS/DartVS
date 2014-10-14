@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IIntellisenseControllerProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	class QuickInfoControllerProvider : IIntellisenseControllerProvider
 	{
 		[Import]

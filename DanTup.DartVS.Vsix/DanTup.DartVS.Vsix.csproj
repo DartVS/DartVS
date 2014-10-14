@@ -199,6 +199,7 @@
   <ItemGroup>
     <Compile Include="ContentType\DartLanguageInfo.cs" />
     <Compile Include="DartAnalysisServiceFactory.cs" />
+    <Compile Include="DartConstants.cs" />
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartOleCommandTarget.cs" />

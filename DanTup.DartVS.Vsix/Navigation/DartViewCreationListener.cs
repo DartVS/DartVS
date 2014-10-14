@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IVsTextViewCreationListener))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[TextViewRole(PredefinedTextViewRoles.Document)]
 	class DartViewCreationListener : IVsTextViewCreationListener
 	{

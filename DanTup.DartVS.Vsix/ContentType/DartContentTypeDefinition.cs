@@ -5,19 +5,17 @@ namespace DanTup.DartVS
 {
 	class DartContentTypeDefinition
 	{
-		public const string DartContentType = "Dart";
-
 		/// <summary>
 		/// Exports the Dart content type
 		/// </summary>
 		[Export(typeof(ContentTypeDefinition))]
-		[Name(DartContentType)]
+		[Name(DartConstants.ContentType)]
 		[BaseDefinition("code")]
 		public ContentTypeDefinition IDartContentType { get; set; }
 
 		[Export(typeof(FileExtensionToContentTypeDefinition))]
-		[ContentType(DartContentType)]
-		[FileExtension(".dart")]
+		[ContentType(DartConstants.ContentType)]
+		[FileExtension(DartConstants.FileExtension)]
 		public FileExtensionToContentTypeDefinition DartFileExtension { get; set; }
 	}
 }

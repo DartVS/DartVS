@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IQuickInfoSourceProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[Name("Dart Quick")]
 	class QuickInfoSourceProvider : IQuickInfoSourceProvider
 	{

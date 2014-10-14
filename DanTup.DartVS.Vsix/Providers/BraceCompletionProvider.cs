@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IBraceCompletionDefaultProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[BracePair('{', '}')]
 	[BracePair('(', ')')]
 	[BracePair('[', ']')]

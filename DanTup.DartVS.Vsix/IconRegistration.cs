@@ -15,7 +15,7 @@ namespace DanTup.DartVS
 				if (classes == null)
 					return;
 
-				AddIcon(classes, "Dart.ico", ".dart");
+				AddIcon(classes, "Dart.ico", DartConstants.FileExtension);
 			}
 		}
 
