@@ -50,11 +50,11 @@ namespace DanTup.DartVS
 
 					using (HttpClient httpClient = new HttpClient())
 					{
-						using (Stream stream = await httpClient.GetStreamAsync("https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip"))
+						using (Stream stream = await httpClient.GetStreamAsync("https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip").ConfigureAwait(false))
 						{
 							using (var outputStream = File.OpenWrite(compressed))
 							{
-								await stream.CopyToAsync(outputStream);
+								await stream.CopyToAsync(outputStream).ConfigureAwait(false);
 							}
 						}
 					}
