@@ -12,7 +12,7 @@ namespace DanTup.DartVS
 	// Borrowed from WebEssentials...
 	static class Helpers
 	{
-		public static void OpenFileInPreviewTab(string file)
+		public static void OpenFileInPreviewTab(IServiceProvider serviceProvider, string file)
 		{
 			IVsNewDocumentStateContext newDocumentStateContext = null;
 
@@ -23,7 +23,7 @@ namespace DanTup.DartVS
 				Guid reason = VSConstants.NewDocumentStateReason.Navigation;
 				newDocumentStateContext = openDoc3.SetNewDocumentState((uint)__VSNEWDOCUMENTSTATE.NDS_Provisional, ref reason);
 
-				DartPackage.DTE.ItemOperations.OpenFile(file);
+				VsShellUtilities.OpenDocument(serviceProvider, file);
 			}
 			finally
 			{

@@ -20,7 +20,7 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
-		DartAnalysisService analysisService = null;
+		DartVsAnalysisService analysisService = null;
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
@@ -30,7 +30,7 @@ namespace DanTup.DartVS
 
 	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrorsNotification>
 	{
-		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
+		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService)
 			: base(buffer, textDocumentFactory, analysisService)
 		{
 			this.Subscribe();

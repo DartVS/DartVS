@@ -39,7 +39,7 @@ namespace DanTup.DartVS
 
 
 		IVsDropdownBar dropdown;
-		DartAnalysisService analysisService;
+		DartVsAnalysisService analysisService;
 		string file;
 		IWpfTextView wpfTextView;
 
@@ -49,7 +49,7 @@ namespace DanTup.DartVS
 		Outline[] topLevelItems = new Outline[0];
 		Outline[] secondLevelItems = new Outline[0];
 
-		public NavigationDropdown(DartAnalysisService analysisService, string file, IWpfTextView wpfTextView)
+		public NavigationDropdown(DartVsAnalysisService analysisService, string file, IWpfTextView wpfTextView)
 		{
 			this.analysisService = analysisService;
 			this.file = file;

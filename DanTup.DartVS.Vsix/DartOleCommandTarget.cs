@@ -16,11 +16,11 @@ namespace DanTup.DartVS
 		protected IWpfTextView textView;
 		protected ITextDocument textDocument;
 		protected IOleCommandTarget nextCommandTarget;
-		protected DartAnalysisService analysisService;
+		protected DartVsAnalysisService analysisService;
 
 		uint[] commandIDs;
 
-		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService, params T[] commandIDs)
+		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService, params T[] commandIDs)
 		{
 			this.textViewAdapter = textViewAdapter;
 			this.textView = textView;

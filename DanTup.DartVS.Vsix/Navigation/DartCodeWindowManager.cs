@@ -12,10 +12,10 @@ namespace DanTup.DartVS
 		IVsDropdownBarManager barManager;
 		IWpfTextView wpfTextView;
 		ITextDocument textDocument;
-		DartAnalysisService analysisService;
+		DartVsAnalysisService analysisService;
 		NavigationDropdown dropdown;
 
-		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, IVsCodeWindow codeWindow, DartAnalysisService analysisService)
+		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, IVsCodeWindow codeWindow, DartVsAnalysisService analysisService)
 		{
 			this.barManager = ((IVsDropdownBarManager)codeWindow);
 			this.analysisService = analysisService;

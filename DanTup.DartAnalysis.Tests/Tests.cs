@@ -11,7 +11,7 @@ namespace DanTup.DartAnalysis.Tests
 		protected string SdkFolder
 		{
 			// Hijack ENV-reading property
-			get { return DanTup.DartVS.DartAnalysisService.SdkPath; }
+			get { return DanTup.DartVS.DartVsAnalysisService.SdkPath; }
 		}
 
 		string CodebaseRoot = Path.GetFullPath(new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), @"..\..\..\")).AbsolutePath); // up out of debug, bin, Tests

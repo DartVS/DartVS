@@ -9,7 +9,7 @@ namespace DanTup.DartVS
 {
 	class DartFormatDocument : DartOleCommandTarget<VSConstants.VSStd2KCmdID>
 	{
-		public DartFormatDocument(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
+		public DartFormatDocument(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd2KCmdID.FORMATDOCUMENT)
 		{
 		}
@@ -22,7 +22,7 @@ namespace DanTup.DartVS
 
 			// Call the formatter.
 			string formattedFileContents;
-			using (var formatter = new DartFormatter(DartAnalysisService.SdkPath))
+			using (var formatter = new DartFormatter(DartVsAnalysisService.SdkPath))
 				formattedFileContents = formatter.FormatText(fileContents);
 
 			// Create a span that is the entire document, since we're going to replace it.
