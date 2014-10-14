@@ -9,9 +9,9 @@ namespace DanTup.DartVS
 	{
 		ITextDocumentFactoryService textDocumentFactory;
 		IVsEditorAdaptersFactoryService editorAdapterFactory;
-		DartAnalysisService analysisService;
+		DartVsAnalysisService analysisService;
 
-		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartAnalysisService analysisService)
+		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartVsAnalysisService analysisService)
 		{
 			this.textDocumentFactory = textDocumentFactory;
 			this.editorAdapterFactory = editorAdapterFactory;

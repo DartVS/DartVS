@@ -13,7 +13,7 @@ namespace DanTup.DartVS
 	/// </summary>
 	[PartCreationPolicy(CreationPolicy.Shared)]
 	[Export]
-	public class DartAnalysisService : DartAnalysis.DartAnalysisService
+	public class DartVsAnalysisService : DartAnalysis.DartAnalysisService
 	{
 		readonly DartProjectTracker projectTracker;
 		readonly OpenFileTracker openFileTracker;
@@ -27,7 +27,7 @@ namespace DanTup.DartVS
 		public static readonly string AnalysisServerScript = Path.Combine(ExtensionFolder, @"AnalysisServer.dart");
 
 		[ImportingConstructor]
-		public DartAnalysisService([Import]DartProjectTracker projectTracker, [Import]OpenFileTracker openFileTracker)
+		public DartVsAnalysisService([Import]DartProjectTracker projectTracker, [Import]OpenFileTracker openFileTracker)
 			: base(SdkPath, AnalysisServerScript)
 		{
 			this.projectTracker = projectTracker;

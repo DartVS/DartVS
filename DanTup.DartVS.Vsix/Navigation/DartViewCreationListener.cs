@@ -23,7 +23,7 @@ namespace DanTup.DartVS
 		ICompletionBroker completionBroker = null;
 
 		[Import]
-		DartAnalysisService analysisService = null;
+		DartVsAnalysisService analysisService = null;
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
 		{

@@ -145,11 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentType\DartLanguageInfo.cs" />
-    <Compile Include="DartAnalysisService.cs" />
     <Compile Include="DartErrorListProvider.cs" />
     <Compile Include="DartFileChangeTracker.cs" />
     <Compile Include="DartOleCommandTarget.cs" />
     <Compile Include="DartProjectInfo.cs" />
+    <Compile Include="DartVsAnalysisService.cs" />
     <Compile Include="Formatting\DartFormatDocument.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Navigation\DartGoToDefinition.cs" />

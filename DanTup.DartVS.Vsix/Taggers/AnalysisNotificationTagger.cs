@@ -12,12 +12,12 @@ namespace DanTup.DartVS
 		protected ITextBuffer buffer;
 		protected ITextDocumentFactoryService textDocumentFactory;
 		protected ITextDocument textDocument;
-		protected DartAnalysisService analysisService;
+		protected DartVsAnalysisService analysisService;
 		protected TSourceData[] currentData = new TSourceData[0];
 
 		IDisposable subscription;
 
-		public AnalysisNotificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService)
+		public AnalysisNotificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService)
 		{
 			this.buffer = buffer;
 			this.textDocumentFactory = textDocumentFactory;

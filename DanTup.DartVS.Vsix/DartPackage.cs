@@ -18,7 +18,7 @@ namespace DanTup.DartVS
 	public sealed class DartPackage : Package
 	{
 		[Import]
-		DartAnalysisService analysisService = null;
+		DartVsAnalysisService analysisService = null;
 
 		[Import]
 		ITextDocumentFactoryService textDocumentFactory = null;

@@ -13,7 +13,7 @@ namespace DanTup.DartVS
 		ICompletionBroker broker;
 		ICompletionSession currentSession;
 
-		public CompletionController(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, ICompletionBroker broker, DartAnalysisService analysisService)
+		public CompletionController(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, ICompletionBroker broker, DartVsAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd2KCmdID.AUTOCOMPLETE, VSConstants.VSStd2KCmdID.COMPLETEWORD, VSConstants.VSStd2KCmdID.RETURN, VSConstants.VSStd2KCmdID.TAB, VSConstants.VSStd2KCmdID.Cancel, VSConstants.VSStd2KCmdID.TYPECHAR, VSConstants.VSStd2KCmdID.BACKSPACE)
 		{
 			this.broker = broker;

@@ -18,7 +18,7 @@ namespace DanTup.DartVS
 		IDisposable subscription;
 		NavigationRegion[] navigationRegions = new NavigationRegion[0];
 
-		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisService analysisService)
+		public DartGoToDefinition(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd97CmdID.GotoDefn)
 		{
 			// Subscribe to outline updates for this file.

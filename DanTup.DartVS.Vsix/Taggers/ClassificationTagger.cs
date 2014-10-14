@@ -21,7 +21,7 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
-		DartAnalysisService analysisService = null;
+		DartVsAnalysisService analysisService = null;
 
 		[Import]
 		internal IClassificationTypeRegistryService classificationTypeRegistry = null;
@@ -36,7 +36,7 @@ namespace DanTup.DartVS
 	{
 		IDictionary<HighlightRegionType, IClassificationType> classificationMapping;
 
-		public ClassificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisService analysisService, IClassificationTypeRegistryService typeService)
+		public ClassificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService, IClassificationTypeRegistryService typeService)
 			: base(buffer, textDocumentFactory, analysisService)
 		{
 			// Mapping of Analysis Server's HighlightRegionTypes to the VS Classifications we wish to give them.

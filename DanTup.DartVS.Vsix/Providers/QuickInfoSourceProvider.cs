@@ -24,7 +24,7 @@ namespace DanTup.DartVS
 		IBufferTagAggregatorFactoryService tagAggregatorService = null;
 
 		[Import]
-		DartAnalysisService analysisService = null;
+		DartVsAnalysisService analysisService = null;
 
 		public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer buffer)
 		{
@@ -38,9 +38,9 @@ namespace DanTup.DartVS
 		ITextBuffer buffer;
 		ITextDocumentFactoryService textDocumentFactory;
 		ITagAggregator<ClassificationTag> tagAggregator;
-		DartAnalysisService analysisService;
+		DartVsAnalysisService analysisService;
 
-		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartAnalysisService analysisService)
+		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartVsAnalysisService analysisService)
 		{
 			this.provider = provider;
 			this.buffer = buffer;

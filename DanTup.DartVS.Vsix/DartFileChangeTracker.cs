@@ -10,12 +10,12 @@ namespace DanTup.DartVS
 	public class DartFileChangeTracker
 	{
 		DTE dte;
-		DartAnalysisService analysisService;
+		DartVsAnalysisService analysisService;
 		TextEditorEvents textEditorEvents;
 
 		Subject<Document> documentChanged = new Subject<Document>();
 
-		public DartFileChangeTracker(DTE dte, DartAnalysisService analysisService)
+		public DartFileChangeTracker(DTE dte, DartVsAnalysisService analysisService)
 		{
 			this.dte = dte;
 			this.analysisService = analysisService;
