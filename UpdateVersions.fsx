@@ -10,7 +10,7 @@ open System.Xml.Linq
 
 Directory.SetCurrentDirectory(__SOURCE_DIRECTORY__)
 let root = Directory.GetCurrentDirectory()
-let sharedAssemblyInfo = "DanTup.DartVS.Vsix\Properties\AssemblyInfo.cs"
+let sharedAssemblyInfo = "DanTup.DartVS.Vsix\Properties\SharedAssemblyInfo.cs"
 
 // Get the version from the master file (SharedAssemblyInfo)
 let regex pattern input = Regex.Match(input, pattern)
