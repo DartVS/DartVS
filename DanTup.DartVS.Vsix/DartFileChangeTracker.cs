@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Editor;
@@ -18,13 +19,13 @@ namespace DanTup.DartVS
 	internal class DartFileChangeTracker : IVsTextViewCreationListener, IObserver<ITextSnapshot>
 	{
 		private IVsEditorAdaptersFactoryService editorAdaptersFactoryService;
-		private DartVsAnalysisService analysisService;
+		private Task<DartAnalysisService> analysisService;
 
 		[ImportingConstructor]
-		public DartFileChangeTracker(IVsEditorAdaptersFactoryService editorAdaptersFactoryService, DartVsAnalysisService analysisService)
+		public DartFileChangeTracker(IVsEditorAdaptersFactoryService editorAdaptersFactoryService, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.editorAdaptersFactoryService = editorAdaptersFactoryService;
-			this.analysisService = analysisService;
+			this.analysisService = analysisServiceFactory.GetAnalysisServiceAsync();
 		}
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
@@ -48,6 +49,9 @@ namespace DanTup.DartVS
 
 		void IObserver<ITextSnapshot>.OnNext(ITextSnapshot value)
 		{
+			if (analysisService.Status != TaskStatus.RanToCompletion)
+				return;
+
 			ITextBuffer textBuffer = value.TextBuffer;
 			ITextDocument textDocument;
 			if (!textBuffer.Properties.TryGetProperty(typeof(ITextDocument), out textDocument) || textDocument == null)
@@ -60,7 +64,7 @@ namespace DanTup.DartVS
 			// TODO: Optimise this to use ChangeContentOverlay on subsequent updates.
 			string fileContents = value.GetText();
 			var change = new AddContentOverlay() { Type = "add", Content = fileContents };
-			analysisService.UpdateContent(path, change);
+			analysisService.Result.UpdateContent(path, change);
 		}
 
 		void IObserver<ITextSnapshot>.OnError(Exception error)

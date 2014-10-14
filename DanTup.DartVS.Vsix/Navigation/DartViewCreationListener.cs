@@ -27,15 +27,15 @@ namespace DanTup.DartVS
 		ICompletionBroker completionBroker = null;
 
 		[Import]
-		DartVsAnalysisService analysisService = null;
+		DartAnalysisServiceFactory analysisServiceFactory = null;
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
 		{
 			var textView = editorAdaptersFactoryService.GetWpfTextView(textViewAdapter);
 
-			textView.Properties.GetOrCreateSingletonProperty<DartGoToDefinition>(() => new DartGoToDefinition(serviceProvider, textDocumentFactory, textViewAdapter, textView, analysisService));
-			textView.Properties.GetOrCreateSingletonProperty<DartFormatDocument>(() => new DartFormatDocument(textDocumentFactory, textViewAdapter, textView, analysisService));
-			textView.Properties.GetOrCreateSingletonProperty<CompletionController>(() => new CompletionController(textDocumentFactory, textViewAdapter, textView, completionBroker, analysisService));
+			textView.Properties.GetOrCreateSingletonProperty<DartGoToDefinition>(() => new DartGoToDefinition(serviceProvider, textDocumentFactory, textViewAdapter, textView, analysisServiceFactory));
+			textView.Properties.GetOrCreateSingletonProperty<DartFormatDocument>(() => new DartFormatDocument(textDocumentFactory, textViewAdapter, textView, analysisServiceFactory));
+			textView.Properties.GetOrCreateSingletonProperty<CompletionController>(() => new CompletionController(textDocumentFactory, textViewAdapter, textView, completionBroker, analysisServiceFactory));
 		}
 	}
 }

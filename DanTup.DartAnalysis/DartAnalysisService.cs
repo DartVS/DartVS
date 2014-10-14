@@ -15,6 +15,8 @@ namespace DanTup.DartAnalysis
 	/// </summary>
 	public class DartAnalysisService : IDisposable
 	{
+		readonly string sdkFolder;
+
 		/// <summary>
 		/// The underlying service for sending requests/responses.
 		/// </summary>
@@ -54,7 +56,16 @@ namespace DanTup.DartAnalysis
 		/// <param name="eventHandler">A handler for events raised by the Analysis Service.</param>
 		public DartAnalysisService(string sdkFolder, string serverScript)
 		{
+			this.sdkFolder = sdkFolder;
 			this.Service = new AnalysisServiceWrapper(sdkFolder, serverScript, HandleEvent);
+		}
+
+		public string SdkFolder
+		{
+			get
+			{
+				return sdkFolder;
+			}
 		}
 
 		void HandleEvent(Event notification)

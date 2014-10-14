@@ -20,11 +20,11 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
-		DartVsAnalysisService analysisService = null;
+		DartAnalysisServiceFactory analysisServiceFactory = null;
 
 		public ICompletionSource TryCreateCompletionSource(ITextBuffer buffer)
 		{
-			return new CompletionSource(this, buffer, textDocumentFactory, analysisService);
+			return new CompletionSource(this, buffer, textDocumentFactory, analysisServiceFactory);
 		}
 	}
 
@@ -33,14 +33,14 @@ namespace DanTup.DartVS
 		CompletionSourceProvider provider;
 		ITextBuffer buffer;
 		ITextDocumentFactoryService textDocumentFactory;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 
-		public CompletionSource(CompletionSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService)
+		public CompletionSource(CompletionSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.provider = provider;
 			this.buffer = buffer;
 			this.textDocumentFactory = textDocumentFactory;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 		}
 
 		public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)

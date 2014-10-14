@@ -9,18 +9,18 @@ namespace DanTup.DartVS
 	{
 		ITextDocumentFactoryService textDocumentFactory;
 		IVsEditorAdaptersFactoryService editorAdapterFactory;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 
-		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartVsAnalysisService analysisService)
+		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.textDocumentFactory = textDocumentFactory;
 			this.editorAdapterFactory = editorAdapterFactory;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 		}
 
 		public int GetCodeWindowManager(IVsCodeWindow pCodeWin, out IVsCodeWindowManager ppCodeWinMgr)
 		{
-			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin, analysisService);
+			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin, analysisServiceFactory);
 			return VSConstants.S_OK;
 		}
 

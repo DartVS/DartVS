@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Text;
@@ -20,18 +21,18 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
-		DartVsAnalysisService analysisService = null;
+		DartAnalysisServiceFactory analysisServiceFactory = null;
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
-			return new ErrorSquiggleTagger(buffer, textDocumentFactory, analysisService) as ITagger<T>;
+			return new ErrorSquiggleTagger(buffer, textDocumentFactory, analysisServiceFactory) as ITagger<T>;
 		}
 	}
 
 	class ErrorSquiggleTagger : AnalysisNotificationTagger<ErrorTag, AnalysisError, AnalysisErrorsNotification>
 	{
-		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService)
-			: base(buffer, textDocumentFactory, analysisService)
+		public ErrorSquiggleTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisServiceFactory analysisServiceFactory)
+			: base(buffer, textDocumentFactory, analysisServiceFactory)
 		{
 			this.Subscribe();
 		}
@@ -49,9 +50,10 @@ namespace DanTup.DartVS
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
 
-		protected override IDisposable Subscribe(Action<AnalysisErrorsNotification> updateSourceData)
+		protected override async Task<IDisposable> SubscribeAsync(Action<AnalysisErrorsNotification> updateSourceData)
 		{
-			return this.analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
+			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			return analysisService.AnalysisErrorsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
 		protected override AnalysisError[] GetDataToTag(AnalysisErrorsNotification notification)

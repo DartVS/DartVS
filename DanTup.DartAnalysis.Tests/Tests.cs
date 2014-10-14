@@ -10,8 +10,14 @@ namespace DanTup.DartAnalysis.Tests
 	{
 		protected string SdkFolder
 		{
-			// Hijack ENV-reading property
-			get { return DanTup.DartVS.DartVsAnalysisService.SdkPath; }
+			get
+			{
+				string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
+				if (!File.Exists(Path.Combine(result, "bin", "dart.exe")))
+					throw new NotSupportedException("Could not locate or download the Dart SDK. All analysis is disabled.");
+
+				return result;
+			}
 		}
 
 		string CodebaseRoot = Path.GetFullPath(new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), @"..\..\..\")).AbsolutePath); // up out of debug, bin, Tests

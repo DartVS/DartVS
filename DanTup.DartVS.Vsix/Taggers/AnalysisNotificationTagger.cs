@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
@@ -12,16 +13,16 @@ namespace DanTup.DartVS
 		protected ITextBuffer buffer;
 		protected ITextDocumentFactoryService textDocumentFactory;
 		protected ITextDocument textDocument;
-		protected DartVsAnalysisService analysisService;
+		protected DartAnalysisServiceFactory analysisServiceFactory;
 		protected TSourceData[] currentData = new TSourceData[0];
 
-		IDisposable subscription;
+		Task<IDisposable> subscription;
 
-		public AnalysisNotificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService)
+		public AnalysisNotificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.buffer = buffer;
 			this.textDocumentFactory = textDocumentFactory;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 
 			textDocumentFactory.TryGetTextDocument(this.buffer, out this.textDocument);
 		}
@@ -31,7 +32,7 @@ namespace DanTup.DartVS
 			// Subscribe to errors for the current file.
 			// This isn't done in the constructor, because some classes need to do some setup in their own constructor
 			// before we're able to respond to events.
-			subscription = this.Subscribe(UpdateSourceData);
+			subscription = this.SubscribeAsync(UpdateSourceData);
 		}
 
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
@@ -81,12 +82,20 @@ namespace DanTup.DartVS
 
 		public void Dispose()
 		{
-			if (subscription != null)
-				subscription.Dispose();
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing && subscription != null)
+			{
+				subscription.ContinueWith(task => task.Result.Dispose(), TaskContinuationOptions.OnlyOnRanToCompletion);
+			}
 		}
 
 		protected abstract ITagSpan<TTag> CreateTag(TSourceData data);
-		protected abstract IDisposable Subscribe(Action<TNotificationType> updateSourceData);
+		protected abstract Task<IDisposable> SubscribeAsync(Action<TNotificationType> updateSourceData);
 		protected abstract TSourceData[] GetDataToTag(TNotificationType notification);
 		protected abstract Tuple<int, int> GetOffsetAndLength(TSourceData data);
 	}
