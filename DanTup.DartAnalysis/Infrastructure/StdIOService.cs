@@ -63,8 +63,6 @@ namespace DanTup.DartAnalysis
 				process.WaitForExit(milliseconds);
 		}
 
-		#region OMG DO WE STILL HAVE TO DO THIS?
-
 		public void Dispose()
 		{
 			Dispose(true);
@@ -87,7 +85,5 @@ namespace DanTup.DartAnalysis
 				catch { }
 			}
 		}
-
-		#endregion
 	}
 }
