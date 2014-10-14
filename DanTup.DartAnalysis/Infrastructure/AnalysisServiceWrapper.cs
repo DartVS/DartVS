@@ -187,8 +187,6 @@ namespace DanTup.DartAnalysis
 				Debugger.Break();
 		}
 
-		#region OMG DO WE STILL HAVE TO DO THIS?
-
 		public void Dispose()
 		{
 			Dispose(true);
@@ -202,7 +200,5 @@ namespace DanTup.DartAnalysis
 				service.Dispose();
 			}
 		}
-
-		#endregion
 	}
 }
