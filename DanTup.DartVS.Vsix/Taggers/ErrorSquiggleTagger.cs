@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
@@ -41,9 +42,9 @@ namespace DanTup.DartVS
 			// compiler error: blue
 			// other error: purple
 			// warning: red
-			var squiggleType = error.Severity == AnalysisErrorSeverity.Error ? "syntax error"
-				: error.Severity == AnalysisErrorSeverity.Warning ? "compiler error"
-				: "other error";
+			var squiggleType = error.Severity == AnalysisErrorSeverity.Error ? PredefinedErrorTypeNames.SyntaxError
+				: error.Severity == AnalysisErrorSeverity.Warning ? PredefinedErrorTypeNames.CompilerError
+				: PredefinedErrorTypeNames.OtherError;
 
 			return new TagSpan<ErrorTag>(new SnapshotSpan(buffer.CurrentSnapshot, error.Location.Offset, error.Location.Length), new ErrorTag(squiggleType, error.Message));
 		}
