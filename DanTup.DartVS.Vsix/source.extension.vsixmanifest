@@ -8,7 +8,7 @@
 		<License>LICENCE.txt</License>
 		<GettingStartedGuide>https://github.com/DartVS/DartVS/blob/master/README.md</GettingStartedGuide>
 		<ReleaseNotes>https://github.com/DartVS/DartVS/releases</ReleaseNotes>
-		<Icon>Resources\Package.ico</Icon>
+		<Icon>Resources\Logo.png</Icon>
 		<PreviewImage>Screenshot.png</PreviewImage>
 		<Tags>dart, google, dartlang, javascript, web</Tags>
 	</Metadata>

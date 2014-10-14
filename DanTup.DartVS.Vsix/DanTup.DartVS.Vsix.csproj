@@ -248,7 +248,11 @@
     <EmbeddedResource Include="Resources\Field_Private.png" />
     <EmbeddedResource Include="Resources\Method.png" />
     <EmbeddedResource Include="Resources\Method_Private.png" />
-    <Content Include="Resources\Package.ico">
+    <Content Include="Resources\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\Dart.ico">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Screenshot.png">
