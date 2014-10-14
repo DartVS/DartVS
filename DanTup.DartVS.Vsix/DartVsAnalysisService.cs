@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using DanTup.DartAnalysis;
@@ -18,10 +19,6 @@ namespace DanTup.DartVS
 		readonly DartProjectTracker projectTracker;
 		readonly OpenFileTracker openFileTracker;
 		readonly AnalysisService[] subscriptions = new[] { AnalysisService.Highlights, AnalysisService.Outline, AnalysisService.Navigation };
-
-		public static readonly string SdkPath =
-			Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.User)
-			?? Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Machine);
 
 		public static readonly string ExtensionFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static readonly string AnalysisServerScript = Path.Combine(ExtensionFolder, @"AnalysisServer.dart");
@@ -41,6 +38,30 @@ namespace DanTup.DartVS
 
 			// When open files change; update subscriptions.
 			this.openFileTracker.DocumentsChanged.Subscribe(files => this.SetAnalysisSubscriptions(subscriptions.ToDictionary(s => s, s => files)));
+		}
+
+		public static string SdkPath
+		{
+			get
+			{
+				string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
+				if (!Directory.Exists(result))
+				{
+					// TODO: These should be updated to reference shared constants
+					string extensionName = "DartVS";
+					string extensionVersion = "0.5";
+					string tempDir = Path.Combine(Path.GetTempPath(), string.Format("{0}-{1}-sdk", extensionName, extensionVersion));
+					result = Path.Combine(tempDir, "dart-sdk");
+					if (!Directory.Exists(result))
+					{
+						Directory.CreateDirectory(tempDir);
+						string compressed = Path.Combine(Path.GetDirectoryName(typeof(DartVsAnalysisService).Assembly.Location), "SDK", "dartsdk-windows-ia32-release.zip");
+						ZipFile.ExtractToDirectory(compressed, tempDir);
+					}
+				}
+
+				return result;
+			}
 		}
 	}
 }
