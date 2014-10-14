@@ -29,7 +29,6 @@ namespace DanTup.DartVS
 		static DTE2 dte;
 
 		DartErrorListProvider errorProvider;
-		DartFileChangeTracker changeTracking;
 
 		// TODO: Handle file renames properly (errors stick around)
 		// TODO: Handle closing projects/solutions (errors stick around)
@@ -47,9 +46,6 @@ namespace DanTup.DartVS
 			// Wire up the Error Provider to the notifications from the service.
 			errorProvider = new DartErrorListProvider(dte, this);
 			analysisService.AnalysisErrorsNotification.Subscribe(errorProvider.UpdateErrors);
-
-			// Wire up document change tracking to the service.
-			changeTracking = new DartFileChangeTracker(dte, analysisService);
 
 			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
