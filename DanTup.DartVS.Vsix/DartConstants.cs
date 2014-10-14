@@ -9,11 +9,5 @@
 		public const string ContentType = LanguageName;
 
 		public const string FileExtension = ".dart";
-
-		/// <summary>
-		/// The extension version as it appears in Help -> About Visual Studio. This should match the value defined in
-		/// source.extension.vsixmanifest, and is typically set to the major+minor components of the assembly version.
-		/// </summary>
-		public const string InstalledProductVersion = "0.5";
 	}
 }

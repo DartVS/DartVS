@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace DanTup.DartVS
 {
-	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", DartConstants.InstalledProductVersion)]
+	[InstalledProductRegistration("DanTup's DartVS: Visual Studio support for Google's Dart", @"Some support for coding Dart in Visual Studio.", AssemblyInfo.InstalledProductVersion)]
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	[ProvideLanguageService(typeof(DartLanguageInfo), DartConstants.LanguageName, 100)]
 	[ProvideLanguageExtension(typeof(DartLanguageInfo), DartConstants.FileExtension)]
