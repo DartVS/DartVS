@@ -66,7 +66,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item", "Item", "{24723645-E020-4404-8C34-4F1219FCAA58}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{1F55ABC4-E076-434F-BD98-D60C81451C81}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartClassItemTemplate", "Templates\Item\DartClassItemTemplate\DartClassItemTemplate.csproj", "{4371E445-C653-4470-BECF-7F69870725F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartSampleProjectTemplate", "Templates\Project\DartSampleProjectTemplate\DartSampleProjectTemplate.csproj", "{CA6FDA9F-403A-4F63-A215-99079864819A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,12 +102,18 @@ Global
 		{4371E445-C653-4470-BECF-7F69870725F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4371E445-C653-4470-BECF-7F69870725F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4371E445-C653-4470-BECF-7F69870725F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA6FDA9F-403A-4F63-A215-99079864819A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA6FDA9F-403A-4F63-A215-99079864819A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA6FDA9F-403A-4F63-A215-99079864819A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA6FDA9F-403A-4F63-A215-99079864819A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24723645-E020-4404-8C34-4F1219FCAA58} = {41302908-B8A3-43B3-BEDF-4429B57644D2}
+		{1F55ABC4-E076-434F-BD98-D60C81451C81} = {41302908-B8A3-43B3-BEDF-4429B57644D2}
 		{4371E445-C653-4470-BECF-7F69870725F3} = {24723645-E020-4404-8C34-4F1219FCAA58}
+		{CA6FDA9F-403A-4F63-A215-99079864819A} = {1F55ABC4-E076-434F-BD98-D60C81451C81}
 	EndGlobalSection
 EndGlobal

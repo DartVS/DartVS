@@ -125,6 +125,14 @@
     <value>An empty class definition</value>
     <comment>Item template description</comment>
   </data>
+  <data name="2100" xml:space="preserve">
+    <value>Sample Project</value>
+    <comment>Project template name</comment>
+  </data>
+  <data name="2101" xml:space="preserve">
+    <value>A project for creating a sample Dart project</value>
+    <comment>Project template description</comment>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="4500" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\dart.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
