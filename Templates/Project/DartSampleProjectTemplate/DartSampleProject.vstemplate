@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2100"/>
+    <Description Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2101"/>
+    <Icon Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="4501"/>
+    <TemplateID>DartVS.Dart.SampleProject</TemplateID>
+    <ProjectType>Dart</ProjectType>
+    <SortOrder>20</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>dart_sample</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="DartSampleProject.dartproj" ReplaceParameters="true">
+      <Folder Name="dart_bin" TargetFolderName="bin">
+        <ProjectItem ReplaceParameters="true">echo.dart</ProjectItem>
+        <ProjectItem ReplaceParameters="true">print_day.dart</ProjectItem>
+      </Folder>
+      <Folder Name="lib">
+        <ProjectItem ReplaceParameters="true">hello.dart</ProjectItem>
+      </Folder>
+      <Folder Name="test">
+        <ProjectItem ReplaceParameters="true">all.dart</ProjectItem>
+        <ProjectItem ReplaceParameters="true">index.html</ProjectItem>
+        <ProjectItem ReplaceParameters="true">run_in_browser.dart</ProjectItem>
+      </Folder>
+      <Folder Name="web">
+        <ProjectItem ReplaceParameters="true">index.html</ProjectItem>
+        <ProjectItem ReplaceParameters="true">main.dart</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true">pubspec.yaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <!--<WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="d4032879-2378-4ea2-abc4-cb0fa4b9941e">
+      <package id="DartVS.Dart" version="1.0.0-alpha001" />
+    </packages>
+  </WizardData>-->
+</VSTemplate>

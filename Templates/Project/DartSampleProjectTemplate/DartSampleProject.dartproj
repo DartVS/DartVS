@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>$guid1$</ProjectGuid>
+    <OutputType>jar</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>$safeprojectname$</RootNamespace>
+    <AssemblyName>$safeprojectname$</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>All</DebugSymbols>
+    <ShowWarnings>True</ShowWarnings>
+    <ShowAllWarnings>True</ShowAllWarnings>
+    <TreatWarningsAsErrors>None</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>Default</DebugSymbols>
+    <ShowWarnings>True</ShowWarnings>
+    <ShowAllWarnings>True</ShowAllWarnings>
+    <TreatWarningsAsErrors>None</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="bin\echo.dart"/>
+    <Compile Include="bin\print_day.dart"/>
+    <Compile Include="lib\hello.dart"/>
+    <Compile Include="test\all.dart"/>
+    <Compile Include="test\run_in_browser.dart"/>
+    <Compile Include="web\main.dart"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test\index.html"/>
+    <Content Include="web\index.html"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md"/>
+    <None Include="pubspec.yaml"/>
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

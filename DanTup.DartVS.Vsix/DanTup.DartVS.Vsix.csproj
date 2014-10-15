@@ -67,6 +67,9 @@
       <Private>False</Private>
       <HintPath>..\packages\VSSDK.DTE.8.8.0.3\lib\net20\envdte80.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
@@ -75,6 +78,11 @@
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>..\packages\VSSDK.CoreUtility.12.0.3\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Designer.Interfaces, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+      <HintPath>..\packages\VSSDK.Designer.7.0.2\lib\net20\Microsoft.VisualStudio.Designer.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Editor, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
@@ -95,6 +103,9 @@
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>False</Private>
       <HintPath>..\packages\VSSDK.OLE.Interop.7.0.3\lib\net20\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Project.12.0">
+      <HintPath>..\packages\Microsoft.VisualStudio.Project.12.0.1.0.0-alpha005\lib\net45\Microsoft.VisualStudio.Project.12.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
@@ -125,6 +136,11 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
       <HintPath>..\packages\VSSDK.Shell.Interop.11.11.0.3\lib\net20\Microsoft.VisualStudio.Shell.Interop.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+      <HintPath>..\packages\VSSDK.Shell.Interop.12.12.0.2\lib\net20\Microsoft.VisualStudio.Shell.Interop.12.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>False</Private>
@@ -194,6 +210,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+      <HintPath>..\packages\VSSDK.VSLangProj.7.0.2\lib\net20\VSLangProj.dll</HintPath>
+    </Reference>
+    <Reference Include="VSLangProj2, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+      <HintPath>..\packages\VSSDK.VSLangProj.7.0.2\lib\net20\VSLangProj2.dll</HintPath>
+    </Reference>
+    <Reference Include="VSLangProj80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+      <HintPath>..\packages\VSSDK.VSLangProj.8.8.0.2\lib\net20\VSLangProj80.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +245,96 @@
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
+    <Compile Include="ProjectSystem\Automation\OAJarReference.cs" />
+    <Compile Include="ProjectSystem\Controls\FileBrowserTextBox.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\Controls\FileBrowserTextBox.Designer.cs">
+      <DependentUpon>FileBrowserTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\Controls\FolderBrowserTextBox.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\Controls\FolderBrowserTextBox.Designer.cs">
+      <DependentUpon>FolderBrowserTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\Controls\IVsUIShellExtensions.cs" />
+    <Compile Include="ProjectSystem\DartBuildOptions.cs" />
+    <Compile Include="ProjectSystem\DartConfigConstants.cs" />
+    <Compile Include="ProjectSystem\DartConfigProvider.cs" />
+    <Compile Include="ProjectSystem\DartFileNode.cs" />
+    <Compile Include="ProjectSystem\DartFileNodeProperties.cs" />
+    <Compile Include="ProjectSystem\DartFolderNode.cs" />
+    <Compile Include="ProjectSystem\DartFolderNodeProperties.cs" />
+    <Compile Include="ProjectSystem\DartProjectConfig.cs" />
+    <Compile Include="ProjectSystem\DartProjectConstants.cs" />
+    <Compile Include="ProjectSystem\DartProjectFactory.cs" />
+    <Compile Include="ProjectSystem\DartProjectFileConstants.cs" />
+    <Compile Include="ProjectSystem\DartProjectNode.cs" />
+    <Compile Include="ProjectSystem\DartProjectPackage.cs" />
+    <Compile Include="ProjectSystem\DartReferenceContainerNode.cs" />
+    <Compile Include="ProjectSystem\Extensions\CommandLineBuilderExtensions.cs" />
+    <Compile Include="ProjectSystem\JarReferenceNode.cs" />
+    <Compile Include="ProjectSystem\JarReferenceProperties.cs" />
+    <Compile Include="ProjectSystem\NativeMethods.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\ComponentSelectorControl.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\ComponentSelectorData.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartApplicationPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartApplicationPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartApplicationPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartApplicationPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildEventsPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildEventsPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildEventsPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartBuildEventsPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartBuildPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartBuildPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartDebugPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartDebugPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartDebugPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartDebugPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartGeneralPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartGeneralPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartGeneralPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartGeneralPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartPropertyPage.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\DartPropertyPagePanel.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DartPropertyPagePanel.Designer.cs">
+      <DependentUpon>DartPropertyPagePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\DebuggingInformation.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\MavenComponentSelector.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\MavenComponentSelector.Designer.cs">
+      <DependentUpon>MavenComponentSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSystem\PropertyPages\PropertyPageArgumentException.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\StartAction.cs" />
+    <Compile Include="ProjectSystem\PropertyPages\WarningsAsErrors.cs" />
+    <Compile Include="ProjectSystem\PropertySheetPageFlags.cs" />
+    <Compile Include="ProjectSystem\ProvideComponentSelectorTabAttribute.cs" />
     <Compile Include="Properties\SharedAssemblyInfo.cs" />
     <Compile Include="Providers\BraceCompletionProvider.cs" />
     <Compile Include="ContentType\DartContentTypeDefinition.cs" />
@@ -245,6 +366,27 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <EmbeddedResource Include="ProjectSystem\Controls\FileBrowserTextBox.resx">
+      <DependentUpon>FileBrowserTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\Controls\FolderBrowserTextBox.resx">
+      <DependentUpon>FolderBrowserTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\PropertyPages\DartApplicationPropertyPagePanel.resx">
+      <DependentUpon>DartApplicationPropertyPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\PropertyPages\DartBuildEventsPropertyPagePanel.resx">
+      <DependentUpon>DartBuildEventsPropertyPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\PropertyPages\DartBuildPropertyPagePanel.resx">
+      <DependentUpon>DartBuildPropertyPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\PropertyPages\DartDebugPropertyPagePanel.resx">
+      <DependentUpon>DartDebugPropertyPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSystem\PropertyPages\DartGeneralPropertyPagePanel.resx">
+      <DependentUpon>DartGeneralPropertyPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Class.png" />
     <EmbeddedResource Include="Resources\Class_Private.png" />
     <EmbeddedResource Include="Resources\Field.png" />
@@ -262,11 +404,57 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <EmbeddedResource Include="VSPackage.resx">
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <MergeWithCTO>true</MergeWithCTO>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DanTup.DartAnalysis\DanTup.DartAnalysis.csproj">
       <Project>{65ebab30-e636-4515-8315-4f42cf29b6f3}</Project>
       <Name>DanTup.DartAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Item\DartClassItemTemplate\DartClassItemTemplate.csproj">
+      <Project>{4371e445-c653-4470-becf-7f69870725f3}</Project>
+      <Name>DartClassItemTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Item\DartCodeFileItemTemplate\DartCodeFileItemTemplate.csproj">
+      <Project>{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}</Project>
+      <Name>DartCodeFileItemTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Project\DartConsoleApplicationProjectTemplate\DartConsoleApplicationProjectTemplate.csproj">
+      <Project>{F25888C1-45ED-44E7-B05F-0D5E8207821D}</Project>
+      <Name>DartConsoleApplicationProjectTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Project\DartPackageProjectTemplate\DartPackageProjectTemplate.csproj">
+      <Project>{85983C28-8F25-4062-A337-4EB981941508}</Project>
+      <Name>DartPackageProjectTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Project\DartSampleProjectTemplate\DartSampleProjectTemplate.csproj">
+      <Project>{ca6fda9f-403a-4f63-a215-99079864819a}</Project>
+      <Name>DartSampleProjectTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+    </ProjectReference>
+    <ProjectReference Include="..\Templates\Project\DartWebApplicationProjectTemplate\DartWebApplicationProjectTemplate.csproj">
+      <Project>{1CAE7B49-3E56-47FF-82E1-770533167851}</Project>
+      <Name>DartWebApplicationProjectTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

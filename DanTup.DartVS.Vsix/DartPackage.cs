@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
@@ -15,6 +16,7 @@ namespace DanTup.DartVS
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	[ProvideLanguageService(typeof(DartLanguageInfo), DartConstants.LanguageName, 100)]
 	[ProvideLanguageExtension(typeof(DartLanguageInfo), DartConstants.FileExtension)]
+	[Guid(DartConstants.PackageGuidString)]
 	public sealed class DartPackage : Package
 	{
 		[Import]

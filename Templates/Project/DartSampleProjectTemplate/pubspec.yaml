@@ -1,0 +1,7 @@
+name: simple_dart_project
+description: A simple dart project that contains console scripts, tests and web app to aid testing DartVS.
+version: 0.1.0
+dependencies:
+  browser: any
+  intl: any
+  unittest: any
