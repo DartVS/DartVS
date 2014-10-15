@@ -33,20 +33,6 @@
             }
         }
 
-        public override object GetIconHandle(bool open)
-        {
-            if (this.IsNonmemberItem)
-                return base.GetIconHandle(open);
-
-            if (string.Equals(ItemNode.ItemName, DartProjectFileConstants.SourceFolder))
-                return this.ProjectManager.ExtendedImageHandler.GetIconHandle(open ? (int)DartProjectNode.ExtendedImageName.OpenSourceFolder : (int)DartProjectNode.ExtendedImageName.SourceFolder);
-
-            if (string.Equals(ItemNode.ItemName, DartProjectFileConstants.TestSourceFolder))
-                return this.ProjectManager.ExtendedImageHandler.GetIconHandle(open ? (int)DartProjectNode.ExtendedImageName.OpenTestSourceFolder: (int)DartProjectNode.ExtendedImageName.TestSourceFolder);
-
-            return base.GetIconHandle(open);
-        }
-
         protected override NodeProperties CreatePropertiesObject()
         {
             return new DartFolderNodeProperties(this);

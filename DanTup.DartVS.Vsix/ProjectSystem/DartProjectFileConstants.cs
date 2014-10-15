@@ -7,8 +7,6 @@
         public const string JarReference = "JarReference";
         public const string MavenReference = "MavenReference";
         public const string IncludeInBuild = "IncludeInBuild";
-        public const string SourceFolder = "SourceFolder";
-        public const string TestSourceFolder = "TestSourceFolder";
 
         public const string JavaArchiveOutputType = "jar";
         public const string HotspotTargetVirtualMachine = "Hotspot";

@@ -274,7 +274,6 @@
     <Compile Include="ProjectSystem\DartProjectPackage.cs" />
     <Compile Include="ProjectSystem\DartReferenceContainerNode.cs" />
     <Compile Include="ProjectSystem\Extensions\CommandLineBuilderExtensions.cs" />
-    <Compile Include="ProjectSystem\FolderBuildAction.cs" />
     <Compile Include="ProjectSystem\JarReferenceNode.cs" />
     <Compile Include="ProjectSystem\JarReferenceProperties.cs" />
     <Compile Include="ProjectSystem\NativeMethods.cs" />
@@ -388,7 +387,6 @@
     <EmbeddedResource Include="ProjectSystem\PropertyPages\DartGeneralPropertyPagePanel.resx">
       <DependentUpon>DartGeneralPropertyPagePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <Resource Include="ProjectSystem\Resources\imagelis.bmp" />
     <EmbeddedResource Include="Resources\Class.png" />
     <EmbeddedResource Include="Resources\Class_Private.png" />
     <EmbeddedResource Include="Resources\Field.png" />

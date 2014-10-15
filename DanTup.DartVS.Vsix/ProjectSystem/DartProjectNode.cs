@@ -86,22 +86,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets an ImageHandler for the project node.
-        /// </summary>
-        public ImageHandler ExtendedImageHandler
-        {
-            get
-            {
-                if (_extendedImageHandler == null)
-                {
-                    _extendedImageHandler = new ImageHandler(typeof(DartProjectNode).Assembly.GetManifestResourceStream("DanTup.DartVS.ProjectSystem.Resources.imagelis.bmp"));
-                }
-
-                return _extendedImageHandler;
-            }
-        }
-
         protected internal VSLangProj.VSProject VSProject
         {
             get
@@ -111,40 +95,6 @@
 
                 return _vsProject;
             }
-        }
-
-        internal void UpdateFolderBuildAction(DartFolderNode folderNode, FolderBuildAction buildAction)
-        {
-            string existingBuildAction = folderNode.ItemNode.ItemName;
-            if (string.IsNullOrEmpty(existingBuildAction))
-                existingBuildAction = FolderBuildAction.Folder.ToString();
-
-            if (string.Equals(existingBuildAction, buildAction.ToString()))
-                return;
-
-            if (buildAction == FolderBuildAction.Folder && !folderNode.ItemNode.IsVirtual && folderNode.ItemNode.Item.DirectMetadataCount == 0)
-            {
-                // remove <Folder /> elements from the project as long as they don't have any direct metadata (xml child elements)
-                ProjectElement updatedElement = new ProjectElement(this, null, true);
-                updatedElement.Rename(folderNode.ItemNode.Item.EvaluatedInclude);
-                updatedElement.SetMetadata(ProjectFileConstants.Name, folderNode.ItemNode.Item.EvaluatedInclude);
-
-                ProjectElement oldElement = folderNode.ItemNode;
-                folderNode.ItemNode = updatedElement;
-
-                oldElement.RemoveFromProjectFile();
-            }
-            else if (!folderNode.ItemNode.IsVirtual)
-            {
-                folderNode.ItemNode.ItemName = buildAction.ToString();
-            }
-            else
-            {
-                ProjectElement updatedElement = AddFolderToMSBuild(folderNode.VirtualNodeName, buildAction.ToString());
-                folderNode.ItemNode = updatedElement;
-            }
-
-            folderNode.Redraw(UIHierarchyElements.Icon);
         }
 
         protected override ProjectElement AddFolderToMSBuild(string folder, string itemType)
@@ -251,9 +201,7 @@
 
         protected override bool FilterItemTypeToBeAddedToHierarchy(string itemType)
         {
-            return string.Equals(itemType, DartProjectFileConstants.SourceFolder, StringComparison.OrdinalIgnoreCase)
-                || string.Equals(itemType, DartProjectFileConstants.TestSourceFolder, StringComparison.OrdinalIgnoreCase)
-                || string.Equals(itemType, DartProjectFileConstants.JarReference, StringComparison.OrdinalIgnoreCase)
+            return string.Equals(itemType, DartProjectFileConstants.JarReference, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(itemType, DartProjectFileConstants.MavenReference, StringComparison.OrdinalIgnoreCase)
                 || base.FilterItemTypeToBeAddedToHierarchy(itemType);
         }
@@ -318,17 +266,6 @@
                 return true;
 
             return false;
-        }
-
-        public override bool IsFolderItem(MSBuild.ProjectItem buildItem)
-        {
-            if (string.Equals(buildItem.ItemType, DartProjectFileConstants.SourceFolder, StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            if (string.Equals(buildItem.ItemType, DartProjectFileConstants.TestSourceFolder, StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            return base.IsFolderItem(buildItem);
         }
 
         public void SetProjectProperty(string propertyName, _PersistStorageType storageType, string propertyValue, string condition)
@@ -397,14 +334,6 @@
             }
 
             return service;
-        }
-
-        public enum ExtendedImageName
-        {
-            SourceFolder = 0,
-            OpenSourceFolder = 1,
-            TestSourceFolder = 2,
-            OpenTestSourceFolder = 3,
         }
     }
 }
