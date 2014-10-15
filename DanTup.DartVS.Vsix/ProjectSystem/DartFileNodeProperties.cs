@@ -27,6 +27,7 @@
             }
         }
 
+        [Browsable(false)]
         public override CopyToOutputDirectoryBehavior CopyToOutputDirectory
         {
             get
@@ -36,11 +37,6 @@
 
             set
             {
-                if (Node.ItemNode.IsVirtual && value != CopyToOutputDirectoryBehavior.DoNotCopy)
-                {
-                    Node.ItemNode = Node.ProjectManager.AddFileToMSBuild(Node.VirtualNodeName, ProjectFileConstants.Content, null);
-                }
-
                 base.CopyToOutputDirectory = value;
             }
         }
