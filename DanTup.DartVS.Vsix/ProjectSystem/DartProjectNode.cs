@@ -28,7 +28,6 @@
 
         private readonly DartBuildOptions _sharedBuildOptions;
         private VSLangProj.VSProject _vsProject;
-        private ImageHandler _extendedImageHandler;
 
         public DartProjectNode(ProjectPackage package)
             : base(package)
