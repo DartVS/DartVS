@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2104"/>
+    <Description Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2105"/>
+    <Icon Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="4500"/>
+    <TemplateID>DartVS.Dart.WebApplicationProject</TemplateID>
+    <ProjectType>Dart</ProjectType>
+    <SortOrder>20</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>DartWebApplication</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="DartWebApplicationProject.dartproj" ReplaceParameters="true">
+      <Folder Name="web">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.html">index.html</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.dart">main.dart</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true">pubspec.yaml</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <!--<WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="d4032879-2378-4ea2-abc4-cb0fa4b9941e">
+      <package id="DartVS.Dart" version="1.0.0-alpha001" />
+    </packages>
+  </WizardData>-->
+</VSTemplate>
