@@ -162,4 +162,8 @@
     <value>resources\dart.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     <comment>Item template icon</comment>
   </data>
+  <data name="4501" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\dartvs.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>Project template icon</comment>
+  </data>
 </root>
