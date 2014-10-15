@@ -9,7 +9,7 @@
     <SortOrder>20</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
-    <DefaultName>DartWebApplication</DefaultName>
+    <DefaultName>dart_web_application</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
   </TemplateData>
   <TemplateContent>
