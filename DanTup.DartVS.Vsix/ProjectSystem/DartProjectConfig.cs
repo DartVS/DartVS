@@ -1,5 +1,6 @@
 ﻿namespace DanTup.DartVS.ProjectSystem
 {
+    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Project;
 
     public class DartProjectConfig : ProjectConfig
@@ -20,6 +21,12 @@
         public override void Invalidate()
         {
             base.Invalidate();
+        }
+
+        public override int QueryDebugLaunch(uint flags, out int fCanLaunch)
+        {
+            fCanLaunch = 0;
+            return VSConstants.S_OK;
         }
     }
 }
