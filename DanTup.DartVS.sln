@@ -62,6 +62,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UpdateVersions.fsx = UpdateVersions.fsx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{41302908-B8A3-43B3-BEDF-4429B57644D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item", "Item", "{24723645-E020-4404-8C34-4F1219FCAA58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartClassItemTemplate", "Templates\Item\DartClassItemTemplate\DartClassItemTemplate.csproj", "{4371E445-C653-4470-BECF-7F69870725F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,8 +94,16 @@ Global
 		{88C4EE36-6BF1-4144-8081-126217A59B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88C4EE36-6BF1-4144-8081-126217A59B56}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{88C4EE36-6BF1-4144-8081-126217A59B56}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{4371E445-C653-4470-BECF-7F69870725F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4371E445-C653-4470-BECF-7F69870725F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4371E445-C653-4470-BECF-7F69870725F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4371E445-C653-4470-BECF-7F69870725F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24723645-E020-4404-8C34-4F1219FCAA58} = {41302908-B8A3-43B3-BEDF-4429B57644D2}
+		{4371E445-C653-4470-BECF-7F69870725F3} = {24723645-E020-4404-8C34-4F1219FCAA58}
 	EndGlobalSection
 EndGlobal

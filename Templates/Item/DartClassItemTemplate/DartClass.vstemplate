@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2000"/>
+    <Description Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="2001"/>
+    <Icon Package="{bbdbd7c7-5505-4e81-915a-fa178bb27617}" ID="4500"/>
+    <TemplateID>DartVS.Dart.Class</TemplateID>
+    <ProjectType>Dart</ProjectType>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Class.dart</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true">Class.dart</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

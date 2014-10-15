@@ -416,6 +416,13 @@
       <Project>{65ebab30-e636-4515-8315-4f42cf29b6f3}</Project>
       <Name>DanTup.DartAnalysis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Templates\Item\DartClassItemTemplate\DartClassItemTemplate.csproj">
+      <Project>{4371e445-c653-4470-becf-7f69870725f3}</Project>
+      <Name>DartClassItemTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Condition="Exists($(VsSdkTargets))" Project="$(VsSdkTargets)" />
