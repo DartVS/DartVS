@@ -125,6 +125,14 @@
     <value>An empty class definition</value>
     <comment>Item template description</comment>
   </data>
+  <data name="2002" xml:space="preserve">
+    <value>Code File</value>
+    <comment>Item template name</comment>
+  </data>
+  <data name="2003" xml:space="preserve">
+    <value>A blank Dart code file</value>
+    <comment>Item template description</comment>
+  </data>
   <data name="2100" xml:space="preserve">
     <value>Sample Project</value>
     <comment>Project template name</comment>

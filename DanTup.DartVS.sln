@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanTup.DartVS.Vsix", "DanTup.DartVS.Vsix\DanTup.DartVS.Vsix.csproj", "{CFC8B136-5D0D-4439-9373-E7B1CA027118}"
 EndProject
@@ -78,6 +78,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartWebApplicationProjectTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartPackageProjectTemplate", "Templates\Project\DartPackageProjectTemplate\DartPackageProjectTemplate.csproj", "{85983C28-8F25-4062-A337-4EB981941508}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartCodeFileItemTemplate", "Templates\Item\DartCodeFileItemTemplate\DartCodeFileItemTemplate.csproj", "{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{85983C28-8F25-4062-A337-4EB981941508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85983C28-8F25-4062-A337-4EB981941508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85983C28-8F25-4062-A337-4EB981941508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,5 +142,6 @@ Global
 		{F25888C1-45ED-44E7-B05F-0D5E8207821D} = {1F55ABC4-E076-434F-BD98-D60C81451C81}
 		{1CAE7B49-3E56-47FF-82E1-770533167851} = {1F55ABC4-E076-434F-BD98-D60C81451C81}
 		{85983C28-8F25-4062-A337-4EB981941508} = {1F55ABC4-E076-434F-BD98-D60C81451C81}
+		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1} = {24723645-E020-4404-8C34-4F1219FCAA58}
 	EndGlobalSection
 EndGlobal
