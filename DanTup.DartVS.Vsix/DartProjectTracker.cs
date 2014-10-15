@@ -106,7 +106,7 @@ namespace DanTup.DartVS
 
 		FileSystemWatcher CreateWatcher(Project project)
 		{
-			var watcher = new FileSystemWatcher(GetProjectLocation(project), "*.dart");
+			var watcher = new FileSystemWatcher(GetProjectLocation(project), "*" + DartConstants.FileExtension);
 
 			watcher.IncludeSubdirectories = true;
 			watcher.NotifyFilter = NotifyFilters.FileName;
@@ -156,7 +156,7 @@ namespace DanTup.DartVS
 
 		internal static bool IsDartFile(string filename)
 		{
-			return string.Equals(Path.GetExtension(filename), ".dart", StringComparison.OrdinalIgnoreCase);
+			return string.Equals(Path.GetExtension(filename), DartConstants.FileExtension, StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

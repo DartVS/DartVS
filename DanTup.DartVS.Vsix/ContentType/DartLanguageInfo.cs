@@ -9,18 +9,18 @@ namespace DanTup.DartVS
 	{
 		ITextDocumentFactoryService textDocumentFactory;
 		IVsEditorAdaptersFactoryService editorAdapterFactory;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 
-		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartVsAnalysisService analysisService)
+		public DartLanguageInfo(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.textDocumentFactory = textDocumentFactory;
 			this.editorAdapterFactory = editorAdapterFactory;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 		}
 
 		public int GetCodeWindowManager(IVsCodeWindow pCodeWin, out IVsCodeWindowManager ppCodeWinMgr)
 		{
-			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin, analysisService);
+			ppCodeWinMgr = new DartCodeWindowManager(textDocumentFactory, editorAdapterFactory, pCodeWin, analysisServiceFactory);
 			return VSConstants.S_OK;
 		}
 
@@ -32,13 +32,13 @@ namespace DanTup.DartVS
 
 		public int GetFileExtensions(out string pbstrExtensions)
 		{
-			pbstrExtensions = ".dart";
+			pbstrExtensions = DartConstants.FileExtension;
 			return VSConstants.S_OK;
 		}
 
 		public int GetLanguageName(out string bstrName)
 		{
-			bstrName = "Dart";
+			bstrName = DartConstants.LanguageName;
 			return VSConstants.S_OK;
 		}
 	}

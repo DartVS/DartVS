@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(IQuickInfoSourceProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[Name("Dart Quick")]
 	class QuickInfoSourceProvider : IQuickInfoSourceProvider
 	{
@@ -24,11 +24,11 @@ namespace DanTup.DartVS
 		IBufferTagAggregatorFactoryService tagAggregatorService = null;
 
 		[Import]
-		DartVsAnalysisService analysisService = null;
+		DartAnalysisServiceFactory analysisServiceFactory = null;
 
 		public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer buffer)
 		{
-			return new QuickInfoSource(this, buffer, textDocumentFactory, tagAggregatorService.CreateTagAggregator<ClassificationTag>(buffer), analysisService);
+			return new QuickInfoSource(this, buffer, textDocumentFactory, tagAggregatorService.CreateTagAggregator<ClassificationTag>(buffer), analysisServiceFactory);
 		}
 	}
 
@@ -38,15 +38,15 @@ namespace DanTup.DartVS
 		ITextBuffer buffer;
 		ITextDocumentFactoryService textDocumentFactory;
 		ITagAggregator<ClassificationTag> tagAggregator;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 
-		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartVsAnalysisService analysisService)
+		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.provider = provider;
 			this.buffer = buffer;
 			this.textDocumentFactory = textDocumentFactory;
 			this.tagAggregator = tagAggregator;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 		}
 
 		int? inProgressPosition = null;
@@ -68,16 +68,18 @@ namespace DanTup.DartVS
 
 			// Figure out if this is a recalculate for an existing span (not sure if this is the best way of supporting async...?)
 			if (inProgressPosition != null && inProgressPosition.Value == triggerPoint.Value.Position)
+			{
 				UpdateTooltip(session, quickInfoContent, out applicableToSpan);
+			}
 			else
-				StartTooltipRequest(session, quickInfoContent, out applicableToSpan, triggerPoint, doc.FilePath);
+			{
+				applicableToSpan = GetApplicableToSpan(triggerPoint);
+				var ignoredTask = StartTooltipRequestAsync(session, quickInfoContent, applicableToSpan, triggerPoint, doc.FilePath);
+			}
 		}
 
-		void StartTooltipRequest(IQuickInfoSession session, IList<object> quickInfoContent, out ITrackingSpan applicableToSpan, SnapshotPoint? triggerPoint, string filePath)
+		async Task StartTooltipRequestAsync(IQuickInfoSession session, IList<object> quickInfoContent, ITrackingSpan applicableToSpan, SnapshotPoint? triggerPoint, string filePath)
 		{
-			// Get the span from the Classification data.
-			applicableToSpan = GetApplicableToSpan(triggerPoint);
-
 			// If this position didn't have a classification, then it's uninteresting, and won't have tooltips.
 			if (applicableToSpan == null)
 				return;
@@ -91,24 +93,24 @@ namespace DanTup.DartVS
 			quickInfoContent.Add("Loading...");
 
 			// Fire off a request to the service to get the data.
-			analysisService
-				.GetHover(filePath, triggerPoint.Value.Position)
-				.ContinueWith(hovers =>
-				{
-					// Build the tooltip info if the response was valid.
-					var tooltipData = BuildTooltip(hovers.Result);
+			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			HoverInformation[] hovers = await analysisService.GetHover(filePath, triggerPoint.Value.Position);
 
-					if (!string.IsNullOrWhiteSpace(tooltipData))
-					{
-						// Stash the data for the next call, and tell VS to reclaculate now that we have the good info.
-						inProgressTooltipData = tooltipData;
-						inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers.Result[0].Offset, hovers.Result[0].Length, SpanTrackingMode.EdgeInclusive);
-						session.Recalculate();
-					}
-					else
-						// Otherwise, no valid response, means no tooltip.
-						session.Dismiss();
-				}, TaskScheduler.FromCurrentSynchronizationContext()); // TODO: Without this, Dismiss doesn't work; but is this a good way to do it?
+			// Build the tooltip info if the response was valid.
+			var tooltipData = BuildTooltip(hovers);
+
+			if (!string.IsNullOrWhiteSpace(tooltipData))
+			{
+				// Stash the data for the next call, and tell VS to reclaculate now that we have the good info.
+				inProgressTooltipData = tooltipData;
+				inProgressApplicableToSpan = buffer.CurrentSnapshot.CreateTrackingSpan(hovers[0].Offset, hovers[0].Length, SpanTrackingMode.EdgeInclusive);
+				session.Recalculate();
+			}
+			else
+			{
+				// Otherwise, no valid response, means no tooltip.
+				session.Dismiss();
+			}
 		}
 
 		ITrackingSpan GetApplicableToSpan(SnapshotPoint? triggerPoint)

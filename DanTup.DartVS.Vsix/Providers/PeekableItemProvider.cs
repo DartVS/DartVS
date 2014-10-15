@@ -11,7 +11,7 @@ namespace DanTup.DartVS
 	// TODO: This doesn't seem to work; but leaving it here for later when hopefully we can figure it out...
 
 	//[Export(typeof(IPeekableItemSourceProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[SupportsStandaloneFiles(true)]
 	class PeekableItemProvider : IPeekableItemSourceProvider
 	{

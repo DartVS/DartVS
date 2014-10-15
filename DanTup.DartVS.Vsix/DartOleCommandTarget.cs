@@ -16,15 +16,15 @@ namespace DanTup.DartVS
 		protected IWpfTextView textView;
 		protected ITextDocument textDocument;
 		protected IOleCommandTarget nextCommandTarget;
-		protected DartVsAnalysisService analysisService;
+		protected DartAnalysisServiceFactory analysisServiceFactory;
 
 		uint[] commandIDs;
 
-		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService, params T[] commandIDs)
+		public DartOleCommandTarget(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisServiceFactory analysisServiceFactory, params T[] commandIDs)
 		{
 			this.textViewAdapter = textViewAdapter;
 			this.textView = textView;
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 			this.commandIDs = commandIDs.Select(commandID => Convert.ToUInt32(commandID, CultureInfo.InvariantCulture)).ToArray();
 
 			textDocumentFactory.TryGetTextDocument(textView.TextBuffer, out this.textDocument);

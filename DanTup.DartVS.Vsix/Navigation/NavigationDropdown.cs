@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using DanTup.DartAnalysis;
@@ -39,19 +40,19 @@ namespace DanTup.DartVS
 
 
 		IVsDropdownBar dropdown;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 		string file;
 		IWpfTextView wpfTextView;
 
 		Dispatcher dispatcher;
 
-		IDisposable subscription;
+		Task<IDisposable> subscription;
 		Outline[] topLevelItems = new Outline[0];
 		Outline[] secondLevelItems = new Outline[0];
 
-		public NavigationDropdown(DartVsAnalysisService analysisService, string file, IWpfTextView wpfTextView)
+		public NavigationDropdown(DartAnalysisServiceFactory analysisServiceFactory, string file, IWpfTextView wpfTextView)
 		{
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 			this.file = file;
 			this.wpfTextView = wpfTextView;
 
@@ -61,13 +62,19 @@ namespace DanTup.DartVS
 			dispatcher = Dispatcher.CurrentDispatcher;
 
 			// Subscribe to outline updates for this file
-			subscription = this.analysisService.AnalysisOutlineNotification.Where(en => en.File == file).Subscribe(UpdateSourceData);
+			subscription = SubscribeAsync();
+		}
+
+		private async Task<IDisposable> SubscribeAsync()
+		{
+			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			return analysisService.AnalysisOutlineNotification.Where(en => en.File == file).Subscribe(UpdateSourceData);
 		}
 
 		internal void Unregister()
 		{
 			this.wpfTextView.Caret.PositionChanged -= CaretPositionChanged;
-			subscription.Dispose();
+			subscription.ContinueWith(task => task.Result.Dispose(), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 
 		void UpdateSourceData(AnalysisOutlineNotification notification)

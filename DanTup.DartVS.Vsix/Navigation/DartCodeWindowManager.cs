@@ -12,13 +12,13 @@ namespace DanTup.DartVS
 		IVsDropdownBarManager barManager;
 		IWpfTextView wpfTextView;
 		ITextDocument textDocument;
-		DartVsAnalysisService analysisService;
+		DartAnalysisServiceFactory analysisServiceFactory;
 		NavigationDropdown dropdown;
 
-		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, IVsCodeWindow codeWindow, DartVsAnalysisService analysisService)
+		public DartCodeWindowManager(ITextDocumentFactoryService textDocumentFactory, IVsEditorAdaptersFactoryService editorAdapterFactory, IVsCodeWindow codeWindow, DartAnalysisServiceFactory analysisServiceFactory)
 		{
 			this.barManager = ((IVsDropdownBarManager)codeWindow);
-			this.analysisService = analysisService;
+			this.analysisServiceFactory = analysisServiceFactory;
 
 			// Figure out the filename (seriously; this is the best way?!).
 			IVsTextView textView;
@@ -29,7 +29,7 @@ namespace DanTup.DartVS
 
 		public int AddAdornments()
 		{
-			dropdown = new NavigationDropdown(analysisService, textDocument.FilePath, wpfTextView);
+			dropdown = new NavigationDropdown(analysisServiceFactory, textDocument.FilePath, wpfTextView);
 			barManager.AddDropdownBar(2, dropdown);
 			return VSConstants.S_OK;
 		}

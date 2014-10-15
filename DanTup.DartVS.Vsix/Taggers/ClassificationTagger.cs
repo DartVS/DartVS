@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
+using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
@@ -13,7 +15,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace DanTup.DartVS
 {
 	[Export(typeof(ITaggerProvider))]
-	[ContentType(DartContentTypeDefinition.DartContentType)]
+	[ContentType(DartConstants.ContentType)]
 	[TagType(typeof(ClassificationTag))]
 	internal sealed class ClassificationTagProvider : ITaggerProvider
 	{
@@ -21,14 +23,14 @@ namespace DanTup.DartVS
 		ITextDocumentFactoryService textDocumentFactory = null;
 
 		[Import]
-		DartVsAnalysisService analysisService = null;
+		DartAnalysisServiceFactory analysisServiceFactory = null;
 
 		[Import]
 		internal IClassificationTypeRegistryService classificationTypeRegistry = null;
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
-			return new ClassificationTagger(buffer, textDocumentFactory, analysisService, classificationTypeRegistry) as ITagger<T>;
+			return new ClassificationTagger(buffer, textDocumentFactory, analysisServiceFactory, classificationTypeRegistry) as ITagger<T>;
 		}
 	}
 
@@ -36,8 +38,8 @@ namespace DanTup.DartVS
 	{
 		IDictionary<HighlightRegionType, IClassificationType> classificationMapping;
 
-		public ClassificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartVsAnalysisService analysisService, IClassificationTypeRegistryService typeService)
-			: base(buffer, textDocumentFactory, analysisService)
+		public ClassificationTagger(ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, DartAnalysisServiceFactory analysisServiceFactory, IClassificationTypeRegistryService typeService)
+			: base(buffer, textDocumentFactory, analysisServiceFactory)
 		{
 			// Mapping of Analysis Server's HighlightRegionTypes to the VS Classifications we wish to give them.
 			classificationMapping = new Dictionary<HighlightRegionType, IClassificationType>
@@ -89,9 +91,10 @@ namespace DanTup.DartVS
 			return new TagSpan<ClassificationTag>(new SnapshotSpan(buffer.CurrentSnapshot, highlight.Offset, highlight.Length), new ClassificationTag(classificationMapping[highlight.Type]));
 		}
 
-		protected override IDisposable Subscribe(Action<AnalysisHighlightsNotification> updateSourceData)
+		protected override async Task<IDisposable> SubscribeAsync(Action<AnalysisHighlightsNotification> updateSourceData)
 		{
-			return this.analysisService.AnalysisHighlightsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
+			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			return analysisService.AnalysisHighlightsNotification.Where(en => en.File == textDocument.FilePath).Subscribe(updateSourceData);
 		}
 
 		protected override HighlightRegion[] GetDataToTag(AnalysisHighlightsNotification notification)

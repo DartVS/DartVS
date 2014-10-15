@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Threading;
+using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
@@ -14,16 +16,22 @@ namespace DanTup.DartVS
 	class DartGoToDefinition : DartOleCommandTarget<VSConstants.VSStd97CmdID>
 	{
 		SVsServiceProvider serviceProvider;
-		IDisposable subscription;
+		Task<IDisposable> subscription;
 		NavigationRegion[] navigationRegions = new NavigationRegion[0];
 
-		public DartGoToDefinition(SVsServiceProvider serviceProvider, ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
-			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd97CmdID.GotoDefn)
+		public DartGoToDefinition(SVsServiceProvider serviceProvider, ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisServiceFactory analysisServiceFactory)
+			: base(textDocumentFactory, textViewAdapter, textView, analysisServiceFactory, VSConstants.VSStd97CmdID.GotoDefn)
 		{
 			this.serviceProvider = serviceProvider;
 
 			// Subscribe to outline updates for this file.
-			subscription = this.analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
+			subscription = SubscribeAsync();
+		}
+
+		private async Task<IDisposable> SubscribeAsync()
+		{
+			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			return analysisService.AnalysisNavigationNotification.Where(en => en.File == textDocument.FilePath).Subscribe(UpdateNavigationData);
 		}
 
 		void UpdateNavigationData(AnalysisNavigationNotification notification)

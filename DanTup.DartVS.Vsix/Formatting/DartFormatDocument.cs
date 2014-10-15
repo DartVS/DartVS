@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Text;
@@ -9,20 +10,26 @@ namespace DanTup.DartVS
 {
 	class DartFormatDocument : DartOleCommandTarget<VSConstants.VSStd2KCmdID>
 	{
-		public DartFormatDocument(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartVsAnalysisService analysisService)
-			: base(textDocumentFactory, textViewAdapter, textView, analysisService, VSConstants.VSStd2KCmdID.FORMATDOCUMENT)
+		readonly Task<DartAnalysisService> analysisService;
+
+		public DartFormatDocument(ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisServiceFactory analysisServiceFactory)
+			: base(textDocumentFactory, textViewAdapter, textView, analysisServiceFactory, VSConstants.VSStd2KCmdID.FORMATDOCUMENT)
 		{
+			analysisService = analysisServiceFactory.GetAnalysisServiceAsync();
 		}
 
 		protected override void Exec(uint nCmdID, IntPtr pvaIn)
 		{
+			if (analysisService.Status != TaskStatus.RanToCompletion)
+				throw new NotSupportedException("The analysis service is not available.");
+
 			// Get the current state of the document (we can't format on-disk, as it might not have been saved).
 			var fileContents = textView.TextSnapshot.GetText();
 			var caretLine = textView.TextSnapshot.GetLineNumberFromPosition(textView.Caret.Position.BufferPosition.Position);
 
 			// Call the formatter.
 			string formattedFileContents;
-			using (var formatter = new DartFormatter(DartVsAnalysisService.SdkPath))
+			using (var formatter = new DartFormatter(analysisService.Result.SdkFolder))
 				formattedFileContents = formatter.FormatText(fileContents);
 
 			// Create a span that is the entire document, since we're going to replace it.
