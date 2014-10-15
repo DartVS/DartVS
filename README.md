@@ -48,7 +48,10 @@ however it's still some way off release :(
 
 ## Installation
 - Install from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/69112f14-62d0-40fb-9ccc-03e3534e7121)
-- Download and unzip the [Dart SDK](https://www.dartlang.org/tools/sdk/)
+
+## Using a custom SDK
+If you wish to use a different version of the SDK than the one bundled with DartVS (for example, a dev channel build), you can:
+- Download and unzip a [Dart SDK](https://www.dartlang.org/tools/sdk/)
 - Set the DART_SDK environment variable to point at the SDK root
 
 
