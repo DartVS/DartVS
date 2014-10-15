@@ -29,6 +29,7 @@ however it's still some way off release :(
 - [ ] [Code Completion](/../../issues/5)
 - [ ] [Dart icon for .dart files](/../../issues/10)
 - [x] [Remove hard-coded references to analysis service](/../../issues/30)
+- [ ] [Basic Project System](/../../issues/9)
 
 ## Planned for after v1
 - [ ] [Automatically format block on closing brace](/../../issues/27)
@@ -37,9 +38,9 @@ however it's still some way off release :(
 - [ ] [Code Folding](/../../issues/19)
 - [ ] [Test Support](/../../issues/34)
 - [ ] [Debugging](/../../issues/28)
-- [ ] [Project System](/../../issues/9)
+- [Project System Enhancements](/../../issues/9)
   - [ ] [Automatic `pub get`](/../../issues/17)
-  - [ ] [F5 -> `pub serve`](/../../issues/17)
+  - [ ] [F5 -> `pub serve`/`pub run`](/../../issues/17)
   - [ ] [`pub build`](/../../issues/17)
 - [ ] [Refactorings](/../../issues/18)
 - [ ] [Snippets](/../../issues/31)
