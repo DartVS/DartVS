@@ -17,7 +17,6 @@
     <ShowAllWarnings>True</ShowAllWarnings>
     <TreatWarningsAsErrors>None</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>Default</DebugSymbols>
@@ -25,7 +24,6 @@
     <ShowAllWarnings>True</ShowAllWarnings>
     <TreatWarningsAsErrors>None</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="lib\$safeprojectname$.dart"/>
