@@ -423,6 +423,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
     </ProjectReference>
+    <ProjectReference Include="..\Templates\Project\DartConsoleApplicationProjectTemplate\DartConsoleApplicationProjectTemplate.csproj">
+      <Project>{F25888C1-45ED-44E7-B05F-0D5E8207821D}</Project>
+      <Name>DartConsoleApplicationProjectTemplate</Name>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+    </ProjectReference>
     <ProjectReference Include="..\Templates\Project\DartSampleProjectTemplate\DartSampleProjectTemplate.csproj">
       <Project>{ca6fda9f-403a-4f63-a215-99079864819a}</Project>
       <Name>DartSampleProjectTemplate</Name>

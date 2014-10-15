@@ -1,0 +1,7 @@
+name: $projectname$
+description: A Dart console application project
+version: 0.1.0
+dependencies:
+  browser: any
+  intl: any
+  unittest: any
