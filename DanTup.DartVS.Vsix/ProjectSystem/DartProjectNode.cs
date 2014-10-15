@@ -7,6 +7,7 @@
     using System.Runtime.InteropServices;
     using System.Text;
     using Microsoft.VisualStudio.Project;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     using __VSHPROPID = Microsoft.VisualStudio.Shell.Interop.__VSHPROPID;
     using _PersistStorageType = Microsoft.VisualStudio.Shell.Interop._PersistStorageType;
@@ -318,6 +319,14 @@
                 typeof(PropertyPages.DartBuildEventsPropertyPage).GUID,
                 typeof(PropertyPages.DartDebugPropertyPage).GUID,
             };
+        }
+
+        public override MSBuildResult CallMSBuild(string config, string platform, IVsOutputWindowPane output, string target)
+        {
+            if ("GetFrameworkPaths".Equals(target, StringComparison.OrdinalIgnoreCase))
+                return MSBuildResult.Successful;
+
+            return base.CallMSBuild(config, platform, output, target);
         }
 
         internal object HandleCreateService(Type serviceType)
