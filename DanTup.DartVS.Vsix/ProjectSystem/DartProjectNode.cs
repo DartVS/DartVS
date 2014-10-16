@@ -6,7 +6,9 @@
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
+    using EnvDTE;
     using Microsoft.VisualStudio.Project;
+    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
     using __VSHPROPID = Microsoft.VisualStudio.Shell.Interop.__VSHPROPID;
@@ -233,30 +235,33 @@
             return true;
         }
 
-#if false
-        protected override int QueryStatusOnNode(Guid cmdGroup, uint cmd, IntPtr pCmdText, ref QueryStatusResult result)
+        protected override int QueryStatusOnNode(Guid cmdGroup, uint cmd, IntPtr pCmdText, ref vsCommandStatus result)
         {
-            if (cmdGroup == VsMenus.guidStandardCommandSet2K)
+            if (cmdGroup == VsMenus.guidStandardCommandSet97)
             {
-                if ((VsCommands2K)cmd == VsCommands2K.SHOWALLFILES)
+                switch ((VSConstants.VSStd97CmdID)cmd)
                 {
-                    result |= QueryStatusResult.NOTSUPPORTED;
+                case VSConstants.VSStd97CmdID.BuildSln:
+                case VSConstants.VSStd97CmdID.RebuildSln:
+                case VSConstants.VSStd97CmdID.CleanSln:
+                    // "supported" includes these items in the Build menu, but they are not enabled
+                    result = vsCommandStatus.vsCommandStatusSupported;
                     return VSConstants.S_OK;
+
+                case VSConstants.VSStd97CmdID.BuildSel:
+                case VSConstants.VSStd97CmdID.RebuildSel:
+                case VSConstants.VSStd97CmdID.CleanSel:
+                    // "unsupported" removes these items from the Build menu
+                    result = vsCommandStatus.vsCommandStatusUnsupported;
+                    return VSConstants.S_OK;
+
+                default:
+                    break;
                 }
             }
 
             return base.QueryStatusOnNode(cmdGroup, cmd, pCmdText, ref result);
         }
-#endif
-
-#if false
-        protected override void ProcessFolders()
-        {
-            base.ProcessFolders();
-
-            this.AddNonMemberItems();
-        }
-#endif
 
         public override bool IsCodeFile(string fileName)
         {

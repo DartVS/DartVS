@@ -259,6 +259,7 @@
       <DependentUpon>FolderBrowserTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectSystem\Controls\IVsUIShellExtensions.cs" />
+    <Compile Include="ProjectSystem\DartBuildableProjectConfig.cs" />
     <Compile Include="ProjectSystem\DartBuildOptions.cs" />
     <Compile Include="ProjectSystem\DartConfigConstants.cs" />
     <Compile Include="ProjectSystem\DartConfigProvider.cs" />
