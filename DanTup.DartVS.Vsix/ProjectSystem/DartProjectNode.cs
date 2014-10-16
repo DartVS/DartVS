@@ -208,7 +208,9 @@
 
         protected override ReferenceContainerNode CreateReferenceContainerNode()
         {
-            return new DartReferenceContainerNode(this);
+            // Hiding the References node for now.
+            // See: https://github.com/DartVS/DartVS/issues/53
+            return null;
         }
 
         public override FileNode CreateFileNode(ProjectElement item)
