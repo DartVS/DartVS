@@ -231,31 +231,6 @@
             return true;
         }
 
-#if false
-        protected override int QueryStatusOnNode(Guid cmdGroup, uint cmd, IntPtr pCmdText, ref QueryStatusResult result)
-        {
-            if (cmdGroup == VsMenus.guidStandardCommandSet2K)
-            {
-                if ((VsCommands2K)cmd == VsCommands2K.SHOWALLFILES)
-                {
-                    result |= QueryStatusResult.NOTSUPPORTED;
-                    return VSConstants.S_OK;
-                }
-            }
-
-            return base.QueryStatusOnNode(cmdGroup, cmd, pCmdText, ref result);
-        }
-#endif
-
-#if false
-        protected override void ProcessFolders()
-        {
-            base.ProcessFolders();
-
-            this.AddNonMemberItems();
-        }
-#endif
-
         public override bool IsCodeFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
