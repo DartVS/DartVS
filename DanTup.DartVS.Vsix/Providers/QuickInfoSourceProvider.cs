@@ -18,17 +18,29 @@ namespace DanTup.DartVS
 	class QuickInfoSourceProvider : IQuickInfoSourceProvider
 	{
 		[Import]
-		ITextDocumentFactoryService textDocumentFactory = null;
+		internal ITextDocumentFactoryService TextDocumentFactoryService
+		{
+			get;
+			private set;
+		}
 
 		[Import]
-		IBufferTagAggregatorFactoryService tagAggregatorService = null;
+		public IBufferTagAggregatorFactoryService BufferTagAggregatorFactoryService
+		{
+			get;
+			private set;
+		}
 
 		[Import]
-		DartAnalysisServiceFactory analysisServiceFactory = null;
+		public DartAnalysisServiceFactory DartAnalysisServiceFactory
+		{
+			get;
+			private set;
+		}
 
 		public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer buffer)
 		{
-			return new QuickInfoSource(this, buffer, textDocumentFactory, tagAggregatorService.CreateTagAggregator<ClassificationTag>(buffer), analysisServiceFactory);
+			return new QuickInfoSource(this, buffer, BufferTagAggregatorFactoryService.CreateTagAggregator<ClassificationTag>(buffer));
 		}
 	}
 
@@ -36,17 +48,13 @@ namespace DanTup.DartVS
 	{
 		QuickInfoSourceProvider provider;
 		ITextBuffer buffer;
-		ITextDocumentFactoryService textDocumentFactory;
 		ITagAggregator<ClassificationTag> tagAggregator;
-		DartAnalysisServiceFactory analysisServiceFactory;
 
-		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITextDocumentFactoryService textDocumentFactory, ITagAggregator<ClassificationTag> tagAggregator, DartAnalysisServiceFactory analysisServiceFactory)
+		public QuickInfoSource(QuickInfoSourceProvider provider, ITextBuffer buffer, ITagAggregator<ClassificationTag> tagAggregator)
 		{
 			this.provider = provider;
 			this.buffer = buffer;
-			this.textDocumentFactory = textDocumentFactory;
 			this.tagAggregator = tagAggregator;
-			this.analysisServiceFactory = analysisServiceFactory;
 		}
 
 		int? inProgressPosition = null;
@@ -63,7 +71,7 @@ namespace DanTup.DartVS
 				return;
 
 			ITextDocument doc;
-			if (!textDocumentFactory.TryGetTextDocument(buffer, out doc))
+			if (!provider.TextDocumentFactoryService.TryGetTextDocument(buffer, out doc))
 				return;
 
 			// Figure out if this is a recalculate for an existing span (not sure if this is the best way of supporting async...?)
@@ -93,7 +101,7 @@ namespace DanTup.DartVS
 			quickInfoContent.Add("Loading...");
 
 			// Fire off a request to the service to get the data.
-			DartAnalysisService analysisService = await analysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
+			DartAnalysisService analysisService = await provider.DartAnalysisServiceFactory.GetAnalysisServiceAsync().ConfigureAwait(false);
 			HoverInformation[] hovers = await analysisService.GetHover(filePath, triggerPoint.Value.Position);
 
 			// Build the tooltip info if the response was valid.
