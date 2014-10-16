@@ -348,6 +348,7 @@
     <Compile Include="Providers\SmartIndentProvider.cs" />
     <Compile Include="Taggers\AnalysisNotificationTagger.cs" />
     <Compile Include="Taggers\ClassificationTagger.cs" />
+    <Compile Include="Taggers\DartClassificationTypes.cs" />
     <Compile Include="Taggers\ErrorSquiggleTagger.cs" />
   </ItemGroup>
   <ItemGroup>
