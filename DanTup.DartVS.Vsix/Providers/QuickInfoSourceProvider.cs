@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
+using DanTup.DartVS.Providers;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using Tvl.VisualStudio.OutputWindow.Interfaces;
 
 namespace DanTup.DartVS
 {
@@ -33,6 +35,13 @@ namespace DanTup.DartVS
 
 		[Import]
 		public DartAnalysisServiceFactory DartAnalysisServiceFactory
+		{
+			get;
+			private set;
+		}
+
+		[Import]
+		public IOutputWindowService OutputWindowService
 		{
 			get;
 			private set;
@@ -73,6 +82,10 @@ namespace DanTup.DartVS
 			ITextDocument doc;
 			if (!provider.TextDocumentFactoryService.TryGetTextDocument(buffer, out doc))
 				return;
+
+			IOutputWindowPane diagnostics = provider.OutputWindowService.TryGetPane(OutputWindowPanes.DartVSDiagnostics);
+			if (diagnostics != null)
+				diagnostics.WriteLine("Quick info requested for: " + doc.FilePath);
 
 			// Figure out if this is a recalculate for an existing span (not sure if this is the best way of supporting async...?)
 			if (inProgressPosition != null && inProgressPosition.Value == triggerPoint.Value.Position)
