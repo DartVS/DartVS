@@ -11,7 +11,7 @@ namespace DartVS
 	{
 		const string RemoteSdkZipUrl = "https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip";
 
-		public static async Task<string> GetSdkPathAsync(CancellationToken cancellationToken)
+		public static async Task<string> GetSdkPathAsync()
 		{
 			string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
 			if (!Directory.Exists(result))

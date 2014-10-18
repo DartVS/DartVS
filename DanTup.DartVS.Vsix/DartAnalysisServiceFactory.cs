@@ -36,7 +36,7 @@ namespace DanTup.DartVS
 
 		private async Task<DartAnalysisService> StartGetAnalysisServiceAsync()
 		{
-			string sdkPath = await DartSdk.GetSdkPathAsync(CancellationToken.None).ConfigureAwait(false);
+			string sdkPath = await DartSdk.GetSdkPathAsync().ConfigureAwait(false);
 			return new DartVsAnalysisService(sdkPath, AnalysisServerScript, projectTracker, openFileTracker);
 		}
 
