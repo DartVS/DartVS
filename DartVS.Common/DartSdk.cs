@@ -9,6 +9,8 @@ namespace DartVS
 {
 	public static class DartSdk
 	{
+		const string RemoteSdkZipUrl = "https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip";
+
 		public static async Task<string> GetSdkPathAsync(CancellationToken cancellationToken)
 		{
 			string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
@@ -25,7 +27,7 @@ namespace DartVS
 					string compressed = Path.Combine(tempDir, sdkName);
 
 					using (var httpClient = new HttpClient())
-					using (var stream = await httpClient.GetStreamAsync("https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip").ConfigureAwait(false))
+					using (var stream = await httpClient.GetStreamAsync(RemoteSdkZipUrl).ConfigureAwait(false))
 					using (var outputStream = File.OpenWrite(compressed))
 						await stream.CopyToAsync(outputStream).ConfigureAwait(false);
 
