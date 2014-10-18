@@ -16,15 +16,32 @@ namespace DartVS
 		/// <paramref name="errorHandler"/> as data is received on STDOUT and STDERR.
 		/// </summary>
 		/// <param name="file">The executable file to start.</param>
-		/// <param name="arguments">The arguments to pass to the executable file.</param>
+		/// <param name="args">The arguments to pass to the executable file.</param>
 		/// <param name="outputHandler">A handler to be called for data recieved from STDOUT.</param>
 		/// <param name="errorHandler">A handler to be called for data recieved from STDERR.</param>
-		public StdIOService(string file, string arguments, Action<string> outputHandler, Action<string> errorHandler)
+		[Obsolete("Use the overload that takes a workingDir instead.")]
+		public StdIOService(string file, string args, Action<string> outputHandler, Action<string> errorHandler)
+			: this(Environment.CurrentDirectory, file, args, outputHandler, errorHandler)
+		{
+
+		}
+
+		/// <summary>
+		/// Launches the provided process with the provided arguments and calls <paramref name="outputHandler"/> and
+		/// <paramref name="errorHandler"/> as data is received on STDOUT and STDERR.
+		/// </summary>
+		/// <param name="workingDir">The directory to start the process in.</param>
+		/// <param name="file">The executable file to start.</param>
+		/// <param name="args">The arguments to pass to the executable file.</param>
+		/// <param name="outputHandler">A handler to be called for data recieved from STDOUT.</param>
+		/// <param name="errorHandler">A handler to be called for data recieved from STDERR.</param>
+		public StdIOService(string workingDir, string file, string args, Action<string> outputHandler, Action<string> errorHandler)
 		{
 			var info = new ProcessStartInfo
 			{
+				WorkingDirectory = workingDir,
 				FileName = file,
-				Arguments = arguments,
+				Arguments = args,
 				UseShellExecute = false,
 				RedirectStandardInput = true,
 				RedirectStandardOutput = true,
