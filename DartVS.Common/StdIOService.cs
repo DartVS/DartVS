@@ -72,12 +72,14 @@ namespace DartVS
 				process.StandardInput.WriteLine(value);
 		}
 
-		public void WaitForExit(int milliseconds = 0)
+		public int WaitForExit(int milliseconds = 0)
 		{
 			if (milliseconds == 0)
 				process.WaitForExit();
 			else
 				process.WaitForExit(milliseconds);
+
+			return process.ExitCode;
 		}
 
 		public void Dispose()
