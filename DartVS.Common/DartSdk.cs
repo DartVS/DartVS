@@ -22,6 +22,11 @@ namespace DartVS
 				result = Path.Combine(tempDir, "dart-sdk");
 				if (!Directory.Exists(result))
 				{
+					// TODO: This code might have issues if two threads ask or the SDK at the same time and we need to download it...
+					// Thread1 will start the download.
+					// Thread2 will skip this code (DirectoryExists; unless we're very unlucky with timing), then crash on
+					// the File.Exists check for dart.exe.
+
 					Directory.CreateDirectory(tempDir);
 					string sdkName = "dartsdk-windows-ia32-release.zip";
 					string compressed = Path.Combine(tempDir, sdkName);
