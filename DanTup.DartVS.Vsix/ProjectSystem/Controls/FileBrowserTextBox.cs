@@ -1,214 +1,228 @@
 namespace DanTup.DartVS.ProjectSystem.Controls
 {
-    using System;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.IO;
-    using System.Windows.Forms;
-    using Url = Microsoft.VisualStudio.Shell.Url;
+	using System;
+	using System.ComponentModel;
+	using System.Drawing;
+	using System.IO;
+	using System.Windows.Forms;
+	using Url = Microsoft.VisualStudio.Shell.Url;
 
-    /// <summary>
-    /// Extends a simple text box specialized for browsing to folders. Supports auto-complete and
-    /// a browse button that brings up the folder browse dialog.
-    /// </summary>
-    internal partial class FileBrowserTextBox : UserControl
-    {
-        private string _rootFolder;
+	/// <summary>
+	/// Extends a simple text box specialized for browsing to folders. Supports auto-complete and
+	/// a browse button that brings up the folder browse dialog.
+	/// </summary>
+	internal partial class FileBrowserTextBox : UserControl
+	{
+		private string _rootFolder;
 
-        // =========================================================================================
-        // Constructors
-        // =========================================================================================
+		// =========================================================================================
+		// Constructors
+		// =========================================================================================
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FolderBrowserTextBox"/> class.
-        /// </summary>
-        public FileBrowserTextBox()
-        {
-            this.InitializeComponent();
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FolderBrowserTextBox"/> class.
+		/// </summary>
+		public FileBrowserTextBox()
+		{
+			this.InitializeComponent();
 
-            fileTextBox.Enabled = Enabled;
-            browseButton.Enabled = Enabled;
-        }
+			fileTextBox.Enabled = Enabled;
+			browseButton.Enabled = Enabled;
+		}
 
-        // =========================================================================================
-        // Events
-        // =========================================================================================
+		// =========================================================================================
+		// Events
+		// =========================================================================================
 
-        /// <summary>
-        /// Occurs when the text has changed.
-        /// </summary>
-        [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        public new event EventHandler TextChanged
-        {
-            add { base.TextChanged += value; }
-            remove { base.TextChanged -= value; }
-        }
+		/// <summary>
+		/// Occurs when the text has changed.
+		/// </summary>
+		[Browsable(true)]
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		public new event EventHandler TextChanged
+		{
+			add
+			{
+				base.TextChanged += value;
+			}
 
-        // =========================================================================================
-        // Properties
-        // =========================================================================================
+			remove
+			{
+				base.TextChanged -= value;
+			}
+		}
 
-        /// <summary>
-        /// Gets or sets the path of the selected file.
-        /// </summary>
-        [Bindable(true)]
-        [Browsable(true)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        public override string Text
-        {
-            get { return this.fileTextBox.Text; }
-            set { this.fileTextBox.Text = value; }
-        }
+		// =========================================================================================
+		// Properties
+		// =========================================================================================
 
-        [Bindable( true )]
-        [Browsable( true )]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
-        [EditorBrowsable( EditorBrowsableState.Always )]
-        public string RootFolder
-        {
-            get
-            {
-                try
-                {
-                    if (!string.IsNullOrEmpty(_rootFolder))
-                        Path.IsPathRooted(_rootFolder);
-                }
-                catch (ArgumentException)
-                {
-                    return string.Empty;
-                }
+		/// <summary>
+		/// Gets or sets the path of the selected file.
+		/// </summary>
+		[Bindable(true)]
+		[Browsable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		public override string Text
+		{
+			get
+			{
+				return this.fileTextBox.Text;
+			}
 
-                return _rootFolder;
-            }
+			set
+			{
+				this.fileTextBox.Text = value;
+			}
+		}
 
-            set
-            {
-                _rootFolder = value;
-            }
-        }
+		[Bindable(true)]
+		[Browsable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		public string RootFolder
+		{
+			get
+			{
+				try
+				{
+					if (!string.IsNullOrEmpty(_rootFolder))
+						Path.IsPathRooted(_rootFolder);
+				}
+				catch (ArgumentException)
+				{
+					return string.Empty;
+				}
 
-        [Bindable(true)]
-        [Browsable(true)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [DefaultValue(false)]
-        [Description("When this property is 'true', the file path will be made relative to RootFolder, when possible.")]
-        public bool MakeRelative
-        {
-            get;
-            set;
-        }
+				return _rootFolder;
+			}
 
-        private string FullPath
-        {
-            get
-            {
-                try
-                {
-                    string text = Text ?? string.Empty;
-                    if (!string.IsNullOrEmpty(RootFolder))
-                        text = Path.Combine(RootFolder, text);
+			set
+			{
+				_rootFolder = value;
+			}
+		}
 
-                    return Path.GetFullPath(text);
-                }
-                catch (ArgumentException)
-                {
-                    return string.Empty;
-                }
-            }
-        }
+		[Bindable(true)]
+		[Browsable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[DefaultValue(false)]
+		[Description("When this property is 'true', the file path will be made relative to RootFolder, when possible.")]
+		public bool MakeRelative
+		{
+			get;
+			set;
+		}
 
-        // =========================================================================================
-        // Methods
-        // =========================================================================================
+		private string FullPath
+		{
+			get
+			{
+				try
+				{
+					string text = Text ?? string.Empty;
+					if (!string.IsNullOrEmpty(RootFolder))
+						text = Path.Combine(RootFolder, text);
 
-        /// <summary>
-        /// Sets the bounds of the control. In this case, we fix the height to the text box's height.
-        /// </summary>
-        /// <param name="x">The new x value.</param>
-        /// <param name="y">The new y value.</param>
-        /// <param name="width">The new width value.</param>
-        /// <param name="height">The height value.</param>
-        /// <param name="specified">A set of flags indicating which bounds to set.</param>
-        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-        {
-            if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
-            {
-                height = this.fileTextBox.Height + 1;
-            }
+					return Path.GetFullPath(text);
+				}
+				catch (ArgumentException)
+				{
+					return string.Empty;
+				}
+			}
+		}
 
-            base.SetBoundsCore(x, y, width, height, specified);
-        }
+		// =========================================================================================
+		// Methods
+		// =========================================================================================
 
-        /// <summary>
-        /// Brings up the browse folder dialog.
-        /// </summary>
-        /// <param name="sender">The browse button.</param>
-        /// <param name="e">The <see cref="EventArgs"/> object that contains the event data.</param>
-        private void OnBrowseButtonClick(object sender, EventArgs e)
-        {
-            // initialize the dialog to the current file (if it exists)
-            string fullPath = this.FullPath;
-            if (File.Exists(fullPath))
-            {
-                this.fileBrowserDialog.InitialDirectory = Path.GetDirectoryName(fullPath);
-                this.fileBrowserDialog.FileName = Path.GetFileName(fullPath);
-            }
+		/// <summary>
+		/// Sets the bounds of the control. In this case, we fix the height to the text box's height.
+		/// </summary>
+		/// <param name="x">The new x value.</param>
+		/// <param name="y">The new y value.</param>
+		/// <param name="width">The new width value.</param>
+		/// <param name="height">The height value.</param>
+		/// <param name="specified">A set of flags indicating which bounds to set.</param>
+		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+			{
+				height = this.fileTextBox.Height + 1;
+			}
 
-            // show the dialog
-            if (this.fileBrowserDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                fullPath = this.fileBrowserDialog.FileName;
-                string path = fullPath;
-                if (MakeRelative && !string.IsNullOrEmpty(RootFolder))
-                {
-                    string rootFolder = Path.GetFullPath(RootFolder);
-                    if (Directory.Exists(rootFolder))
-                    {
-                        if (!rootFolder.EndsWith(Path.DirectorySeparatorChar.ToString()) && !rootFolder.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
-                            rootFolder = rootFolder + Path.DirectorySeparatorChar;
+			base.SetBoundsCore(x, y, width, height, specified);
+		}
 
-                        path = new Url(rootFolder).MakeRelative(new Url(fullPath));
-                    }
-                }
+		/// <summary>
+		/// Brings up the browse folder dialog.
+		/// </summary>
+		/// <param name="sender">The browse button.</param>
+		/// <param name="e">The <see cref="EventArgs"/> object that contains the event data.</param>
+		private void OnBrowseButtonClick(object sender, EventArgs e)
+		{
+			// initialize the dialog to the current file (if it exists)
+			string fullPath = this.FullPath;
+			if (File.Exists(fullPath))
+			{
+				this.fileBrowserDialog.InitialDirectory = Path.GetDirectoryName(fullPath);
+				this.fileBrowserDialog.FileName = Path.GetFileName(fullPath);
+			}
 
-                this.fileTextBox.Text = path;
-            }
-        }
+			// show the dialog
+			if (this.fileBrowserDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				fullPath = this.fileBrowserDialog.FileName;
+				string path = fullPath;
+				if (MakeRelative && !string.IsNullOrEmpty(RootFolder))
+				{
+					string rootFolder = Path.GetFullPath(RootFolder);
+					if (Directory.Exists(rootFolder))
+					{
+						if (!rootFolder.EndsWith(Path.DirectorySeparatorChar.ToString()) && !rootFolder.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+							rootFolder = rootFolder + Path.DirectorySeparatorChar;
 
-        /// <summary>
-        /// Raises the <see cref="TextChanged"/> event.
-        /// </summary>
-        /// <param name="sender">The folder text box.</param>
-        /// <param name="e">The <see cref="EventArgs"/> object that contains the event data.</param>
-        private void OnFolderTextBoxTextChanged(object sender, EventArgs e)
-        {
-            UpdateColor();
-            this.OnTextChanged(EventArgs.Empty);
-        }
+						path = new Url(rootFolder).MakeRelative(new Url(fullPath));
+					}
+				}
 
-        protected override void OnEnabledChanged( EventArgs e )
-        {
-            fileTextBox.Enabled = Enabled;
-            browseButton.Enabled = Enabled;
-            UpdateColor();
-            browseButton.Invalidate();
-            base.OnEnabledChanged( e );
-        }
+				this.fileTextBox.Text = path;
+			}
+		}
 
-        private void UpdateColor()
-        {
-            if ( !Enabled )
-            {
-                fileTextBox.BackColor = SystemColors.ControlLight;
-                fileTextBox.ForeColor = SystemColors.GrayText;
-                return;
-            }
+		/// <summary>
+		/// Raises the <see cref="TextChanged"/> event.
+		/// </summary>
+		/// <param name="sender">The folder text box.</param>
+		/// <param name="e">The <see cref="EventArgs"/> object that contains the event data.</param>
+		private void OnFolderTextBoxTextChanged(object sender, EventArgs e)
+		{
+			UpdateColor();
+			this.OnTextChanged(EventArgs.Empty);
+		}
 
-            fileTextBox.ForeColor = SystemColors.ControlText;
-            fileTextBox.BackColor = File.Exists(FullPath) ? SystemColors.ControlLightLight : Color.LightSalmon;
-        }
-    }
+		protected override void OnEnabledChanged(EventArgs e)
+		{
+			fileTextBox.Enabled = Enabled;
+			browseButton.Enabled = Enabled;
+			UpdateColor();
+			browseButton.Invalidate();
+			base.OnEnabledChanged(e);
+		}
+
+		private void UpdateColor()
+		{
+			if (!Enabled)
+			{
+				fileTextBox.BackColor = SystemColors.ControlLight;
+				fileTextBox.ForeColor = SystemColors.GrayText;
+				return;
+			}
+
+			fileTextBox.ForeColor = SystemColors.ControlText;
+			fileTextBox.BackColor = File.Exists(FullPath) ? SystemColors.ControlLightLight : Color.LightSalmon;
+		}
+	}
 }
