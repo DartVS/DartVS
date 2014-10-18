@@ -95,9 +95,6 @@
     <Compile Include="Infrastructure\Response.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\StdIOService.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Requests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +105,12 @@
     <Content Include="..\..\Dart\dart\pkg\analysis_server\tool\spec\spec_input.html">
       <Link>spec_input.html</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DartVS.Common\DartVS.Common.csproj">
+      <Project>{d623dced-f976-4caf-96be-24c2a6d8950a}</Project>
+      <Name>DartVS.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

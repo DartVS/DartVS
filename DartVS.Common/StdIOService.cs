@@ -2,12 +2,12 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace DanTup.DartAnalysis
+namespace DartVS
 {
 	/// <summary>
 	/// Wraps a process for two-way communication over STDIN/STDOUT.
 	/// </summary>
-	class StdIOService : IDisposable
+	public class StdIOService : IDisposable
 	{
 		readonly Process process;
 
