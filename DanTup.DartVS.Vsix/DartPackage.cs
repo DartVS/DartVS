@@ -16,6 +16,7 @@ namespace DanTup.DartVS
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	[ProvideLanguageService(typeof(DartLanguageInfo), DartConstants.LanguageName, 100)]
 	[ProvideLanguageExtension(typeof(DartLanguageInfo), DartConstants.FileExtension)]
+	[ProvideBindingPath]
 	[Guid(DartConstants.PackageGuidString)]
 	public sealed class DartPackage : Package
 	{
