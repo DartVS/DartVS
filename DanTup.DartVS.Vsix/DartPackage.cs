@@ -16,6 +16,9 @@ namespace DanTup.DartVS
 	[ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
 	[ProvideLanguageService(typeof(DartLanguageInfo), DartConstants.LanguageName, 100)]
 	[ProvideLanguageExtension(typeof(DartLanguageInfo), DartConstants.FileExtension)]
+
+	[ProvideOptionPage(typeof(OptionsPages.OptionsPageGeneral), "DartVS", "General", 1000, 1001, true)]
+
 	[ProvideBindingPath]
 	[Guid(DartConstants.PackageGuidString)]
 	public sealed class DartPackage : Package
@@ -34,6 +37,14 @@ namespace DanTup.DartVS
 
 		// TODO: Handle file renames properly (errors stick around)
 		// TODO: Handle closing projects/solutions (errors stick around)
+
+		public OptionsPages.OptionsPageGeneral OptionsPageGeneral
+		{
+			get
+			{
+				return GetDialogPage<OptionsPages.OptionsPageGeneral>();
+			}
+		}
 
 		protected override void Initialize()
 		{
@@ -72,6 +83,12 @@ namespace DanTup.DartVS
 		public static T GetGlobalService<T>(Type type = null) where T : class
 		{
 			return Package.GetGlobalService(type ?? typeof(T)) as T;
+		}
+
+		T GetDialogPage<T>()
+			where T : DialogPage
+		{
+			return (T)GetDialogPage(typeof(T));
 		}
 	}
 }
