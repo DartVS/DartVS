@@ -10,22 +10,7 @@ namespace DartVS
 	public class StdIOService : IDisposable
 	{
 		readonly Process process;
-
-		/// <summary>
-		/// Launches the provided process with the provided arguments and calls <paramref name="outputHandler"/> and
-		/// <paramref name="errorHandler"/> as data is received on STDOUT and STDERR.
-		/// </summary>
-		/// <param name="file">The executable file to start.</param>
-		/// <param name="args">The arguments to pass to the executable file.</param>
-		/// <param name="outputHandler">A handler to be called for data recieved from STDOUT.</param>
-		/// <param name="errorHandler">A handler to be called for data recieved from STDERR.</param>
-		[Obsolete("Use the overload that takes a workingDir instead.")]
-		public StdIOService(string file, string args, Action<string> outputHandler, Action<string> errorHandler)
-			: this(Environment.CurrentDirectory, file, args, outputHandler, errorHandler)
-		{
-
-		}
-
+		
 		/// <summary>
 		/// Launches the provided process with the provided arguments and calls <paramref name="outputHandler"/> and
 		/// <paramref name="errorHandler"/> as data is received on STDOUT and STDERR.
