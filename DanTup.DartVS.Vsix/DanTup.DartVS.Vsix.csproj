@@ -250,6 +250,9 @@
     <Compile Include="DartProjectTracker.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
+    <Compile Include="OptionsPages\OptionsPageGeneral.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ProjectSystem\Automation\OAJarReference.cs" />
     <Compile Include="ProjectSystem\Controls\FileBrowserTextBox.cs">
       <SubType>usercontrol</SubType>
