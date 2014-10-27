@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="100" xml:space="preserve">
+    <value>Dart</value>
+    <comment>Language name</comment>
+  </data>
   <data name="1000" xml:space="preserve">
     <value>DartVS</value>
     <comment>Top-level options category name</comment>
@@ -124,6 +128,14 @@
   <data name="1001" xml:space="preserve">
     <value>General</value>
     <comment>Top-level options page name</comment>
+  </data>
+  <data name="101" xml:space="preserve">
+    <value>DanTup's DartVS: Visual Studio support for Google's Dart</value>
+    <comment>Product name (installed product registration)</comment>
+  </data>
+  <data name="102" xml:space="preserve">
+    <value>Some support for coding Dart in Visual Studio.</value>
+    <comment>Product details (installed product registration)</comment>
   </data>
   <data name="2000" xml:space="preserve">
     <value>Class</value>
