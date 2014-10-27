@@ -130,11 +130,11 @@
     <comment>Top-level options page name</comment>
   </data>
   <data name="101" xml:space="preserve">
-    <value>DanTup's DartVS: Visual Studio support for Google's Dart</value>
+    <value>DartVS: Visual Studio support for Google's Dart</value>
     <comment>Product name (installed product registration)</comment>
   </data>
   <data name="102" xml:space="preserve">
-    <value>Some support for coding Dart in Visual Studio.</value>
+    <value>Support for coding Dart in Visual Studio.</value>
     <comment>Product details (installed product registration)</comment>
   </data>
   <data name="2000" xml:space="preserve">
