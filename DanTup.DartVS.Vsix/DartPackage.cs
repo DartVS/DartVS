@@ -8,7 +8,9 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
+using Tvl.VisualStudio.OutputWindow.Interfaces;
 
 namespace DanTup.DartVS
 {
@@ -32,6 +34,12 @@ namespace DanTup.DartVS
 		DartErrorListProvider errorProvider;
 		Task<IDisposable> errorsSubscription;
 
+		/// <summary>
+		/// This error list provider is used to warn developers if the VSBase Services Debugging Support extension is
+		/// not installed.
+		/// </summary>
+		ErrorListProvider vsbaseWarningProvider;
+
 		// TODO: Handle file renames properly (errors stick around)
 		// TODO: Handle closing projects/solutions (errors stick around)
 
@@ -47,10 +55,43 @@ namespace DanTup.DartVS
 			errorProvider = new DartErrorListProvider(this);
 			errorsSubscription = SubscribeAsync(errorProvider);
 
+			// Warn users if dependencies aren't installed.
+			vsbaseWarningProvider = new ErrorListProvider(this);
+			if (componentModel.DefaultExportProvider.GetExportedValueOrDefault<IOutputWindowService>() == null)
+			{
+				ErrorTask task = new ErrorTask()
+				{
+					Category = TaskCategory.Misc,
+					ErrorCategory = TaskErrorCategory.Error,
+					Text = "The required VSBase Services debugging support extension is not installed. Click here for more information."
+				};
+				task.Navigate += HandleNavigateToVsBaseServicesExtension;
+				vsbaseWarningProvider.Tasks.Add(task);
+				vsbaseWarningProvider.Show();
+			}
+
 			// Register icons so they show in the solution explorer nicely.
 			IconRegistration.RegisterIcons();
 
 			((IServiceContainer)this).AddService(typeof(DartLanguageInfo), new DartLanguageInfo(textDocumentFactory, editorAdapterFactory, analysisServiceFactory), true);
+		}
+
+		private void HandleNavigateToVsBaseServicesExtension(object sender, EventArgs e)
+		{
+			IVsWebBrowsingService webBrowsingService = GetService(typeof(SVsWebBrowsingService)) as IVsWebBrowsingService;
+			if (webBrowsingService != null)
+			{
+				IVsWindowFrame windowFrame;
+				webBrowsingService.Navigate("https://visualstudiogallery.msdn.microsoft.com/fca95a59-3fc6-444e-b20c-cc67828774cd", 0, out windowFrame);
+				return;
+			}
+
+			IVsUIShellOpenDocument openDocument = GetService(typeof(SVsUIShellOpenDocument)) as IVsUIShellOpenDocument;
+			if (openDocument != null)
+			{
+				openDocument.OpenStandardPreviewer(0, "https://visualstudiogallery.msdn.microsoft.com/fca95a59-3fc6-444e-b20c-cc67828774cd", VSPREVIEWRESOLUTION.PR_Default, 0);
+				return;
+			}
 		}
 
 		private async Task<IDisposable> SubscribeAsync(DartErrorListProvider errorProvider)
@@ -66,6 +107,9 @@ namespace DanTup.DartVS
 				Task<IDisposable> errorsSubscriptionTask = errorsSubscription;
 				if (errorsSubscriptionTask != null)
 					errorsSubscriptionTask.ContinueWith(task => task.Result.Dispose(), TaskContinuationOptions.OnlyOnRanToCompletion);
+
+				if (vsbaseWarningProvider != null)
+					vsbaseWarningProvider.Dispose();
 			}
 		}
 
