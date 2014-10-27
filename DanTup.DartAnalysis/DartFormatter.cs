@@ -30,7 +30,7 @@ namespace DanTup.DartAnalysis
 				var output = new StringBuilder();
 				var errors = new StringBuilder();
 				var didError = false;
-				using (var formatter = new StdIOService(Path.Combine(sdkFolder, @"bin\dartfmt.bat"), tempFileLocation, msg => output.AppendLine(msg), err => { if (err != null) { errors.AppendLine(err); didError = true; } }))
+				using (var formatter = new StdIOService(sdkFolder, Path.Combine(sdkFolder, @"bin\dartfmt.bat"), tempFileLocation, msg => output.AppendLine(msg), err => { if (err != null) { errors.AppendLine(err); didError = true; } }))
 					formatter.WaitForExit(); // Wait up to 30 seconds...
 
 				if (didError)

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
 using DanTup.DartAnalysis.Json;
-using Directory = System.IO.Directory;
-using File = System.IO.File;
+using DartVS;
 using Path = System.IO.Path;
-using Stream = System.IO.Stream;
 
 namespace DanTup.DartVS
 {
@@ -33,42 +29,6 @@ namespace DanTup.DartVS
 			this.getAnalysisServerTask = new Lazy<Task<DartAnalysisService>>(StartGetAnalysisServiceAsync, LazyThreadSafetyMode.ExecutionAndPublication);
 		}
 
-		private static async Task<string> GetSdkPathAsync(CancellationToken cancellationToken)
-		{
-			string result = Environment.GetEnvironmentVariable("DART_SDK", EnvironmentVariableTarget.Process);
-			if (!Directory.Exists(result))
-			{
-				string extensionName = "DartVS";
-				string extensionVersion = AssemblyInfo.AssemblyInformationalVersion;
-				string tempDir = Path.Combine(Path.GetTempPath(), string.Format("{0}-{1}-sdk", extensionName, extensionVersion));
-				result = Path.Combine(tempDir, "dart-sdk");
-				if (!Directory.Exists(result))
-				{
-					Directory.CreateDirectory(tempDir);
-					string sdkName = "dartsdk-windows-ia32-release.zip";
-					string compressed = Path.Combine(tempDir, sdkName);
-
-					using (HttpClient httpClient = new HttpClient())
-					{
-						using (Stream stream = await httpClient.GetStreamAsync("https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-windows-ia32-release.zip").ConfigureAwait(false))
-						{
-							using (var outputStream = File.OpenWrite(compressed))
-							{
-								await stream.CopyToAsync(outputStream).ConfigureAwait(false);
-							}
-						}
-					}
-
-					ZipFile.ExtractToDirectory(compressed, tempDir);
-				}
-			}
-
-			if (!Directory.Exists(result) || !File.Exists(Path.Combine(result, "bin", "dart.exe")))
-				throw new NotSupportedException("Could not locate or download the Dart SDK. All analysis is disabled.");
-
-			return result;
-		}
-
 		public Task<DartAnalysisService> GetAnalysisServiceAsync()
 		{
 			return getAnalysisServerTask.Value;
@@ -76,7 +36,7 @@ namespace DanTup.DartVS
 
 		private async Task<DartAnalysisService> StartGetAnalysisServiceAsync()
 		{
-			string sdkPath = await GetSdkPathAsync(CancellationToken.None).ConfigureAwait(false);
+			string sdkPath = await DartSdk.GetSdkPathAsync().ConfigureAwait(false);
 			return new DartVsAnalysisService(sdkPath, AnalysisServerScript, projectTracker, openFileTracker);
 		}
 
