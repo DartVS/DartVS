@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanTup.DartVS.Vsix", "DanTup.DartVS.Vsix\DanTup.DartVS.Vsix.csproj", "{CFC8B136-5D0D-4439-9373-E7B1CA027118}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartPackageProjectTemplate"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartCodeFileItemTemplate", "Templates\Item\DartCodeFileItemTemplate\DartCodeFileItemTemplate.csproj", "{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartVS.Common", "DartVS.Common\DartVS.Common.csproj", "{D623DCED-F976-4CAF-96BE-24C2A6D8950A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC1BAFBC-9608-4EC8-9951-33DD74FD58C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
