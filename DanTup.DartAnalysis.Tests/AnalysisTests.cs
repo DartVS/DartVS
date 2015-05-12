@@ -144,8 +144,8 @@ void my_function(String a) {
 			{
 				var analysisNavigationEvent = service.AnalysisNavigationNotification.FirstAsync().PublishLast();
 
-				var regions = new List<NavigationRegion>(); // Keep track of errors that are reported
-				using (service.AnalysisNavigationNotification.Subscribe(e => regions.AddRange(e.Regions)))
+				var notifications = new List<AnalysisNavigationNotification>(); // Keep track of errors that are reported
+				using (service.AnalysisNavigationNotification.Subscribe(notification => notifications.Add(notification)))
 				using (analysisNavigationEvent.Connect())
 				{
 					// Set the roots to our known project and wait for the analysis to complete.
@@ -156,36 +156,32 @@ void my_function(String a) {
 					await service.SetAnalysisSubscriptions(new[] { AnalysisService.Navigation }, HelloWorldFile);
 					await analysisNavigationEvent;
 
-					// Ensure it's what we expect
-					Assert.Equal(2, regions.Count);
+					var notification = notifications.Single();
+					var regions = notifications.SelectMany(n => n.Regions).ToArray();
 
-					Assert.Equal(5, regions[0].Offset);
-					Assert.Equal(4, regions[0].Length);
-					Assert.Equal(1, regions[0].Targets.Length);
-					Assert.Equal(HelloWorldFile, regions[0].Targets[0].Location.File);
-					Assert.Equal(5, regions[0].Targets[0].Location.Offset);
-					Assert.Equal(4, regions[0].Targets[0].Location.Length);
-					Assert.Equal(1, regions[0].Targets[0].Location.StartLine);
-					Assert.Equal(6, regions[0].Targets[0].Location.StartColumn);
-					Assert.Equal(ElementKind.Function, regions[0].Targets[0].Kind);
-					Assert.Equal("main", regions[0].Targets[0].Name);
-					Assert.Equal(AnalysisElementFlags.Static, (AnalysisElementFlags)regions[0].Targets[0].Flags);
-					Assert.Equal("()", regions[0].Targets[0].Parameters);
-					Assert.Equal("void", regions[0].Targets[0].ReturnType);
+					// Ensure it's what we expect
+					Assert.Equal(2, regions.Length);
+
+					var firstRegion = regions.First();
+					var secondRegion = regions.Skip(1).First();
+
+					Assert.Equal(5, firstRegion.Offset);
+					Assert.Equal(4, firstRegion.Length);
+					Assert.Equal(1, firstRegion.Targets.Length);
+					Assert.Equal(HelloWorldFile, notification.Files[firstRegion.Targets.Single()]);
+					Assert.Equal(5, firstRegion.Offset);
+					Assert.Equal(4, firstRegion.Length);
+					Assert.Equal(ElementKind.Function, notification.Targets[0].Kind);
 
 					Assert.Equal(17, regions[1].Offset);
 					Assert.Equal(5, regions[1].Length);
 					Assert.Equal(1, regions[1].Targets.Length);
-					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), regions[1].Targets[0].Location.File, StringComparer.OrdinalIgnoreCase);
-					Assert.Equal(307, regions[1].Targets[0].Location.Offset);
-					Assert.Equal(5, regions[1].Targets[0].Location.Length);
-					Assert.Equal(8, regions[1].Targets[0].Location.StartLine);
-					Assert.Equal(6, regions[1].Targets[0].Location.StartColumn);
-					Assert.Equal(ElementKind.Function, regions[1].Targets[0].Kind);
-					Assert.Equal("print", regions[1].Targets[0].Name);
-					Assert.Equal(AnalysisElementFlags.Static, (AnalysisElementFlags)regions[1].Targets[0].Flags);
-					Assert.Equal("(Object object)", regions[1].Targets[0].Parameters);
-					Assert.Equal("void", regions[1].Targets[0].ReturnType);
+					Assert.Equal(Path.Combine(SdkFolder, @"lib\core\print.dart"), notification.Files[secondRegion.Targets.Single()], StringComparer.OrdinalIgnoreCase);
+					Assert.Equal(307, notification.Targets[regions[1].Targets.Single()].Offset);
+					Assert.Equal(5, notification.Targets[secondRegion.Targets.Single()].Length);
+					Assert.Equal(8, notification.Targets[secondRegion.Targets.Single()].StartLine);
+					Assert.Equal(6, notification.Targets[secondRegion.Targets.Single()].StartColumn);
+					Assert.Equal(ElementKind.Function, notification.Targets[secondRegion.Targets.Single()].Kind);
 				}
 			}
 		}

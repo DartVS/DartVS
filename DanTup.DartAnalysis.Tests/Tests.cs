@@ -43,7 +43,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			await service
 				.ServerStatusNotification
-				.FirstAsync(n => n.Analysis.IsAnalyzing == false);
+				.FirstAsync(n => n.Analysis != null && n.Analysis.IsAnalyzing == false);
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace DanTup.DartAnalysis.Tests
 			{
 				var version = await service.GetServerVersion();
 
-				Assert.Equal(new Version(0, 0, 1), version);
+				Assert.Equal(new Version(1, 6, 0), version);
 			}
 		}
 
@@ -55,7 +55,11 @@ namespace DanTup.DartAnalysis.Tests
 				Assert.IsType<ErrorResponseException>(ex.GetBaseException());
 				var err = ex.GetBaseException() as ErrorResponseException;
 				Assert.Equal("INVALID_PARAMETER", err.Code);
-				Assert.Equal("Expected parameter params.subscriptions[0] to be ServerService", err.ErrorMessage);
+
+				// This error is bad, but what the Analysis Service currently returns!
+				// https://groups.google.com/a/dartlang.org/forum/#!topic/analyzer-discuss/TwIcHnx8rR4
+				Assert.Equal("Invalid parameter 'params.subscriptions[0]'. be ServerService.", err.ErrorMessage);
+				//Assert.Equal("Expected parameter params.subscriptions[0] to be ServerService", err.ErrorMessage);
 			}
 		}
 	}
