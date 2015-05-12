@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Attributes\AnalysisMethodAttribute.cs" />
     <Compile Include="Attributes\AnalysisNotificationAttribute.cs" />
+    <Compile Include="Commands\EditFormat.cs" />
     <Compile Include="Commands\CompletionGetSuggestions.cs" />
     <Compile Include="Commands\AnalysisGetHover.cs" />
     <Compile Include="Commands\AnalysisUpdateContent.cs" />

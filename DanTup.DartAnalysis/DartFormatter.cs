@@ -9,6 +9,7 @@ namespace DanTup.DartAnalysis
 	/// <summary>
 	/// Temporary SDK-based formatter, until the Analysis Service provides this functionality.
 	/// </summary>
+	[Obsolete("Switch to the AnalysisService version.")]
 	public class DartFormatter : IDisposable
 	{
 		readonly string sdkFolder;

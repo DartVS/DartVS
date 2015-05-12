@@ -28,6 +28,7 @@ namespace DanTup.DartVS
 			var caretLine = textView.TextSnapshot.GetLineNumberFromPosition(textView.Caret.Position.BufferPosition.Position);
 
 			// Call the formatter.
+			// TODO: Switch to service...
 			string formattedFileContents;
 			using (var formatter = new DartFormatter(analysisService.Result.SdkFolder))
 				formattedFileContents = formatter.FormatText(fileContents);
