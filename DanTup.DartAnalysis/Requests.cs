@@ -43,10 +43,28 @@ namespace DanTup.DartAnalysis
 		}
 	}
 
-	[AnalysisMethod("analysis.reanalyze")]
-	public class AnalysisReanalyze : Request<Response>
+	[AnalysisMethod("analysis.getLibraryDependencies")]
+	public class AnalysisGetLibraryDependencies : Request<Response<AnalysisGetLibraryDependenciesResponse>>
 	{
 
+	}
+
+	[AnalysisMethod("analysis.getNavigation")]
+	public class AnalysisGetNavigation : Request<AnalysisGetNavigationRequest, Response<AnalysisGetNavigationResponse>>
+	{
+		public AnalysisGetNavigation(AnalysisGetNavigationRequest @params)
+			: base(@params)
+		{
+		}
+	}
+
+	[AnalysisMethod("analysis.reanalyze")]
+	public class AnalysisReanalyze : Request<AnalysisReanalyzeRequest, Response>
+	{
+		public AnalysisReanalyze(AnalysisReanalyzeRequest @params)
+			: base(@params)
+		{
+		}
 	}
 
 	[AnalysisMethod("analysis.setAnalysisRoots")]
@@ -77,7 +95,7 @@ namespace DanTup.DartAnalysis
 	}
 
 	[AnalysisMethod("analysis.updateContent")]
-	public class AnalysisUpdateContent : Request<AnalysisUpdateContentRequest, Response>
+	public class AnalysisUpdateContent : Request<AnalysisUpdateContentRequest, Response<AnalysisUpdateContentResponse>>
 	{
 		public AnalysisUpdateContent(AnalysisUpdateContentRequest @params)
 			: base(@params)
@@ -143,6 +161,15 @@ namespace DanTup.DartAnalysis
 	public class SearchGetTypeHierarchy : Request<SearchGetTypeHierarchyRequest, Response<SearchGetTypeHierarchyResponse>>
 	{
 		public SearchGetTypeHierarchy(SearchGetTypeHierarchyRequest @params)
+			: base(@params)
+		{
+		}
+	}
+
+	[AnalysisMethod("edit.format")]
+	public class EditFormat : Request<EditFormatRequest, Response<EditFormatResponse>>
+	{
+		public EditFormat(EditFormatRequest @params)
 			: base(@params)
 		{
 		}
