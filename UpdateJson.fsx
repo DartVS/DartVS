@@ -59,8 +59,8 @@ let formatConstantName (x : string) =
 
 let rec extractCSharpDictionary (fieldNode : XElement) =
     sprintf "Dictionary<%s, %s>"
-        (fieldNode.Element(!!"map").Descendants(!!"key") |> Seq.exactlyOne |> extractCSharpType)
-        (fieldNode.Element(!!"map").Descendants(!!"value") |> Seq.exactlyOne |> extractCSharpType) // TODO: Eliminate this Seq.head; support unions properly! :(
+        (fieldNode.Element(!!"map").Element(!!"key") |> extractCSharpType)
+        (fieldNode.Element(!!"map").Element(!!"value") |> extractCSharpType) // TODO: Eliminate this Seq.head; support unions properly! :(
 and extractCSharpUnion (unionNode : XElement) =
     "I" + (unionNode.Elements(!!"ref") |> Seq.map (fun n -> n.Value |> getCSharpType) |> String.concat "Or")
 and extractCSharpType (fieldNode : XElement) =
