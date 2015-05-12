@@ -1,2 +1,1 @@
-call dart2js.bat --output-type=dart --categories=Server "M:\Coding\Applications\Dart\dart\pkg\analysis_server\bin\server.dart" -o "Dart\AnalysisServer.dart" -m
-del Dart\AnalysisServer.dart.deps
+copy %DART_SDK%\bin\snapshots\analysis_server.dart.snapshot .\Dart\
