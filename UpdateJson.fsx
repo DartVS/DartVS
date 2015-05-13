@@ -12,7 +12,7 @@ open System.Xml.XPath
 
 Directory.SetCurrentDirectory(__SOURCE_DIRECTORY__)
 let root = Directory.GetCurrentDirectory()
-let apiDocFilename = """M:\Coding\Applications\Dart\dart\pkg\analysis_server\tool\spec\spec_input.html"""
+let apiDocFilename = """Dart\spec_input.html"""
 let outputJsonFilename = """DanTup.DartAnalysis\Json.cs"""
 let outputRequestFilename = """DanTup.DartAnalysis\Requests.cs"""
 
