@@ -308,12 +308,6 @@ namespace DanTup.DartAnalysis.Json
 		/// </summary>
 		[JsonProperty("parameterType")]
 		public string ParameterType { get; set; }
-		/// <summary>
-		/// The import to be added if the suggestion is out of scope
-		/// and needs an import to be added to be in scope.
-		/// </summary>
-		[JsonProperty("importUri")]
-		public string ImportUri { get; set; }
 	}
 
 	/// <summary>
@@ -1010,7 +1004,7 @@ namespace DanTup.DartAnalysis.Json
 	/// </summary>
 	public enum RequestErrorCode
 	{
-		ContentModified, FormatInvalidFile, FormatWithErrors, GetErrorsInvalidFile, InvalidAnalysisRoot, InvalidExecutionContext, InvalidOverlayChange, InvalidParameter, InvalidRequest, NoIndexGenerated, RefactoringRequestCancelled, ServerAlreadyStarted, ServerError, SortMembersInvalidFile, SortMembersParseErrors, UnanalyzedPriorityFiles, UnknownRequest, UnknownSource, UnsupportedFeature
+		ContentModified, FormatInvalidFile, GetErrorsInvalidFile, InvalidAnalysisRoot, InvalidExecutionContext, InvalidOverlayChange, InvalidParameter, InvalidRequest, NoIndexGenerated, RefactoringRequestCancelled, ServerAlreadyStarted, ServerError, SortMembersInvalidFile, SortMembersParseErrors, UnanalyzedPriorityFiles, UnknownRequest, UnknownSource, UnsupportedFeature
 	}
 
 	/// <summary>
