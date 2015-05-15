@@ -28,7 +28,6 @@ print('test');
 				await service.SetAnalysisRoots(new[] { SampleDartProject });
 				await service.WaitForAnalysis();
 
-				//var edit = new SourceEdit { Replacement = text, Offset = 1, Length = 2 }; // TODO: Set this to whole file..
 				await service.UpdateContent(HelloWorldFile, new AddContentOverlay { Type = "add", Content = text });
 				var results = await service.Format(HelloWorldFile, 1, 1);
 
