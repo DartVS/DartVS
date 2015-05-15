@@ -19,7 +19,7 @@ namespace DanTup.DartVS
 		readonly Lazy<Task<DartAnalysisService>> getAnalysisServerTask;
 
 		public static readonly string ExtensionFolder = Path.GetDirectoryName(typeof(DartAnalysisServiceFactory).Assembly.Location);
-		public static readonly string AnalysisServerScript = Path.Combine(ExtensionFolder, @"AnalysisServer.dart");
+		public static readonly string AnalysisServerScript = Path.Combine(ExtensionFolder, @"analysis_server.dart.snapshot");
 
 		[ImportingConstructor]
 		public DartAnalysisServiceFactory(DartProjectTracker projectTracker, OpenFileTracker openFileTracker)

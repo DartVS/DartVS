@@ -17,7 +17,7 @@ namespace DanTup.DartVS
 	{
 		SVsServiceProvider serviceProvider;
 		Task<IDisposable> subscription;
-		NavigationRegion[] navigationRegions = new NavigationRegion[0];
+		AnalysisNavigationNotification navigationNotification = null;
 
 		public DartGoToDefinition(SVsServiceProvider serviceProvider, ITextDocumentFactoryService textDocumentFactory, IVsTextView textViewAdapter, IWpfTextView textView, DartAnalysisServiceFactory analysisServiceFactory)
 			: base(textDocumentFactory, textViewAdapter, textView, analysisServiceFactory, VSConstants.VSStd97CmdID.GotoDefn)
@@ -36,20 +36,20 @@ namespace DanTup.DartVS
 
 		void UpdateNavigationData(AnalysisNavigationNotification notification)
 		{
-			navigationRegions = notification.Regions.ToArray();
+			navigationNotification = notification;
 		}
 
 		protected override void Exec(uint nCmdID, IntPtr pvaIn)
 		{
 			var offset = textView.Caret.Position.BufferPosition.Position;
-			var navigationRegion = navigationRegions.FirstOrDefault(r => r.Offset <= offset && r.Offset + r.Length >= offset);
+			var navigationRegion = navigationNotification.Regions.FirstOrDefault(r => r.Offset <= offset && r.Offset + r.Length >= offset);
 
 			if (navigationRegion.Targets != null && navigationRegion.Targets.Any())
 			{
-				// TODO: Show user if there are multiple!
+				// TODO: Show user if there are multiple targets!
 				var target = navigationRegion.Targets.First();
-				var file = target.Location.File;
-				var position = target.Location.Offset;
+				var file = navigationNotification.Files[target];
+				var position = navigationRegion.Offset;
 
 				Helpers.OpenFileInPreviewTab(serviceProvider, file);
 				Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>

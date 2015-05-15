@@ -250,7 +250,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IconRegistration.cs" />
     <Compile Include="OptionsPages\OptionsPageGeneral.cs">
-      <SubType>Code</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ProjectSystem\Automation\OAJarReference.cs" />
     <Compile Include="ProjectSystem\Controls\FileBrowserTextBox.cs">
@@ -361,8 +361,8 @@
     <Compile Include="Taggers\ErrorSquiggleTagger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Dart\AnalysisServer.dart">
-      <Link>AnalysisServer.dart</Link>
+    <Content Include="..\Dart\analysis_server.dart.snapshot">
+      <Link>analysis_server.dart.snapshot</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="app.config" />

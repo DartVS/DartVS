@@ -22,7 +22,7 @@ namespace DanTup.DartAnalysis.Tests
 
 		string CodebaseRoot = Path.GetFullPath(new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), @"..\..\..\")).AbsolutePath); // up out of debug, bin, Tests
 
-		protected string ServerScript { get { return Path.Combine(CodebaseRoot, "Dart\\AnalysisServer.dart"); } }
+		protected string ServerScript { get { return Path.Combine(CodebaseRoot, "Dart\\analysis_server.dart.snapshot"); } }
 		protected string SampleDartProject { get { return Path.Combine(CodebaseRoot, "DanTup.DartAnalysis.Tests.SampleDartProject"); } }
 		protected string HelloWorldFile { get { return SampleDartProject + @"\hello_world.dart"; } }
 		protected string SingleTypeErrorFile { get { return SampleDartProject + @"\single_type_error.dart"; } }
@@ -43,7 +43,7 @@ namespace DanTup.DartAnalysis.Tests
 		{
 			await service
 				.ServerStatusNotification
-				.FirstAsync(n => n.Analysis.IsAnalyzing == false);
+				.FirstAsync(n => n.Analysis != null && n.Analysis.IsAnalyzing == false);
 		}
 	}
 }
