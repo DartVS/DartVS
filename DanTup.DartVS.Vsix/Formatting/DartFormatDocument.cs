@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DanTup.DartAnalysis;
+using DanTup.DartAnalysis.Json;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -27,21 +28,27 @@ namespace DanTup.DartVS
 			var fileContents = textView.TextSnapshot.GetText();
 			var caretLine = textView.TextSnapshot.GetLineNumberFromPosition(textView.Caret.Position.BufferPosition.Position);
 
-			// Call the formatter.
-			// TODO: Switch to service...
-			string formattedFileContents;
-			using (var formatter = new DartFormatter(analysisService.Result.SdkFolder))
-				formattedFileContents = formatter.FormatText(fileContents);
-
-			// Create a span that is the entire document, since we're going to replace it.
-			var entireDocumentSpan = new Span(0, textView.TextSnapshot.TextBuffer.CurrentSnapshot.Length);
-
-			// Replace the document with the formatted version.
-			textView.TextSnapshot.TextBuffer.Replace(entireDocumentSpan, formattedFileContents);
-
-			// Set the caret back to the correct line if it isn't a hihger line number than we now have.
-			if (caretLine < textView.TextSnapshot.LineCount)
-				textView.Caret.MoveTo(textView.TextSnapshot.GetLineFromLineNumber(caretLine).Start);
+			analysisService
+				.ContinueWith(service => service.Result.Format(textDocument.FilePath, textView.Caret.Position.BufferPosition.Position, 0))
+				.Unwrap()
+				.ContinueWith(UpdateContent, TaskScheduler.FromCurrentSynchronizationContext());
 		}
+
+		void UpdateContent(Task<EditFormatResponse> formatResponse)
+		{
+			// Replace the document with the formatted version.
+			foreach (var edit in formatResponse.Result.Edits)
+			{
+				var editSpan = new Span(edit.Offset, edit.Length);
+				textView.TextSnapshot.TextBuffer.Replace(editSpan, edit.Replacement);
+			}
+
+			var index = formatResponse.Result.SelectionOffset;
+
+			textView.Caret.MoveTo(new SnapshotPoint(textView.TextBuffer.CurrentSnapshot, index));
+
+			textView.ViewScroller.EnsureSpanVisible(new SnapshotSpan(textView.TextBuffer.CurrentSnapshot, index, 0), EnsureSpanVisibleOptions.AlwaysCenter);
+		}
+
 	}
 }
