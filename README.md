@@ -1,4 +1,4 @@
-> NOTE: This software is not being actively developed or maintained, however a Dart integration for Visual Studio Code is which can be found [in the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DanTup.dart-code) and [on GitHub](https://github.com/Dart-Code/Dart-Code)
+> NOTE: This software is not being actively developed or maintained, however a Dart integration for Visual Studio Code is which can be found [in the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code) and [on GitHub](https://github.com/Dart-Code/Dart-Code)
 
 DartVS: Google Dart support for Visual Studio
 =========
