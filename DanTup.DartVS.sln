@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartCodeFileItemTemplate", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartVS.Common", "DartVS.Common\DartVS.Common.csproj", "{D623DCED-F976-4CAF-96BE-24C2A6D8950A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartVS.Pub", "DartVS.Pub\DartVS.Pub.csproj", "{5192CEBE-637B-4DA2-AA87-5664BE91509C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D623DCED-F976-4CAF-96BE-24C2A6D8950A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5192CEBE-637B-4DA2-AA87-5664BE91509C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5192CEBE-637B-4DA2-AA87-5664BE91509C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5192CEBE-637B-4DA2-AA87-5664BE91509C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5192CEBE-637B-4DA2-AA87-5664BE91509C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
