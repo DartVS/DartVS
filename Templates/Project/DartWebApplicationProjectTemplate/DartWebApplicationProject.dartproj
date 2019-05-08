@@ -26,13 +26,8 @@
     <WarningsAsErrors />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="web\$safeprojectname$.dart"/>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="web\$safeprojectname$.html"/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="pubspec.yaml"/>
+    <Compile Include="**\*.dart"/>
+    <None Include="**\*.*" Exclude="**\*.dart;**\*.dartproj"/>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
